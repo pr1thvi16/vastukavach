@@ -87,6 +87,8 @@ const arabic: Record<string, string> = {
   'Which direction does the main entrance face?': 'إلى أي اتجاه يواجه المدخل الرئيسي؟', North: 'الشمال', East: 'الشرق', South: 'الجنوب', West: 'الغرب', 'I’m not sure': 'لست متأكداً',
   'What would you most like to improve?': 'ما الجانب الذي ترغبون في تحسينه؟', 'Entry and circulation': 'المدخل ومسارات الحركة', 'Daylight': 'ضوء النهار', 'Quiet and rest': 'الهدوء والراحة', 'Work and focus': 'العمل والتركيز',
   'For a development project, review orientation, circulation and daylight together while the plan can still be adjusted.': 'في مشروع التطوير، راجعوا الاتجاه ومسارات الحركة وضوء النهار معاً بينما لا يزال بالإمكان تعديل المخطط.',
+  'For a home, compare the layout with the routines of everyone who lives there.': 'في المنزل، قارنوا المخطط بروتين جميع السكان.',
+  'For a workplace, consider how staff, visitors and service routes move through it.': 'في مكان العمل، راعوا حركة الموظفين والزوار ومسارات الخدمة.',
   'Walk from the entrance to the main rooms. Check that everyday routes stay clear.': 'تحركوا من المدخل إلى الغرف الرئيسية وتأكدوا من خلو مسارات الحركة اليومية.',
   'Notice where daylight falls at different times, including heat and glare.': 'لاحظوا مواضع ضوء النهار في أوقات مختلفة، بما في ذلك الحرارة والوهج.',
   'Consider how quieter rooms relate to doors, shared spaces and outdoor noise.': 'راعوا علاقة الغرف الهادئة بالأبواب والمساحات المشتركة والضوضاء الخارجية.',
