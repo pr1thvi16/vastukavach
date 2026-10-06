@@ -24,7 +24,7 @@ export function FounderSection() {
   const { t } = useLanguage()
   return <section className="mt-28 grid gap-12 border-t border-[#2a1b1f]/15 pt-20 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
     <div className="relative mx-auto aspect-[4/5] w-full max-w-[420px] overflow-hidden bg-[#ebe3d8]">
-      {founder.photo ? <Image src={founder.photo} alt={t(`Portrait of ${founder.name}, ${founder.role}`)} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover" /> : <span className="grid h-full place-items-center font-serif text-7xl font-light text-[#a57a4a]" aria-hidden="true">VJ</span>}
+      {founder.photo ? <Image src={founder.photo} alt={t(`Portrait of ${founder.name}, ${founder.role}`)} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover" /> : <span className="grid h-full place-items-center font-serif text-7xl font-light text-[#74512f]" aria-hidden="true">VJ</span>}
     </div>
     <div className="self-center">
       <Eyebrow>Meet the founder</Eyebrow>
@@ -33,7 +33,7 @@ export function FounderSection() {
       <div className="mt-8 max-w-xl space-y-5 leading-8 text-[#2a1b1f]/70">{founder.bio.map((paragraph) => <p key={paragraph}>{t(paragraph)}</p>)}</div>
       {founder.credentials.length > 0 && <ul className="mt-8 max-w-xl divide-y divide-[#2a1b1f]/10 border-y border-[#2a1b1f]/10 text-sm text-[#2a1b1f]/70">{founder.credentials.map((credential) => <li key={credential} className="py-3">{t(credential)}</li>)}</ul>}
       <div className="mt-10 flex flex-wrap gap-3">
-        <Link href="/bookings" onClick={() => track('Consultation CTA Clicked', { location: 'founder_section' })} className={`${btn} bg-[#3b1220] text-[#f6f1ea] hover:bg-[#a57a4a]`}>{t('Book a consultation with Vedang')} <ArrowUpRight className="size-4" /></Link>
+        <Link href="/bookings" onClick={() => track('Consultation CTA Clicked', { location: 'founder_section' })} className={`${btn} bg-[#3b1220] text-[#f6f1ea] hover:bg-[#74512f]`}>{t('Book a consultation with Vedang')} <ArrowUpRight className="size-4" /></Link>
         {founder.linkedin && <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" className={`${btn} border border-[#2a1b1f]/40 hover:bg-[#3b1220] hover:text-[#f6f1ea]`}>LinkedIn</a>}
       </div>
     </div>
