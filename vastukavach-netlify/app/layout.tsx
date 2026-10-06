@@ -1,10 +1,10 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { DM_Sans, Playfair_Display } from 'next/font/google'
+import { Cormorant_Garamond, Jost } from 'next/font/google'
 import './globals.css'
 
-const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans' })
-const playfairDisplay = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
+const dmSans = Jost({ subsets: ['latin'], variable: '--font-dm-sans' })
+const playfairDisplay = Cormorant_Garamond({ subsets: ['latin'], weight: ['300','400','500','600'], style: ['normal','italic'], variable: '--font-playfair' })
 
 export const metadata: Metadata = {
   title: 'Kavach Consultancy | Modern Vastu Advisory in Dubai',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: 'light',
-  themeColor: '#fcfaf6',
+  themeColor: '#f6f1ea',
   width: 'device-width',
   initialScale: 1,
 }
