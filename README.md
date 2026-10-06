@@ -81,7 +81,7 @@ The image files were supplied as local project assets without source URLs, photo
 
 ## Founder profile
 
-The founder section currently uses initials because no portrait was included with the project. The repository also does not include verified qualifications, years of experience, languages, or a LinkedIn profile URL. Add confirmed details in the `founder` object in `components/site-page.tsx`; do not publish placeholder credentials.
+The founder section currently uses initials because no portrait was included with the project. The repository also does not include verified qualifications, years of experience, languages, or a LinkedIn profile URL. Add confirmed details in the `founder` object in `components/founder.tsx`; do not publish placeholder credentials.
 
 ## AI use
 
