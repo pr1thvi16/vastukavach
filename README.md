@@ -14,6 +14,16 @@ The booking form validates required fields in the browser and again on the serve
 
 Set `NEXT_PUBLIC_SITE_URL` to the canonical public origin so the sitemap and robots file point to the deployed site. Set any real contact channels using `NEXT_PUBLIC_CONTACT_PHONE`, `NEXT_PUBLIC_CONTACT_EMAIL`, and `NEXT_PUBLIC_WHATSAPP_NUMBER` (international digits, without `+`). No sample phone number or email address is displayed when these values are missing.
 
+## WhatsApp contact and assistant
+
+Set `NEXT_PUBLIC_WHATSAPP_NUMBER` in Vercel to the business WhatsApp number in international digits only (for example, `9715XXXXXXXX`, without `+`, spaces, or punctuation). The site then shows a floating WhatsApp button and contact links that open a `wa.me` chat with a prefilled English or Arabic message.
+
+This is WhatsApp click-to-chat: visitors review and send the prefilled message in WhatsApp. Automated replies need to be configured on the business WhatsApp account or through a WhatsApp Business Platform provider. This site does not store WhatsApp API credentials or run a bot backend.
+
+## Analytics
+
+The root layout includes Vercel Web Analytics in production. Enable Web Analytics in the Vercel project to collect page views. The site also sends custom events for consultation clicks, booking submissions, WhatsApp clicks, Vastu checker completions, and language changes. Check Vercel's [custom events documentation](https://vercel.com/docs/analytics/custom-events) for current plan requirements.
+
 ## Pages
 
 - Home
@@ -22,6 +32,7 @@ Set `NEXT_PUBLIC_SITE_URL` to the canonical public origin so the sitemap and rob
 - Journal
 - Contact
 - Bookings
+- Vastu checker
 
 ## Tech stack
 
@@ -55,3 +66,12 @@ AI assistance was used to review the assignment, shape page copy and structure, 
 ## One more week
 
 With another week, I would confirm the reference site's visual details and approved brand assets with the client, verify image licenses, connect the booking webhook to the client's actual scheduling or CRM workflow, publish a small CMS-backed article collection, and run mobile Lighthouse and accessibility reviews against the deployed domain.
+## WhatsApp contact and assistant
+
+Set `NEXT_PUBLIC_WHATSAPP_NUMBER` in Vercel to the business WhatsApp number in international digits only (for example, `9715XXXXXXXX`, without `+`, spaces, or punctuation). The site then shows a floating WhatsApp button and contact links that open a `wa.me` chat with a prefilled English or Arabic message.
+
+This is WhatsApp click-to-chat: the visitor reviews and sends the prefilled message in WhatsApp. Automated replies need to be configured on the business WhatsApp account or connected through a WhatsApp Business Platform provider; this site does not store WhatsApp API credentials or run a bot backend.
+
+## Analytics
+
+The root layout includes Vercel Web Analytics in production. Enable Web Analytics for the Vercel project to collect page views. The site also sends custom events for consultation clicks, booking submissions, WhatsApp clicks, Vastu checker completions, and language changes. Vercel custom event reporting depends on the account plan and project analytics settings.
