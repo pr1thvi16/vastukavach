@@ -1,6 +1,10 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { DM_Sans, Playfair_Display } from 'next/font/google'
 import './globals.css'
+
+const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans' })
+const playfairDisplay = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
 
 export const metadata: Metadata = {
   title: 'Kavach Consultancy | Modern Vastu Advisory in Dubai',
@@ -44,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className={`${dmSans.variable} ${playfairDisplay.variable} antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
