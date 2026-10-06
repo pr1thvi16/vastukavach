@@ -49,7 +49,7 @@ Keep API keys and webhook URLs in Vercel Environment Variables; never expose the
 ## Deployment settings
 
 - Set `NEXT_PUBLIC_SITE_URL` to the public site origin when using a custom domain. Otherwise the app uses Vercel's production project domain, Netlify's `URL`, or the canonical `https://vastukavach.vercel.app` fallback.
-- Set `NEXT_PUBLIC_CONTACT_PHONE`, `NEXT_PUBLIC_CONTACT_EMAIL`, and `NEXT_PUBLIC_WHATSAPP_NUMBER` only to verified business contact details. The WhatsApp number must use international digits without `+` or punctuation.
+- The footer's **Message us** link opens WhatsApp chat with the configured number `+971 50 123 4567` and a prefilled English or Arabic message. Override `NEXT_PUBLIC_WHATSAPP_NUMBER` in Vercel with international digits only (no `+`, spaces, or punctuation) if the business number changes. Set `NEXT_PUBLIC_CONTACT_PHONE` and `NEXT_PUBLIC_CONTACT_EMAIL` only to verified business contact details.
 - A `wa.me` link opens a chat; automated bot replies require the business's WhatsApp Business automation or a WhatsApp Business Platform provider. This repository does not contain a bot service or provider credentials.
 - Enable Web Analytics in Vercel project settings to view analytics. `@vercel/analytics` loads in production.
 - Netlify uses the root `netlify.toml` and Next.js adapter; deploy from the repository root, not a nested duplicate project.
