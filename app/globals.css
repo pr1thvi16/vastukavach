@@ -26,9 +26,9 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: #fcfaf6; font-family: 'DM Sans', sans-serif; }
-.font-serif { font-family: 'Playfair Display', serif; }
-::selection { background: #f4dfd3; color: #263c35; }
+body { margin: 0; background: #f6f1ea; color: #2a1b1f; font-family: var(--font-dm-sans), sans-serif; }
+.font-serif { font-family: var(--font-playfair), serif; }
+::selection { background: #d9bf9a; color: #3b1220; }
 button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
 input, textarea, select { font: inherit; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
