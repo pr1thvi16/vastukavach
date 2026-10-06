@@ -63,9 +63,9 @@ export function VastuChecker() {
             {(['Entry and circulation', 'Daylight', 'Quiet and rest', 'Work and focus'] as const).map((value) => <option key={value} value={value}>{t(value)}</option>)}
           </select>
         </label>
-        <button className="inline-flex w-fit items-center gap-3 bg-[#3b1220] px-7 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#f6f1ea] transition-colors hover:bg-[#a57a4a]">{t('Show my pointers')} <ArrowUpRight className="size-4" /></button>
+        <button className="inline-flex w-fit items-center gap-3 bg-[#3b1220] px-7 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#f6f1ea] transition-colors hover:bg-[#74512f]">{t('Show my pointers')} <ArrowUpRight className="size-4" /></button>
       </form> : <div aria-live="polite">
-        <p className="text-[11px] uppercase tracking-[.22em] text-[#a57a4a]">{t('General guidance only')}</p>
+        <p className="text-[11px] uppercase tracking-[.22em] text-[#74512f]">{t('General guidance only')}</p>
         <h2 className="mt-4 font-serif text-4xl font-light">{t('Your starting points')}</h2>
         <ul className="mt-7 space-y-5 text-sm leading-7 text-[#2a1b1f]/75">
           <li>{t('The entrance direction is only one part of a space. Observe its daylight and heat through the day, then consider it alongside your layout and routines.')}</li>
@@ -74,7 +74,7 @@ export function VastuChecker() {
         </ul>
         <p className="mt-7 border-t border-[#2a1b1f]/10 pt-5 text-xs leading-6 text-[#2a1b1f]/55">{t('Your selection')}: {t(spaceType)} · {t(direction === 'Unknown' ? 'I’m not sure' : direction)} · {t(priority)}</p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/bookings" onClick={() => track('Consultation CTA Clicked', { location: 'vastu_checker' })} className="inline-flex items-center gap-3 bg-[#a57a4a] px-6 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-white transition-colors hover:bg-[#8d6539]">{t('Book a full consultation')} <ArrowUpRight className="size-4" /></Link>
+          <Link href="/bookings" onClick={() => track('Consultation CTA Clicked', { location: 'vastu_checker' })} className="inline-flex items-center gap-3 bg-[#74512f] px-6 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-white transition-colors hover:bg-[#8d6539]">{t('Book a full consultation')} <ArrowUpRight className="size-4" /></Link>
           <button type="button" onClick={reset} className="inline-flex items-center gap-2 border border-[#2a1b1f]/25 px-5 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#2a1b1f] hover:bg-[#ebe3d8]"><RotateCcw className="size-4" />{t('Start again')}</button>
         </div>
       </div>}
