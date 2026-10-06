@@ -66,7 +66,7 @@ Keep API keys and webhook URLs in Vercel Environment Variables; never expose the
 
 - Background: warm ivory `#F6F1EA`
 - Primary ink: deep burgundy `#3B1220`
-- Accent: muted brass `#A57A4A`; pale gold `#D9BF9A`
+- Accent: muted brass `#A57A4A`; pale gold `#D9BF9A`. Use deep bronze `#74512F` for small text and filled buttons on light surfaces to keep contrast readable.
 - Display type: Cormorant Garamond (serif)
 - Body type: Jost (sans-serif)
 - Buttons: compact uppercase labels with generous padding; primary actions use burgundy or brass, secondary actions use a fine outline.
