@@ -1,6 +1,8 @@
 import { Analytics } from '@vercel/analytics/next'
+import { LanguageProvider } from '@/components/language'
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Jost } from 'next/font/google'
+import { getSiteUrl } from '@/lib/site-url'
 import './globals.css'
 
 const dmSans = Jost({ subsets: ['latin'], variable: '--font-dm-sans' })
@@ -9,11 +11,13 @@ const playfairDisplay = Cormorant_Garamond({ subsets: ['latin'], weight: ['300',
 export const metadata: Metadata = {
   title: 'Kavach Consultancy | Modern Vastu Advisory in Dubai',
   description: 'Practical, personal Vastu advisory for homes, workplaces and developments across Dubai.',
-  generator: 'v0.app',
+  metadataBase: new URL(getSiteUrl()),
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'Kavach Consultancy | Modern Vastu Advisory in Dubai',
     description: 'Spaces that feel like home. Thoughtful spatial advisory rooted in Vastu.',
     type: 'website',
+    images: [{ url: '/images/hero-villa.jpg', alt: 'Contemporary villa and reflecting pool' }],
   },
   icons: {
     icon: [
@@ -49,7 +53,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${playfairDisplay.variable} antialiased`}>
-        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'LocalBusiness',
+              name: 'Kavach Consultancy & Marketing LLC',
+              description: 'Practical spatial advisory rooted in Vastu principles for homes, workplaces and developments.',
+              founder: { '@type': 'Person', name: 'Vedang Joshi' },
+              areaServed: { '@type': 'City', name: 'Dubai' },
+              address: { '@type': 'PostalAddress', addressLocality: 'Dubai', addressCountry: 'AE' },
+              url: getSiteUrl(),
+            }),
+          }}
+        />
+        <LanguageProvider>{children}</LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

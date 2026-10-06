@@ -1,2 +1,6 @@
 import type { MetadataRoute } from 'next'
-export default function sitemap(): MetadataRoute.Sitemap { const base = 'https://kavachconsultancy.com'; return ['','about','services','blogs','contact','bookings'].map((path) => ({ url: `${base}/${path}`, lastModified: new Date() })) }
+import { getSiteUrl } from '@/lib/site-url'
+export default function sitemap(): MetadataRoute.Sitemap {
+  const base = getSiteUrl()
+  return ['', 'about', 'services', 'services/residential', 'services/workplace', 'services/development', 'blogs', 'contact', 'bookings', 'vastu-checker'].map((path) => ({ url: `${base}/${path}`, lastModified: new Date() }))
+}
