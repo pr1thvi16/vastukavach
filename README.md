@@ -35,6 +35,7 @@ Next.js App Router, React, TypeScript, and Tailwind CSS. Next.js provides route-
 - Display type: Cormorant Garamond
 - Body type: Jost
 - Buttons: compact uppercase labels with generous padding; primary actions use burgundy or brass, secondary actions use a thin outline
+- Logo: a serif K inside a fine double circle, paired with a widely tracked KAVACH wordmark and VASTU CONSULTANCY descriptor
 - Layout: wide margins, restrained borders, editorial serif headings, and large architectural imagery
 
 The design treats Vastu as a practical spatial lens, with attention to light, orientation, movement and use. It avoids predictive or fear-based claims. Reduced-motion preferences are respected, images include descriptive alt text where they convey information, and the navigation and forms work with keyboard input.
