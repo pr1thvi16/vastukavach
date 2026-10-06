@@ -66,8 +66,11 @@ const arabic: Record<string, string> = {
   'We could not send your request right now.': 'تعذر إرسال طلبكم الآن.', 'We could not send your request right now. Please try again.': 'تعذر إرسال طلبكم الآن. يرجى المحاولة مجدداً.',
   'All fields are required.': 'جميع الحقول مطلوبة.', 'Enter a valid email.': 'أدخلوا بريداً إلكترونياً صحيحاً.',
   'Please shorten one or more fields.': 'يرجى اختصار حقل واحد أو أكثر.', 'Choose a valid preferred date.': 'اختاروا تاريخاً مفضلاً صحيحاً.',
+  'Choose a date that is today or later.': 'اختاروا تاريخ اليوم أو تاريخاً لاحقاً.',
+  'Enter a valid phone number.': 'أدخلوا رقم هاتف صحيحاً.',
   'Choose a valid property type.': 'اختاروا نوع عقار صحيحاً.',
   'Online booking is not configured yet. Please use the contact page to request a consultation.': 'لم يتم إعداد الحجز عبر الإنترنت بعد. يرجى استخدام صفحة التواصل لطلب استشارة.',
+  'Booking email is partially configured. Please contact the site administrator.': 'تم إعداد البريد للحجوزات جزئياً. يرجى التواصل مع مسؤول الموقع.',
   'We could not send your request right now. Please try again shortly.': 'تعذر إرسال طلبكم الآن. يرجى المحاولة بعد قليل.',
   'Get in touch': 'تواصلوا معنا', 'A thoughtful conversation starts here.': 'هنا تبدأ محادثة مدروسة.', 'Call us': 'اتصلوا بنا', 'Email us': 'راسلونا',
   'Share a few details about your space and we can arrange a conversation.': 'شاركونا بعض التفاصيل عن مساحتكم لنرتب محادثة.',
@@ -103,6 +106,14 @@ const arabic: Record<string, string> = {
   'Notice how your priority area connects to nearby rooms, natural light and the main circulation route. Small changes in use or furniture may be worth exploring.': 'لاحظوا ارتباط المنطقة ذات الأولوية بالغرف المجاورة والضوء الطبيعي ومسار الحركة الرئيسي. قد يكون من المفيد دراسة تغييرات بسيطة في الاستخدام أو الأثاث.',
   'Book a full consultation': 'احجزوا استشارة كاملة', 'Start again': 'ابدأوا من جديد',
   'Select one': 'اختاروا', 'Dubai': 'دبي',
+  'Meet the founder': 'تعرفوا على المؤسس',
+  'Founder & Principal Vastu Advisor': 'المؤسس والمستشار الرئيسي لفاستو',
+  'Book a consultation with Vedang': 'احجزوا استشارة مع فيدانغ',
+  'Behind Kavach': 'من وراء كافاش',
+  'Every consultation is guided by Vedang Joshi.': 'يشرف فيدانغ جوشي على كل استشارة.',
+  'Kavach starts by listening to what matters to you, then considers how light, movement, orientation and daily routines shape a space.': 'تبدأ كافاش بالاستماع إلى ما يهمكم، ثم تدرس أثر الضوء والحركة والاتجاه والروتين اليومي في المساحة.',
+  'Kavach was founded by Vedang Joshi to bring a practical, people-first perspective to Vastu and the spaces people live and work in.': 'أسس فيدانغ جوشي كافاش لتقديم منظور عملي يضع الناس أولاً في فاستو والمساحات التي يعيشون ويعملون فيها.',
+  'Based in Dubai, Kavach advises on homes, workplaces and developments by considering light, orientation, movement and the way each space is used.': 'تقدم كافاش، ومقرها دبي، استشارات للمنازل وبيئات العمل ومشاريع التطوير مع مراعاة الضوء والاتجاه والحركة وطريقة استخدام المساحة.',
 }
 
 type LanguageContextValue = { language: Language; toggleLanguage: () => void; t: (text: string) => string }
