@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { FormEvent, useState } from 'react'
 import { ArrowUpRight, Compass, Menu, MoveRight, Phone, Sparkles, X } from 'lucide-react'
 
-const nav = [['About','/about'],['Services','/services'],['Journal','/blogs'],['Contact','/contact'],['Bookings','/bookings']] as const
+const nav = [['Home','/'],['About','/about'],['Services','/services'],['Journal','/blogs'],['Contact','/contact'],['Bookings','/bookings']] as const
 const services = [['Home harmony','Guidance for buying, renting, or redesigning a home.'],['Workplace flow','Spatial advice for focus, culture, and better work.'],['Developer advisory','A considered perspective from concept through handover.']] as const
 
 export function Header() {
