@@ -1,2 +1,5 @@
 import type { MetadataRoute } from 'next'
-export default function sitemap(): MetadataRoute.Sitemap { const base = 'https://kavachconsultancy.com'; return ['','about','services','blogs','contact','bookings'].map((path) => ({ url: `${base}/${path}`, lastModified: new Date() })) }
+export default function sitemap(): MetadataRoute.Sitemap {
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+  return ['', 'about', 'services', 'services/residential', 'services/workplace', 'services/development', 'blogs', 'contact', 'bookings'].map((path) => ({ url: `${base}/${path}`, lastModified: new Date() }))
+}
