@@ -69,7 +69,7 @@ export function VastuChecker() {
         <h2 className="mt-4 font-serif text-4xl font-light">{t('Your starting points')}</h2>
         <ul className="mt-7 space-y-5 text-sm leading-7 text-[#2a1b1f]/75">
           <li>{t('The entrance direction is only one part of a space. Observe its daylight and heat through the day, then consider it alongside your layout and routines.')}</li>
-          <li>{spaceType === 'Home' ? t('For a home, compare the layout with the routines of everyone who lives there. For a workplace, consider how staff and visitors move through it.') : spaceType === 'Workplace' ? t('For a home, compare the layout with the routines of everyone who lives there. For a workplace, consider how staff and visitors move through it.') : t('For a development project, review orientation, circulation and daylight together while the plan can still be adjusted.')}</li>
+          <li>{spaceType === 'Home' ? t('For a home, compare the layout with the routines of everyone who lives there.') : spaceType === 'Workplace' ? t('For a workplace, consider how staff, visitors and service routes move through it.') : t('For a development project, review orientation, circulation and daylight together while the plan can still be adjusted.')}</li>
           <li>{t(priorityAdvice[priority])}</li>
         </ul>
         <p className="mt-7 border-t border-[#2a1b1f]/10 pt-5 text-xs leading-6 text-[#2a1b1f]/55">{t('Your selection')}: {t(spaceType)} · {t(direction === 'Unknown' ? 'I’m not sure' : direction)} · {t(priority)}</p>
