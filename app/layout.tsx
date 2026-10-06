@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { LanguageProvider } from '@/components/language'
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Jost } from 'next/font/google'
+import { getSiteUrl } from '@/lib/site-url'
 import './globals.css'
 
 const dmSans = Jost({ subsets: ['latin'], variable: '--font-dm-sans' })
@@ -10,7 +11,7 @@ const playfairDisplay = Cormorant_Garamond({ subsets: ['latin'], weight: ['300',
 export const metadata: Metadata = {
   title: 'Kavach Consultancy | Modern Vastu Advisory in Dubai',
   description: 'Practical, personal Vastu advisory for homes, workplaces and developments across Dubai.',
-  ...(process.env.NEXT_PUBLIC_SITE_URL ? { metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL) } : {}),
+  metadataBase: new URL(getSiteUrl()),
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Kavach Consultancy | Modern Vastu Advisory in Dubai',
@@ -63,7 +64,7 @@ export default function RootLayout({
               founder: { '@type': 'Person', name: 'Vedang Joshi' },
               areaServed: { '@type': 'City', name: 'Dubai' },
               address: { '@type': 'PostalAddress', addressLocality: 'Dubai', addressCountry: 'AE' },
-              ...(process.env.NEXT_PUBLIC_SITE_URL ? { url: process.env.NEXT_PUBLIC_SITE_URL } : {}),
+              url: getSiteUrl(),
             }),
           }}
         />
