@@ -52,6 +52,7 @@ Keep API keys and webhook URLs in Vercel Environment Variables; never expose the
 - The footer's **Message us** link opens WhatsApp chat with the configured number `+971 50 123 4567` and a prefilled English or Arabic message. Override `NEXT_PUBLIC_WHATSAPP_NUMBER` in Vercel with international digits only (no `+`, spaces, or punctuation) if the business number changes. Set `NEXT_PUBLIC_CONTACT_PHONE` and `NEXT_PUBLIC_CONTACT_EMAIL` only to verified business contact details.
 - A `wa.me` link opens a chat; automated bot replies require the business's WhatsApp Business automation or a WhatsApp Business Platform provider. This repository does not contain a bot service or provider credentials.
 - Enable Web Analytics in Vercel project settings to view analytics. `@vercel/analytics` loads in production.
+- Optional Google Analytics 4: install the Google tag by setting `NEXT_PUBLIC_GA_ID` to the web stream Measurement ID (`G-...`) in Vercel Production. The site loads GA4 only in production when this value is present. In Google Analytics, enable Enhanced Measurement's browser-history page changes to record Next.js route navigation. Google Analytics and Vercel Analytics collect data into separate dashboards.
 - Netlify uses the root `netlify.toml` and Next.js adapter; deploy from the repository root, not a nested duplicate project.
 
 ## Technology and design decisions
