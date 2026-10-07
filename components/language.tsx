@@ -98,6 +98,7 @@ const arabic: Record<string, string> = {
   'How thoughtful planning can support focus, collaboration, and a calmer rhythm at work.': 'كيف يدعم التخطيط المدروس التركيز والتعاون وإيقاع عمل أكثر هدوءاً.',
   'Article preview': 'مقتطف من المقال', 'Essay': 'مقال', '5 min read': 'قراءة في ٥ دقائق', '4 min read': 'قراءة في ٤ دقائق', '6 min read': 'قراءة في ٦ دقائق',
   'Arrange a consultation': 'رتبوا استشارة', 'Explore this service': 'اكتشفوا هذه الخدمة', 'Back to all services': 'العودة إلى جميع الخدمات',
+  'Choose your space for a few useful starting points.': 'اختروا نوع المساحة للحصول على نقاط بداية مفيدة.',
   'A quick first look': 'نظرة أولية سريعة', 'Get a few general pointers for your space, then book a full consultation for advice based on your complete plan.': 'احصلوا على بعض الإرشادات العامة لمساحتكم، ثم احجزوا استشارة كاملة لتوصيات تستند إلى مخططكم بالكامل.',
   'Check your space': 'افحصوا مساحتكم', 'Quick Vastu checker': 'فاحص فاستو السريع', 'General guidance only': 'إرشادات عامة فقط',
   'Try a quick space check': 'جرّبوا فحصاً سريعاً للمساحة', 'Answer three simple questions about a property.': 'أجيبوا عن ثلاثة أسئلة بسيطة حول العقار.',
