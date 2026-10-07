@@ -72,7 +72,7 @@ Keep API keys and webhook URLs in Vercel Environment Variables; never expose the
 - Body type: Jost (sans-serif)
 - Buttons: compact uppercase labels with generous padding; primary actions use burgundy or brass, secondary actions use a fine outline.
 - Logo: a cut-corner architectural compass mark with a roof and doorway, paired with a bold, widely tracked KAVACH wordmark and VASTU CONSULTANCY descriptor.
-- Hero copy sits on a dark translucent, cut-corner glass panel to stay legible over architectural imagery.
+- Home hero copy sits over a dark image gradient with open editorial spacing.
 - Layout: wide margins, restrained borders, editorial serif headings, architectural imagery, and compass details near directional guidance.
 
 The design frames Vastu as a practical spatial lens, with attention to light, orientation, movement, and use. The checker offers general prompts, not a pass/fail judgement or a substitute for reviewing a complete plan with an advisor.
