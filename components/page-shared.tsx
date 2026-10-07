@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { FormEvent, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { track } from '@vercel/analytics'
+import { trackGA4Event } from '@/lib/ga4'
 import { useLanguage } from '@/components/language'
 import { services } from '@/components/site-data'
 import { Eyebrow, Footer, Header, btn } from '@/components/site-shell'
@@ -27,7 +28,7 @@ export function BookingForm() {
       const result = await response.json()
       if (!response.ok) throw new Error(result.error || 'We could not send your request right now.')
       const formData = new FormData(form)
-      track('Booking Submitted', { propertyType: String(formData.get('propertyType') ?? 'unspecified') })
+      track('Booking Submitted', { propertyType: String(formData.get('propertyType') ?? 'unspecified') }); trackGA4Event('generate_lead', { form_type: 'consultation', property_type: String(formData.get('propertyType') ?? 'unspecified') })
       setStatus(t('Thank you. Your booking enquiry has been sent. We will be in touch soon.'))
       form.reset()
     } catch (error) {

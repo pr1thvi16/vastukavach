@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight, RotateCcw } from 'lucide-react'
 import { track } from '@vercel/analytics'
+import { trackGA4Event } from '@/lib/ga4'
 import { useLanguage } from '@/components/language'
 
 const field = 'w-full border-0 border-b border-[#2a1b1f]/25 bg-transparent px-0 py-3 text-base focus:border-[#a57a4a] focus:outline-none focus:ring-0'
@@ -30,7 +31,7 @@ export function VastuChecker() {
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    track('Vastu Checker Completed', { spaceType, direction, priority })
+    track('Vastu Checker Completed', { spaceType, direction, priority }); trackGA4Event('vastu_checker_complete', { space_type: spaceType, entrance_direction: direction, priority })
     setComplete(true)
   }
 
@@ -81,6 +82,7 @@ export function VastuChecker() {
         <p className="mt-7 border-t border-[#2a1b1f]/10 pt-5 text-xs leading-6 text-[#2a1b1f]/55">{t('Your selection')}: {t(spaceType)} · {t(direction === 'Unknown' ? 'I’m not sure' : direction)} · {t(priority)}</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/services" className="inline-flex items-center gap-3 border border-[#2a1b1f]/25 px-5 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#2a1b1f] transition-colors hover:bg-[#ebe3d8]">{t('Explore our services')} <ArrowUpRight className="size-4" /></Link>
+          <Link href="/bookings" onClick={() => { trackGA4Event('consultation_cta_click', { location: 'vastu_checker_result' }); track('Consultation CTA Clicked', { location: 'vastu_checker_result' }) }} className="inline-flex items-center gap-3 bg-[#3b1220] px-5 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#f6f1ea] transition-colors hover:bg-[#74512f]">{t('Book a consultation')} <ArrowUpRight className="size-4" /></Link>
           <button type="button" onClick={reset} className="inline-flex items-center gap-2 border border-[#2a1b1f]/25 px-5 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#2a1b1f] hover:bg-[#ebe3d8]"><RotateCcw className="size-4" />{t('Start again')}</button>
         </div>
       </div>}
