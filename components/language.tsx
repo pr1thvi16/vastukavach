@@ -101,7 +101,6 @@ const arabic: Record<string, string> = {
   'Choose your space for a few useful starting points.': 'اختروا نوع المساحة للحصول على نقاط بداية مفيدة.',
   'A quick first look': 'نظرة أولية سريعة', 'Get a few general pointers for your space, then book a full consultation for advice based on your complete plan.': 'احصلوا على بعض الإرشادات العامة لمساحتكم، ثم احجزوا استشارة كاملة لتوصيات تستند إلى مخططكم بالكامل.',
   'Example pointer': 'مثال على إرشاد',
-  'Illustrative spaces': 'مساحات توضيحية',
   'Want to review a specific plan?': 'هل ترغبون في مراجعة مخطط محدد؟',
   'Common questions': 'أسئلة شائعة',
   'Before you book': 'قبل الحجز',
