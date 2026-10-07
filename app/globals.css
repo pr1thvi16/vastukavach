@@ -26,9 +26,6 @@
 html { scroll-behavior: smooth; }
 
 .image-drift { transform: scale(1.04); animation: image-drift 32s ease-in-out infinite alternate; will-change: transform; }
-.hero-glass-panel { isolation: isolate; border: 1px solid rgb(255 247 232 / 52%); background: linear-gradient(125deg, rgb(42 19 23 / 88%), rgb(42 25 28 / 82%) 58%, rgb(18 29 31 / 84%)); -webkit-backdrop-filter: blur(18px) saturate(135%); backdrop-filter: blur(18px) saturate(135%); clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px)); }
-.hero-glass-panel::before { position: absolute; inset: 0; z-index: 0; background-image: radial-gradient(circle at 12% 18%, rgb(255 255 255 / 12%), transparent 28%), repeating-linear-gradient(132deg, transparent 0 13px, rgb(255 255 255 / 2.5%) 14px 15px); content: ''; pointer-events: none; }
-.hero-glass-panel > * { position: relative; z-index: 1; }
 @keyframes image-drift {
   from { transform: scale(1.04) translate3d(0, 0, 0); }
   to { transform: scale(1.12) translate3d(-1.2%, -0.8%, 0); }
