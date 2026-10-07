@@ -6,8 +6,8 @@ import { Mail, MapPin, Menu, MessageCircle, Phone, X } from 'lucide-react'
 import { track } from '@vercel/analytics'
 import { LanguageToggle, useLanguage } from '@/components/language'
 
-// Contact sits last so every navigation path ends with a way to reach us.
-const nav = [['Home','/'],['About','/about'],['Services','/services'],['Vastu checker','/vastu-checker'],['Journal','/blogs'],['Bookings','/bookings'],['Contact','/contact']] as const
+// Contact sits last so every navigation path ends with a way to reach us. Booking stays a header action.
+const nav = [['Home','/'],['About','/about'],['Services','/services'],['Vastu checker','/vastu-checker'],['Journal','/blogs'],['Contact','/contact']] as const
 
 const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim()
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim()
@@ -27,9 +27,9 @@ export const contact = {
   location: 'Dubai, United Arab Emirates',
 }
 
-// Line-art emblem: an open ring holding a roofline with a K beneath it.
-export function LogoMark({ className = 'size-11' }: { className?: string }) { return <svg viewBox="0 0 64 64" fill="none" className={className} aria-hidden><circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="2.5" /><circle cx="32" cy="32" r="24.5" stroke="currentColor" strokeWidth="1.2" opacity=".95" /><text x="32" y="42" textAnchor="middle" fill="currentColor" fontFamily="var(--font-playfair), Georgia, serif" fontSize="33" fontWeight="600">K</text></svg> }
-export function Logo({ light = false }: { light?: boolean }) { const { t } = useLanguage(); return <Link href="/" className="flex shrink-0 items-center gap-3"><span className="sr-only">{t('Home')}</span><LogoMark className={`size-12 drop-shadow-md ${light ? 'text-[#f2d4a4]' : 'text-[#74512f]'}`} /><span className="leading-none"><span className="block font-serif text-[1.2rem] font-semibold tracking-[.3em]">KAVACH</span><span className={`mt-1.5 block text-[9px] font-semibold tracking-[.33em] ${light ? 'text-[#fff7e8]/90' : 'text-[#2a1b1f]/75'}`}>VASTU CONSULTANCY</span></span></Link> }
+// Architectural compass mark: a cut-corner frame, pitched roof, doorway and north tick.
+export function LogoMark({ className = 'size-11' }: { className?: string }) { return <svg viewBox="0 0 64 64" fill="none" className={className} aria-hidden="true"><path d="M16 5.5h32L58.5 16v32L48 58.5H16L5.5 48V16L16 5.5Z" fill="currentColor" fillOpacity=".1" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" /><path d="M15.5 31 32 19l16.5 12M20.5 29.5V48h23V29.5M28 48V35h8v13M32 10v5m-3-2.5h6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg> }
+export function Logo({ light = false }: { light?: boolean }) { const { t } = useLanguage(); return <Link href="/" className="flex shrink-0 items-center gap-3"><span className="sr-only">{t('Home')}</span><LogoMark className={`size-12 drop-shadow-md ${light ? 'text-[#f2d4a4]' : 'text-[#74512f]'}`} /><span className="leading-none"><span className="block font-serif text-[1.2rem] font-bold tracking-[.28em]">KAVACH</span><span className={`mt-1.5 block text-[9px] font-semibold tracking-[.33em] ${light ? 'text-[#fff7e8]/90' : 'text-[#2a1b1f]/75'}`}>VASTU CONSULTANCY</span></span></Link> }
 
 export const Eyebrow = ({ children, light = false }: { children: React.ReactNode; light?: boolean }) => { const { t } = useLanguage(); return <p className={`flex items-center gap-4 text-[11px] uppercase tracking-[.28em] ${light ? 'text-[#d9bf9a]' : 'text-[#74512f]'}`}><span className="h-px w-10 bg-current" />{typeof children === 'string' ? t(children) : children}</p> }
 export const btn = 'inline-flex items-center gap-3 px-7 py-4 text-[11px] font-medium uppercase tracking-[.22em] transition-colors'

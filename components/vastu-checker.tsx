@@ -74,7 +74,7 @@ export function VastuChecker() {
         </ul>
         <p className="mt-7 border-t border-[#2a1b1f]/10 pt-5 text-xs leading-6 text-[#2a1b1f]/55">{t('Your selection')}: {t(spaceType)} · {t(direction === 'Unknown' ? 'I’m not sure' : direction)} · {t(priority)}</p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/bookings" onClick={() => track('Consultation CTA Clicked', { location: 'vastu_checker' })} className="inline-flex items-center gap-3 bg-[#74512f] px-6 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-white transition-colors hover:bg-[#8d6539]">{t('Book a full consultation')} <ArrowUpRight className="size-4" /></Link>
+          <Link href="/services" className="inline-flex items-center gap-3 border border-[#2a1b1f]/25 px-5 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#2a1b1f] transition-colors hover:bg-[#ebe3d8]">{t('Explore our services')} <ArrowUpRight className="size-4" /></Link>
           <button type="button" onClick={reset} className="inline-flex items-center gap-2 border border-[#2a1b1f]/25 px-5 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#2a1b1f] hover:bg-[#ebe3d8]"><RotateCcw className="size-4" />{t('Start again')}</button>
         </div>
       </div>}
