@@ -30,8 +30,8 @@ Other included features:
 
 - Responsive navigation and layouts, local `next/image` assets, descriptive alternative text, and keyboard-visible focus states.
 - English and Arabic language toggle, saved preference, and right-to-left Arabic layout.
-- A compass rose used with the Vastu checker.
-- WhatsApp click-to-chat links with prefilled English and Arabic messages.
+- A compass rose used with the Vastu checker and a three-step overview of the review process.
+- WhatsApp click-to-chat links with prefilled English and Arabic messages, plus a floating chooser for home, workplace, or development enquiries.
 - Vercel Web Analytics page views plus custom events for booking submission, consultation calls to action, WhatsApp clicks, language changes, and checker completion.
 - Page metadata, Open Graph cards, canonical URLs, a sitemap, robots rules, and LocalBusiness structured data.
 

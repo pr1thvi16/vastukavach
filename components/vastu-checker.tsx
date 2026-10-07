@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight, RotateCcw } from 'lucide-react'
 import { track } from '@vercel/analytics'
@@ -19,6 +19,12 @@ export function VastuChecker() {
   const { t } = useLanguage()
   const [spaceType, setSpaceType] = useState('')
   const [direction, setDirection] = useState('')
+  useEffect(() => {
+    const requestedType = new URLSearchParams(window.location.search).get('type')
+    if (requestedType === 'Home' || requestedType === 'Workplace' || requestedType === 'Development') {
+      setSpaceType(requestedType)
+    }
+  }, [])
   const [priority, setPriority] = useState('')
   const [complete, setComplete] = useState(false)
 
