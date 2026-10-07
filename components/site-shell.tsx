@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Mail, MapPin, Menu, MessageCircle, Phone, X } from 'lucide-react'
+import { ArrowUpRight, Mail, MapPin, Menu, MessageCircle, Phone, X } from 'lucide-react'
 import { track } from '@vercel/analytics'
 import { LanguageToggle, useLanguage } from '@/components/language'
 
@@ -12,12 +12,23 @@ const nav = [['Home','/'],['About','/about'],['Services','/services'],['Vastu ch
 const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim()
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim()
 const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || '971501234567').replace(/\D/g, '')
-const whatsappMessages = {
-  en: "Hi Kavach, I'd like help reviewing a property layout. Can you guide me on the next steps?",
-  ar: 'مرحباً كافاش، أود الحصول على مساعدة في مراجعة مخطط عقاري. هل يمكنكم إرشادي إلى الخطوات التالية؟',
-} as const
-export function whatsappHref(language: 'en' | 'ar' = 'en') {
-  return whatsappNumber ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessages[language])}` : undefined
+type WhatsAppTopic = 'general' | 'home' | 'workplace' | 'development'
+const whatsappMessages: Record<'en' | 'ar', Record<WhatsAppTopic, string>> = {
+  en: {
+    general: "Hi Kavach, I'd like help reviewing a property layout. Can you guide me on the next steps?",
+    home: "Hi Kavach, I'd like advice about a home layout. Can we review its light, circulation and orientation?",
+    workplace: "Hi Kavach, I'd like advice about a workplace layout and how people move through it.",
+    development: "Hi Kavach, I'd like to discuss a Vastu review for a development project.",
+  },
+  ar: {
+    general: 'مرحباً كافاش، أود الحصول على مساعدة في مراجعة مخطط عقاري. هل يمكنكم إرشادي إلى الخطوات التالية؟',
+    home: 'مرحباً كافاش، أود الحصول على نصيحة بشأن مخطط منزل ومراجعة الضوء والحركة والاتجاه.',
+    workplace: 'مرحباً كافاش، أود الحصول على نصيحة بشأن تخطيط مكان العمل وحركة الأشخاص فيه.',
+    development: 'مرحباً كافاش، أود مناقشة مراجعة فاستو لمشروع تطوير عقاري.',
+  },
+}
+export function whatsappHref(language: 'en' | 'ar' = 'en', topic: WhatsAppTopic = 'general') {
+  return whatsappNumber ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessages[language][topic])}` : undefined
 }
 export const contact = {
   phone: contactPhone,
@@ -43,6 +54,13 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
 // Footer doubles as a full contact transcript so details and every page are one tap away site-wide.
 export function Footer() {
   const { t, language } = useLanguage()
+  const [whatsappOpen, setWhatsappOpen] = useState(false)
   const details = [[contact.phone ? 'Phone' : '', contact.phone, contact.tel, Phone], [contact.email ? 'Email' : '', contact.email, contactEmail ? `mailto:${contactEmail}` : undefined, Mail], ['WhatsApp', 'Message us', whatsappHref(language), MessageCircle]] as const
-  return <><footer className="bg-[#3b1220] px-5 pb-10 pt-20 text-[#f6f1ea] lg:px-10"><div className="mx-auto max-w-7xl"><div className="grid gap-14 lg:grid-cols-[1.2fr_1fr_.7fr]"><div><Eyebrow light>Contact details</Eyebrow><h2 className="mt-6 font-serif text-5xl font-light leading-[1.05] sm:text-6xl">{t('Let’s talk about your space.')}</h2><p className="mt-6 max-w-sm text-sm leading-7 text-white/80">{t('Spatial advisory for more intentional living and working. Tell us what you are looking for and we will help you find the right next step.')}</p></div><dl className="divide-y divide-white/10 border-y border-white/10 text-sm">{details.filter(([label]) => label).map(([label,value,href,Icon]) => <div key={label} className="flex items-baseline justify-between gap-6 py-4"><dt className="text-[11px] uppercase tracking-[.22em] text-white/65">{t(label)}</dt><dd>{href && value && <a href={href} onClick={() => label === 'WhatsApp' && track('WhatsApp Contact Clicked', { location: 'footer' })} {...(href.startsWith('http') ? {target:'_blank',rel:'noopener noreferrer'} : {})} className="break-all font-serif text-xl hover:text-[#d9bf9a]"><Icon className="mr-2 inline size-4 text-[#d9bf9a]" />{t(value)}</a>}</dd></div>)}<div className="flex items-baseline justify-between gap-6 py-4"><dt className="text-[11px] uppercase tracking-[.22em] text-white/65">{t('Studio')}</dt><dd className="text-right text-white/90"><MapPin className="mr-2 inline size-4 text-[#d9bf9a]" />{t(contact.location)}</dd></div>{!contact.phone && !contact.email && !contact.whatsapp && <div className="py-4 text-white/80"><Link href="/bookings" className="underline underline-offset-4">{t('Request a consultation')}</Link></div>}</dl><nav aria-label={t('Footer navigation')}><p className="text-[11px] uppercase tracking-[.22em] text-white/65">{t('Pages')}</p><ul className="footer-nav mt-4 flex flex-col gap-3 font-serif text-xl">{nav.map(([label, href]) => <li key={href}><Link href={href} className="text-white/90 hover:text-[#d9bf9a]">{t(label)}</Link></li>)}</ul></nav></div><div className="mt-20 flex flex-col items-start justify-between gap-6 border-t border-white/10 pt-8 sm:flex-row sm:items-center"><Logo light /><p className="text-xs text-white/70">© 2026 Kavach Consultancy, Dubai</p></div></div></footer>{contact.whatsapp && <a href={whatsappHref(language)} target="_blank" rel="noopener noreferrer" aria-label={t('Chat with our Vastu assistant on WhatsApp')} title={t('Chat with our Vastu assistant on WhatsApp')} onClick={() => track('WhatsApp Contact Clicked', { location: 'floating_button' })} className="fixed bottom-5 right-5 z-40 inline-flex size-14 items-center justify-center rounded-full bg-[#1f9d62] text-white shadow-xl transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1f9d62] sm:bottom-7 sm:right-7"><MessageCircle className="size-6" /></a>}</>
+  return <><footer className="bg-[#3b1220] px-5 pb-10 pt-20 text-[#f6f1ea] lg:px-10"><div className="mx-auto max-w-7xl"><div className="grid gap-14 lg:grid-cols-[1.2fr_1fr_.7fr]"><div><Eyebrow light>Contact details</Eyebrow><h2 className="mt-6 font-serif text-5xl font-light leading-[1.05] sm:text-6xl">{t('Let’s talk about your space.')}</h2><p className="mt-6 max-w-sm text-sm leading-7 text-white/80">{t('Spatial advisory for more intentional living and working. Tell us what you are looking for and we will help you find the right next step.')}</p></div><dl className="divide-y divide-white/10 border-y border-white/10 text-sm">{details.filter(([label]) => label).map(([label,value,href,Icon]) => <div key={label} className="flex items-baseline justify-between gap-6 py-4"><dt className="text-[11px] uppercase tracking-[.22em] text-white/65">{t(label)}</dt><dd>{href && value && <a href={href} onClick={() => label === 'WhatsApp' && track('WhatsApp Contact Clicked', { location: 'footer' })} {...(href.startsWith('http') ? {target:'_blank',rel:'noopener noreferrer'} : {})} className="break-all font-serif text-xl hover:text-[#d9bf9a]"><Icon className="mr-2 inline size-4 text-[#d9bf9a]" />{t(value)}</a>}</dd></div>)}<div className="flex items-baseline justify-between gap-6 py-4"><dt className="text-[11px] uppercase tracking-[.22em] text-white/65">{t('Studio')}</dt><dd className="text-right text-white/90"><MapPin className="mr-2 inline size-4 text-[#d9bf9a]" />{t(contact.location)}</dd></div>{!contact.phone && !contact.email && !contact.whatsapp && <div className="py-4 text-white/80"><Link href="/bookings" className="underline underline-offset-4">{t('Request a consultation')}</Link></div>}</dl><nav aria-label={t('Footer navigation')}><p className="text-[11px] uppercase tracking-[.22em] text-white/65">{t('Pages')}</p><ul className="footer-nav mt-4 flex flex-col gap-3 font-serif text-xl">{nav.map(([label, href]) => <li key={href}><Link href={href} className="text-white/90 hover:text-[#d9bf9a]">{t(label)}</Link></li>)}</ul></nav></div><div className="mt-20 flex flex-col items-start justify-between gap-6 border-t border-white/10 pt-8 sm:flex-row sm:items-center"><Logo light /><p className="text-xs text-white/70">© 2026 Kavach Consultancy, Dubai</p></div></div></footer>{contact.whatsapp && <div className="fixed bottom-5 right-5 z-40 sm:bottom-7 sm:right-7">
+  <button id="whatsapp-options-toggle" type="button" aria-expanded={whatsappOpen} aria-controls="whatsapp-enquiry-panel" aria-label={t(whatsappOpen ? 'Close WhatsApp options' : 'Open WhatsApp options')} title={t(whatsappOpen ? 'Close WhatsApp options' : 'Open WhatsApp options')} onClick={() => setWhatsappOpen(!whatsappOpen)} className="relative z-10 inline-flex size-14 items-center justify-center rounded-full bg-[#1f9d62] text-white shadow-xl transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1f9d62]">{whatsappOpen ? <X className="size-6" /> : <MessageCircle className="size-6" />}</button>
+  {whatsappOpen && <div id="whatsapp-enquiry-panel" role="region" aria-label={t('Choose a topic')} onKeyDown={(event) => { if (event.key === 'Escape') { setWhatsappOpen(false); document.getElementById('whatsapp-options-toggle')?.focus() } }} className="absolute bottom-20 right-0 max-h-[calc(100svh-8rem)] w-80 max-w-[calc(100vw-2rem)] overflow-y-auto border border-[#2a1b1f]/15 bg-[#f6f1ea] p-5 text-[#2a1b1f] shadow-2xl">
+    <div className="mb-5 flex items-start justify-between gap-4"><div><h2 className="font-serif text-2xl">{t('Choose a topic')}</h2><p className="mt-2 text-sm leading-6 text-[#2a1b1f]/70">{t('Choose a space to start your WhatsApp enquiry.')}</p></div><button type="button" aria-label={t('Close WhatsApp options')} onClick={() => { setWhatsappOpen(false); document.getElementById('whatsapp-options-toggle')?.focus() }} className="rounded p-1 text-[#2a1b1f]/70 hover:bg-[#ebe3d8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"><X className="size-4" /></button></div>
+    <div className="grid gap-2">{([{topic:'home',label:'Home'},{topic:'workplace',label:'Workplace'},{topic:'development',label:'Development project'}] as const).map(({topic,label})=><a key={topic} href={whatsappHref(language, topic)} target="_blank" rel="noopener noreferrer" onClick={() => { track('WhatsApp Contact Clicked', { location: 'floating_chooser', topic }); setWhatsappOpen(false) }} className="flex items-center justify-between border border-[#2a1b1f]/15 px-4 py-3 text-sm transition-colors hover:bg-[#ebe3d8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f]"><span>{t(label)}</span><ArrowUpRight className="size-4 text-[#74512f]" /></a>)}</div>
+  </div>}
+</div>}</>
 }
