@@ -11,7 +11,7 @@ import { gallery, services } from '@/components/site-data'
 import { Eyebrow, Footer, Header, btn } from '@/components/site-shell'
 
 function CompassRose() {
-  return <svg viewBox="0 0 120 120" fill="none" className="size-24 text-[#74512f] sm:size-32" aria-hidden="true">
+  return <svg viewBox="0 0 120 120" fill="none" className="size-24 text-[#74512f] transition-transform duration-1000 ease-in-out hover:rotate-[360deg] motion-reduce:transition-none sm:size-32" aria-hidden="true">
     <circle cx="60" cy="60" r="43" stroke="currentColor" strokeOpacity=".4" />
     <circle cx="60" cy="60" r="4" fill="currentColor" />
     <path d="M60 9v18m0 66v18M9 60h18m66 0h18M60 30l8 22-8 8-8-8 8-22Zm0 60-8-22 8-8 8 8-8 22ZM30 60l22-8 8 8-8 8-22-8Zm60 0-22 8-8-8 8-8 22 8Z" stroke="currentColor" strokeLinejoin="round" />
