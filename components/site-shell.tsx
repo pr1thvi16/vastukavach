@@ -43,7 +43,7 @@ export function LogoMark({ className = 'size-11' }: { className?: string }) { re
 export function Logo({ light = false }: { light?: boolean }) { const { t } = useLanguage(); return <Link href="/" className="flex shrink-0 items-center gap-3"><span className="sr-only">{t('Home')}</span><LogoMark className={`size-12 drop-shadow-md ${light ? 'text-[#f2d4a4]' : 'text-[#74512f]'}`} /><span className="leading-none"><span className="block font-serif text-[1.2rem] font-bold tracking-[.28em]">KAVACH</span><span className={`mt-1.5 block text-[9px] font-semibold tracking-[.33em] ${light ? 'text-[#fff7e8]/90' : 'text-[#2a1b1f]/75'}`}>VASTU CONSULTANCY</span></span></Link> }
 
 export const Eyebrow = ({ children, light = false }: { children: React.ReactNode; light?: boolean }) => { const { t } = useLanguage(); return <p className={`flex items-center gap-4 text-[11px] uppercase tracking-[.28em] ${light ? 'text-[#d9bf9a]' : 'text-[#74512f]'}`}><span className="h-px w-10 bg-current" />{typeof children === 'string' ? t(children) : children}</p> }
-export const btn = 'inline-flex items-center gap-3 px-7 py-4 text-[11px] font-medium uppercase tracking-[.22em] transition-colors'
+export const btn = 'inline-flex items-center gap-3 px-7 py-4 text-[11px] font-medium uppercase tracking-[.22em] transition-[color,background-color,border-color,transform] duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0'
 
 export function Header({ overlay = false }: { overlay?: boolean }) {
   const [open, setOpen] = useState(false)
