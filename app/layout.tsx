@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/next'
+import { GoogleAnalytics } from '@/components/google-analytics'
 import { LanguageProvider } from '@/components/language'
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Jost } from 'next/font/google'
@@ -7,6 +8,7 @@ import './globals.css'
 
 const dmSans = Jost({ subsets: ['latin'], variable: '--font-dm-sans' })
 const playfairDisplay = Cormorant_Garamond({ subsets: ['latin'], weight: ['300','400','500','600'], style: ['normal','italic'], variable: '--font-playfair' })
+const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID?.trim()
 
 export const metadata: Metadata = {
   title: 'Kavach Consultancy | Modern Vastu Advisory in Dubai',
@@ -70,6 +72,7 @@ export default function RootLayout({
         />
         <LanguageProvider>{children}</LanguageProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === 'production' && googleAnalyticsId && <GoogleAnalytics gaId={googleAnalyticsId} />}
       </body>
     </html>
   )
