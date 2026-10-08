@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, Sparkles } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { track } from '@vercel/analytics'
 import { trackGA4Event } from '@/lib/ga4'
 import { useLanguage } from '@/components/language'
@@ -24,45 +24,101 @@ function CompassRose() {
 }
 
 
+
 const focusOptions = [
-  { id: 'home', label: 'Home', title: 'Make everyday living feel clearer.', body: 'Start with light, circulation, orientation and how each room is actually used.', note: 'For a home, villa or rental.' },
-  { id: 'workplace', label: 'Workplace', title: 'Create a calmer rhythm at work.', body: 'Think about movement, room purpose and the way people use the space throughout the day.', note: 'For offices and professional spaces.' },
-  { id: 'property', label: 'Property decision', title: 'Pause before you buy, rent or build.', body: 'Bring the plan, priorities and questions you have to a focused first conversation.', note: 'For property selection and planning.' },
-  { id: 'life-path', label: 'Life path', title: 'Explore the bigger picture.', body: 'Start a conversation around Vedic Astrology and the questions you want more clarity around.', note: 'For personal guidance.' },
+  { id: 'home', label: 'My home', title: 'Make home feel more like yours.', body: 'Start with the rooms and routines that matter most. Look at light, movement, orientation and everyday comfort together.', note: 'For a home, villa or rental.', href: '/vastu-checker?type=Home', cta: 'Explore my home' },
+  { id: 'workplace', label: 'My workplace', title: 'Create a better rhythm at work.', body: 'Look at arrival, focus, collaboration and circulation. Small spatial choices can make the day feel clearer and calmer.', note: 'For offices and professional spaces.', href: '/vastu-checker?type=Workplace', cta: 'Explore my workplace' },
+  { id: 'property', label: 'A property decision', title: 'Pause before you commit.', body: 'Bring the property, plan or shortlist you are considering. A focused review helps you ask better questions before you buy, rent or build.', note: 'For purchase, rental and development decisions.', href: '/services', cta: 'See property guidance' },
+  { id: 'life-path', label: 'My life path', title: 'Make space for the bigger picture.', body: 'Start with the questions you are carrying. A Vedic Astrology conversation can help you explore timing, direction and personal priorities.', note: 'For personal Vedic Astrology guidance.', href: '/bookings', cta: 'Start my conversation' },
+] as const
+
+const journeyStages = [
+  { id: 'exploring', label: 'Just exploring', prefix: 'A gentle first step.' },
+  { id: 'planning', label: 'I have a plan', prefix: 'You already have something to work with.' },
+  { id: 'ready', label: 'I am ready to talk', prefix: 'You are closer to your next decision.' },
 ] as const
 
 function InteractiveGuide() {
   const { t } = useLanguage()
   const [activeId, setActiveId] = useState<(typeof focusOptions)[number]['id']>('home')
+  const [journeyStage, setJourneyStage] = useState<(typeof journeyStages)[number]['id']>('exploring')
+  const [visitorName, setVisitorName] = useState('')
+
+  useEffect(() => {
+    try {
+      const savedName = sessionStorage.getItem('kavach-visitor-name')
+      if (savedName) setVisitorName(savedName)
+    } catch {}
+  }, [])
+
+  useEffect(() => {
+    try {
+      const cleanName = visitorName.trim()
+      if (cleanName) sessionStorage.setItem('kavach-visitor-name', cleanName)
+      else sessionStorage.removeItem('kavach-visitor-name')
+    } catch {}
+  }, [visitorName])
+
   const active = focusOptions.find(option => option.id === activeId) ?? focusOptions[0]
+  const stage = journeyStages.find(option => option.id === journeyStage) ?? journeyStages[0]
+  const greeting = visitorName.trim() ? `${visitorName.trim()}, ${stage.prefix.toLowerCase()}` : stage.prefix
+
+  function chooseFocus(id: typeof activeId) {
+    setActiveId(id)
+    track('Personal Path Selected', { focus: id })
+    trackGA4Event('personal_path_selected', { focus: id })
+  }
+
   return <section className="mx-auto max-w-7xl px-5 py-16 sm:py-20 lg:px-10" aria-labelledby="focus-guide-heading">
-    <div className="overflow-hidden rounded-[2rem] border border-[#2a1b1f]/10 bg-[#f1eadf]">
-      <div className="grid lg:grid-cols-[.82fr_1.18fr]">
+    <div className="overflow-hidden rounded-[2rem] border border-[#2a1b1f]/10 bg-[#f1eadf] shadow-sm">
+      <div className="grid lg:grid-cols-[.9fr_1.1fr]">
         <div className="p-7 sm:p-10 lg:p-12">
           <div className="flex items-center justify-between gap-4">
             <Eyebrow>Make it personal</Eyebrow>
             <Sparkles className="size-5 text-[#74512f]" aria-hidden="true" />
           </div>
-          <h2 id="focus-guide-heading" className="mt-6 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t('What are you looking to understand better?')}</h2>
-          <p className="mt-5 max-w-lg leading-7 text-[#2a1b1f]/70">{t('Pick the closest fit and we will give you a practical starting point.')}</p>
-          <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label={t('Choose a focus')}>
-            {focusOptions.map((option, index) => <button key={option.id} type="button" aria-pressed={activeId === option.id} onClick={() => setActiveId(option.id)} className={`rounded-full border px-4 py-2.5 text-[11px] uppercase tracking-[.14em] transition-all duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f] ${activeId === option.id ? 'border-[#3b1220] bg-[#3b1220] text-[#f6f1ea] shadow-sm' : 'border-[#2a1b1f]/15 bg-white/40 hover:-translate-y-0.5 hover:bg-white'}`}>
-              <span className="mr-2 font-serif text-base italic">{String(index + 1).padStart(2, '0')}</span>{t(option.label)}
-            </button>)}
+          <h2 id="focus-guide-heading" className="mt-6 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t('Let’s make this about you.')}</h2>
+          <p className="mt-5 max-w-lg leading-7 text-[#2a1b1f]/70">{t('Tell us just enough to get a useful starting point. Nothing here is a test — it simply helps the experience meet you where you are.')}</p>
+
+          <label className="mt-7 flex max-w-md flex-col gap-2 text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70">
+            {t('What should we call you?')}
+            <input value={visitorName} onChange={event => setVisitorName(event.target.value.slice(0, 40))} placeholder={t('Your first name')} autoComplete="given-name" className="border-0 border-b border-[#2a1b1f]/20 bg-transparent px-0 py-3 text-base normal-case tracking-normal placeholder:text-[#2a1b1f]/35 focus:border-[#a57a4a] focus:outline-none" />
+          </label>
+
+          <div className="mt-8">
+            <p className="text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70">{t('What brings you here?')}</p>
+            <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={t('Choose a focus')}>
+              {focusOptions.map((option, index) => <button key={option.id} type="button" aria-pressed={activeId === option.id} onClick={() => chooseFocus(option.id)} className={`rounded-full border px-4 py-2.5 text-left text-[11px] uppercase tracking-[.12em] transition-all duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f] ${activeId === option.id ? 'border-[#3b1220] bg-[#3b1220] text-[#f6f1ea] shadow-sm' : 'border-[#2a1b1f]/15 bg-white/40 hover:-translate-y-0.5 hover:bg-white'}`}>
+                <span className="mr-2 font-serif text-base italic">{String(index + 1).padStart(2, '0')}</span>{t(option.label)}
+              </button>)}
+            </div>
+          </div>
+
+          <div className="mt-7">
+            <p className="text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70">{t('Where are you right now?')}</p>
+            <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={t('Choose where you are in the journey')}>
+              {journeyStages.map(option => <button key={option.id} type="button" aria-pressed={journeyStage === option.id} onClick={() => setJourneyStage(option.id)} className={`rounded-full border px-4 py-2.5 text-[11px] uppercase tracking-[.12em] transition-all duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f] ${journeyStage === option.id ? 'border-[#74512f] bg-[#74512f] text-white' : 'border-[#2a1b1f]/15 bg-transparent hover:bg-white'}`}>{t(option.label)}</button>)}
+            </div>
           </div>
         </div>
-        <div className="relative min-h-[330px] overflow-hidden bg-[#3b1220] p-7 text-[#f6f1ea] sm:p-10 lg:p-12">
+
+        <div className="relative min-h-[430px] overflow-hidden bg-[#3b1220] p-7 text-[#f6f1ea] sm:p-10 lg:p-12">
           <div className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full border border-[#d9bf9a]/20" />
           <div className="pointer-events-none absolute -bottom-24 -left-10 size-56 rounded-full border border-[#d9bf9a]/10" />
-          <div key={active.id} className="relative flex h-full flex-col justify-between">
+          <div className="relative flex h-full flex-col justify-between" aria-live="polite">
             <div>
-              <p className="text-[11px] uppercase tracking-[.24em] text-[#d9bf9a]">{t('Your starting point')}</p>
-              <h3 className="mt-5 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t(active.title)}</h3>
+              <p className="text-[11px] uppercase tracking-[.24em] text-[#d9bf9a]">{t('Your personal starting point')}</p>
+              <p className="mt-5 text-sm text-white/65">{t(greeting)}</p>
+              <h3 className="mt-3 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t(active.title)}</h3>
               <p className="mt-5 max-w-xl text-base leading-7 text-white/75">{t(active.body)}</p>
             </div>
-            <div className="mt-10 flex flex-col gap-5 border-t border-white/15 pt-6 sm:flex-row sm:items-end sm:justify-between">
-              <p className="text-sm text-white/65">{t(active.note)}</p>
-              <Link href="/bookings" className={`${btn} w-fit border border-[#d9bf9a]/50 text-[#f6f1ea] hover:bg-[#d9bf9a] hover:text-[#3b1220]`}>{t('Take this further')} <ArrowUpRight className="size-4" /></Link>
+
+            <div className="mt-10 border-t border-white/15 pt-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-white/65">{t(active.note)}</p>
+                <span className="text-[10px] uppercase tracking-[.18em] text-[#d9bf9a]">{t('Your path')} · {t(active.label)}</span>
+              </div>
+              <Link href={active.href} onClick={() => { track('Personal Path CTA Clicked', { focus: active.id, stage: journeyStage }); trackGA4Event('personal_path_cta_click', { focus: active.id, stage: journeyStage }) }} className={`${btn} mt-6 w-fit border border-[#d9bf9a]/50 text-[#f6f1ea] hover:bg-[#d9bf9a] hover:text-[#3b1220]`}>{t(active.cta)} <ArrowUpRight className="size-4" /></Link>
             </div>
           </div>
         </div>
