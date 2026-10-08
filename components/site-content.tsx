@@ -34,6 +34,29 @@ export const Services = () => {
   const { t } = useLanguage()
   return <StandardPage eyebrow="How we help" title="Advice for the spaces that matter most." image="/images/bright-living.jpg" imageAlt="Bright open-plan living room with soft sofas">
     <ServiceCards />
+    <section className="mt-16 border-t border-[#2a1b1f]/15 pt-12 sm:mt-20 sm:pt-16" aria-labelledby="uae-solutions-heading">
+      <Eyebrow>Specialized Vastu & Astrology Solutions Across the UAE</Eyebrow>
+      <h2 id="uae-solutions-heading" className="mt-5 max-w-5xl font-serif text-4xl font-light leading-tight sm:text-6xl">{t('Vastu Shastra Consultant & Vedic Astrologer in Dubai')}</h2>
+      <p className="mt-5 max-w-4xl font-serif text-2xl font-light leading-snug text-[#2a1b1f]/85">{t('Where Ancient Astrology Wisdom Meets Modern Living')}</p>
+      <p className="mt-6 max-w-4xl leading-8 text-[#2a1b1f]/70">{t('Kavach Consultancy, founded by Vedic consultant Vedang Joshi, delivers practical, non-demolition Vastu Shastra audits and in-depth Vedic Astrology (Kundli) readings across Dubai, Abu Dhabi, and Sharjah. We balance modern architectural spaces—including apartments, luxury villas, corporate offices, and warehouses—without structural changes.')}</p>
+      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {[
+          ['Property Vastu Consultancy','Comprehensive directional analysis for high-rise apartments, penthouses, and private villas. We evaluate main entrances (Pad Vinyasa), master bedroom orientation, kitchen fire zones, and balcony energy flows.'],
+          ['Business & Office Vastu','Optimising flow, safety & productivity for corporate and professional environments.'],
+          ['Warehouse & Factory Vastu','Optimising flow, safety & productivity for industrial spaces while working with existing structures.'],
+          ['Property Selection Guidance','Vastu-informed guidance to help evaluate a property before purchase, rental, or investment decisions.'],
+          ['Kundli & Life Path Astrology','In-depth Vedic Astrology readings to provide perspective on personal growth, timing, and life decisions.'],
+          ['Numerology for Name & Business','Numerology guidance for personal names and business naming considerations.'],
+        ].map(([title, description], i) => <article key={title} className="group border-y border-[#2a1b1f]/15 px-2 py-7 transition-colors hover:bg-[#ebe3d8]">
+          <span className="font-serif text-lg italic text-[#74512f]">0{i+1}</span>
+          <h3 className="mt-3 font-serif text-3xl leading-tight">{t(title)}</h3>
+          <p className="mt-3 text-sm leading-7 text-[#2a1b1f]/70">{t(description)}</p>
+        </article>)}
+      </div>
+      <div className="mt-10 border-t border-[#2a1b1f]/15 pt-7">
+        <p className="max-w-4xl leading-8 text-[#2a1b1f]/70">{t('Our approach combines ancient Vastu and astrology wisdom with the realities of modern living in the UAE, offering practical guidance without requiring structural changes.')}</p>
+      </div>
+    </section>
     <section className="mt-16 border-t border-[#2a1b1f]/15 pt-12 sm:mt-20 sm:pt-16" aria-labelledby="specialist-services-heading">
       <Eyebrow>Specialist consultations</Eyebrow>
       <h2 id="specialist-services-heading" className="mt-5 max-w-4xl font-serif text-4xl font-light sm:text-5xl">{t('Guidance for more than homes and offices.')}</h2>
