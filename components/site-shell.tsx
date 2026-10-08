@@ -37,7 +37,7 @@ export const contact = {
   email: contactEmail,
   whatsapp: whatsappHref(),
   location: 'Dubai, United Arab Emirates',
-  address: 'Dubai, United Arab Emirates',
+  address: 'Bur- Dubai, Behind ADCB Bank, Dubai, United Arab Emirates',
 }
 
 // Architectural compass mark: a cut-corner frame, pitched roof, doorway and north tick.
