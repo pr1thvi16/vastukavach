@@ -12,9 +12,8 @@ export const founder = {
   role: 'Founder & Principal Vastu Advisor',
   photo: '/images/founder.webp',
   bio: [
-    'Kavach was founded by Vedang Joshi to make Vastu advisory practical, transparent and relevant to the way people live, work and invest today.',
-    'The work connects traditional spatial principles with observable factors such as orientation, daylight, circulation, comfort and how a property will actually be used — without fear, rigid rules or superstition.',
-    'Based in Dubai, Vedang advises homeowners, workplace teams and real-estate stakeholders from early planning through review and handover.',
+    'Rooted in over 40 years of familial astrological lineage, Vedang Joshi established Kavach Consultancy to demystify ancient metaphysical sciences for corporate professionals, business owners, and residents across the United Arab Emirates.',
+    'I am Vedang Joshi. To me, Astrology is not just about prediction; it is a profoundly positive experience a tool to illuminate your growth and navigate your destiny with confidence.',
   ],
   credentials: [] as string[],
   linkedin: 'https://ae.linkedin.com/in/vedang-joshi-624b171b',
@@ -27,7 +26,7 @@ export function FounderSection() {
       {founder.photo ? <Image src={founder.photo} alt={t(`Portrait of ${founder.name}, ${founder.role}`)} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover" /> : <span className="grid h-full place-items-center font-serif text-7xl font-light text-[#74512f]" aria-hidden="true">VJ</span>}
     </div>
     <div className="self-center">
-      <Eyebrow>Meet the founder</Eyebrow>
+      <Eyebrow>Behind Kavach: Vedang Joshi’s Vedic Lineage in the UAE</Eyebrow>
       <h2 className="mt-6 font-serif text-5xl font-light leading-[1.05]">{founder.name}</h2>
       <p className="mt-3 text-[11px] uppercase tracking-[.26em] text-[#2a1b1f]/55">{t(founder.role)}</p>
       <div className="mt-8 max-w-xl space-y-5 leading-8 text-[#2a1b1f]/70">{founder.bio.map((paragraph) => <p key={paragraph}>{t(paragraph)}</p>)}</div>
