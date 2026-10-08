@@ -5,6 +5,8 @@ type BookingInput = {
   email: string
   phone: string
   date: string
+  contactMethod: 'WhatsApp' | 'Phone' | 'Email'
+  bestTime: 'Morning' | 'Afternoon' | 'Evening'
   propertyType: 'Home' | 'Workplace' | 'Development'
   message: string
 }
@@ -14,7 +16,7 @@ type BookingInput = {
 const DEFAULT_SUPABASE_URL = 'https://qidfdtanwbvlporikhjj.supabase.co'
 const DEFAULT_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_5hsYAgReOSB7SnK_-b5X0A_krtkqOp6'
 
-const requiredFields = ['name', 'email', 'phone', 'date', 'propertyType', 'message'] as const
+const requiredFields = ['name', 'email', 'phone', 'date', 'contactMethod', 'bestTime', 'propertyType', 'message'] as const
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -46,7 +48,7 @@ async function insertBooking(input: BookingInput, projectUrl: string, keys: stri
     phone: input.phone,
     preferred_date: input.date,
     property_type: input.propertyType,
-    message: input.message,
+    message: [input.message, '', `Preferred contact method: \${input.contactMethod}`, `Best time to contact: \${input.bestTime}`].join('\n'),
   })
   let lastResponse: Response | undefined
   for (const key of keys) {
@@ -127,6 +129,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Choose a valid preferred date.' }, { status: 400 })
   }
   if (input.date < new Date().toISOString().slice(0, 10)) return NextResponse.json({ error: 'Choose a date that is today or later.' }, { status: 400 })
+  if (!['WhatsApp', 'Phone', 'Email'].includes(input.contactMethod)) return NextResponse.json({ error: 'Choose a valid contact method.' }, { status: 400 })
+  if (!['Morning', 'Afternoon', 'Evening'].includes(input.bestTime)) return NextResponse.json({ error: 'Choose a valid contact time.' }, { status: 400 })
   if (!['Home', 'Workplace', 'Development'].includes(input.propertyType)) return NextResponse.json({ error: 'Choose a valid property type.' }, { status: 400 })
 
   const webhookUrl = process.env.BOOKING_WEBHOOK_URL?.trim()
@@ -184,7 +188,9 @@ export async function POST(request: Request) {
           '',
           `Name: ${input.name}`,
           `Email: ${input.email}`,
-          `Phone: ${input.phone}`,
+          `Phone / WhatsApp: ${input.phone}`,
+          `Preferred contact method: ${input.contactMethod}`,
+          `Best time to contact: ${input.bestTime}`,
           `Preferred date: ${input.date}`,
           `Property type: ${input.propertyType}`,
           '',
