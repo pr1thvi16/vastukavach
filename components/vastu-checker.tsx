@@ -21,8 +21,25 @@ const layoutAdvice: Record<string, string> = {
   'Bedroom or quiet room': 'Consider its distance from busy routes, doors and outdoor noise.',
   'Kitchen or service area': 'Look at practical routes between the kitchen, storage and the rooms used every day.',
   'Work or focus area': 'Check for useful light and enough separation from interruptions.',
+  'Meeting or client area': 'Notice how visitors arrive, wait and move through the space without disrupting focused work.',
+  'Team or collaboration area': 'Check whether shared work areas support conversation while preserving clear circulation.',
+  'Private or focus area': 'Look for useful light, acoustic separation and enough distance from busy routes.',
   'Not sure yet': 'Walk from the entrance through the main rooms and note where movement or room use feels unclear.',
 }
+const curatedQuestions = {
+  Home: {
+    layouts: ['Entrance and circulation', 'Living or shared room', 'Bedroom or quiet room', 'Kitchen or service area', 'Not sure yet'],
+    priorities: ['Entry and circulation', 'Daylight', 'Quiet and rest', 'Not sure yet'],
+  },
+  Workplace: {
+    layouts: ['Entrance and circulation', 'Work or focus area', 'Meeting or client area', 'Team or collaboration area', 'Private or focus area', 'Not sure yet'],
+    priorities: ['Entry and circulation', 'Daylight', 'Work and focus', 'Quiet and rest'],
+  },
+  Development: {
+    layouts: ['Entrance and circulation', 'Living or shared room', 'Bedroom or quiet room', 'Kitchen or service area', 'Work or focus area', 'Not sure yet'],
+    priorities: ['Entry and circulation', 'Daylight', 'Quiet and rest', 'Work and focus'],
+  },
+} as const
 
 export function VastuChecker() {
   const { t } = useLanguage()
@@ -37,6 +54,7 @@ export function VastuChecker() {
   }, [])
   const [priority, setPriority] = useState('')
   const [complete, setComplete] = useState(false)
+  const questionSet = curatedQuestions[spaceType as keyof typeof curatedQuestions] ?? curatedQuestions.Development
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -71,7 +89,7 @@ export function VastuChecker() {
         <label className={label}>{t('Which room or area in the layout should we review first?')}
           <select required value={layoutArea} onChange={(event) => setLayoutArea(event.target.value)} className={field}>
             <option value="">{t('Select one')}</option>
-            {(['Entrance and circulation', 'Living or shared room', 'Bedroom or quiet room', 'Kitchen or service area', 'Work or focus area', 'Not sure yet'] as const).map((value) => <option key={value} value={value}>{t(value)}</option>)}
+            {questionSet.layouts.map((value) => <option key={value} value={value}>{t(value)}</option>)}
           </select>
         </label>
         <label className={label}>{t('Which direction does the main entrance face?')}
@@ -84,7 +102,7 @@ export function VastuChecker() {
         <label className={label}>{t('What would you most like to improve?')}
           <select required value={priority} onChange={(event) => setPriority(event.target.value)} className={field}>
             <option value="">{t('Select one')}</option>
-            {(['Entry and circulation', 'Daylight', 'Quiet and rest', 'Work and focus'] as const).map((value) => <option key={value} value={value}>{t(value)}</option>)}
+            {questionSet.priorities.map((value) => <option key={value} value={value}>{t(value)}</option>)}
           </select>
         </label>
         <button className="inline-flex w-fit items-center gap-3 bg-[#3b1220] px-7 py-4 text-[11px] font-medium uppercase tracking-[.18em] text-[#f6f1ea] transition-colors hover:bg-[#74512f]">{t('Show my pointers')} <ArrowUpRight className="size-4" /></button>
