@@ -35,7 +35,7 @@ function safeSupabaseUrl(value: string) {
 }
 
 async function insertBooking(input: BookingInput, projectUrl: string, publishableKey: string) {
-  return fetch(`${projectUrl.replace(/\\/+$/, '')}/rest/v1/booking_enquiries`, {
+  return fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
     method: 'POST',
     headers: {
       apikey: publishableKey,
