@@ -39,24 +39,31 @@ function safeSupabaseUrl(value: string) {
   }
 }
 
-async function insertBooking(input: BookingInput, projectUrl: string, publishableKey: string) {
-  return fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
-    method: 'POST',
-    headers: {
-      apikey: publishableKey,
-      'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
-    },
-    body: JSON.stringify({
-      name: input.name,
-      email: input.email,
-      phone: input.phone,
-      preferred_date: input.date,
-      property_type: input.propertyType,
-      message: input.message,
-    }),
-    signal: AbortSignal.timeout(8000),
+async function insertBooking(input: BookingInput, projectUrl: string, keys: string[]) {
+  const payload = JSON.stringify({
+    name: input.name,
+    email: input.email,
+    phone: input.phone,
+    preferred_date: input.date,
+    property_type: input.propertyType,
+    message: input.message,
   })
+  let lastResponse: Response | undefined
+  for (const key of keys) {
+    try {
+      const response = await fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
+        method: 'POST',
+        headers: { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+        body: payload,
+        signal: AbortSignal.timeout(8000),
+      })
+      if (response.ok) return response
+      lastResponse = response
+    } catch {
+      // Try the next configured server-side credential before reporting failure.
+    }
+  }
+  return lastResponse ?? new Response(null, { status: 502 })
 }
 
 // Best-effort spam protection. The rate limiter is in-memory, so it resets when a
@@ -130,10 +137,12 @@ export async function POST(request: Request) {
   const fromEmail = process.env.BOOKING_FROM_EMAIL?.trim()
   const hasResendConfig = Boolean(resendApiKey && notificationEmail && fromEmail)
   const hasAnyResendConfig = Boolean(resendApiKey || notificationEmail || fromEmail)
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || DEFAULT_SUPABASE_URL
-  const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() || DEFAULT_SUPABASE_PUBLISHABLE_KEY
-  const hasSupabaseConfig = Boolean(supabaseUrl && supabasePublishableKey)
-  const hasPartialSupabaseConfig = Boolean(supabaseUrl || supabasePublishableKey) && !hasSupabaseConfig
+  const supabaseUrl = process.env.SUPABASE_URL?.trim() || process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || DEFAULT_SUPABASE_URL
+  const supabasePublishableKey = process.env.SUPABASE_PUBLISHABLE_KEY?.trim() || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() || DEFAULT_SUPABASE_PUBLISHABLE_KEY
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || process.env.SUPABASE_SECRET_KEY?.trim()
+  const supabaseKeys = [supabaseServiceKey, supabasePublishableKey].filter((key): key is string => Boolean(key))
+  const hasSupabaseConfig = Boolean(supabaseUrl && supabaseKeys.length)
+  const hasPartialSupabaseConfig = Boolean(supabaseUrl || supabaseKeys.length) && !hasSupabaseConfig
 
   if (hasPartialSupabaseConfig) {
     return NextResponse.json({ error: 'Supabase storage is partially configured. Please contact the site administrator.' }, { status: 503 })
@@ -153,7 +162,7 @@ export async function POST(request: Request) {
   const submittedAt = new Date().toISOString()
   try {
     if (hasSupabaseConfig) {
-      const saved = await insertBooking(input, supabaseUrl!, supabasePublishableKey!)
+      const saved = await insertBooking(input, supabaseUrl!, supabaseKeys)
       if (!saved.ok) {
         return NextResponse.json({ error: 'We could not save your request right now. Please try again shortly.' }, { status: 502 })
       }

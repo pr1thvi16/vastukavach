@@ -25,9 +25,9 @@ export function BookingForm() {
     setPending(true)
     setStatus('')
     try {
-      const response = await fetch('/api/bookings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), startedAt: startedAt.current }) })
-      const result = await response.json()
-      if (!response.ok) throw new Error(result.error || 'We could not send your request right now.')
+  const response = await fetch('/api/bookings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), startedAt: startedAt.current }) })
+  const result = await response.json().catch(() => ({}))
+  if (!response.ok) throw new Error(typeof result.error === 'string' ? result.error : 'We could not send your request right now. Please try again.')
       const formData = new FormData(form)
       track('Booking Submitted', { propertyType: String(formData.get('propertyType') ?? 'unspecified') }); trackGA4Event('generate_lead', { form_type: 'consultation', property_type: String(formData.get('propertyType') ?? 'unspecified') })
       setStatus(t('Thank you. Your booking enquiry has been sent. We will be in touch soon.'))
