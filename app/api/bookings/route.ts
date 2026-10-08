@@ -24,6 +24,40 @@ function safeWebhookUrl(value: string) {
   }
 }
 
+function safeSupabaseUrl(value: string) {
+  try {
+    const url = new URL(value)
+    const localUrl = process.env.NODE_ENV !== 'production' && ['localhost', '127.0.0.1'].includes(url.hostname)
+    return (url.protocol === 'https:' || localUrl) && !url.username && !url.password && !url.search && !url.hash && (url.pathname === '/' || url.pathname === '')
+  } catch {
+    return false
+  }
+}
+
+async function insertBooking(input: BookingInput, submittedAt: string, projectUrl: string, secretKey: string) {
+  const legacyJwtHeader = secretKey.startsWith('eyJ') ? { Authorization: `Bearer ${secretKey}` } : {}
+  return fetch(`${projectUrl.replace(/\\/+$/, '')}/rest/v1/booking_enquiries`, {
+    method: 'POST',
+    headers: {
+      apikey: secretKey,
+      ...legacyJwtHeader,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify({
+      name: input.name,
+      email: input.email,
+      phone: input.phone,
+      preferred_date: input.date,
+      property_type: input.propertyType,
+      message: input.message,
+      source: 'Kavach Consultancy website',
+      submitted_at: submittedAt,
+    }),
+    signal: AbortSignal.timeout(8000),
+  })
+}
+
 export async function POST(request: Request) {
   const body: unknown = await request.json().catch(() => null)
   if (!body || typeof body !== 'object' || requiredFields.some((key) => typeof (body as Record<string, unknown>)[key] !== 'string')) {
@@ -53,18 +87,77 @@ export async function POST(request: Request) {
   const fromEmail = process.env.BOOKING_FROM_EMAIL?.trim()
   const hasResendConfig = Boolean(resendApiKey && notificationEmail && fromEmail)
   const hasAnyResendConfig = Boolean(resendApiKey || notificationEmail || fromEmail)
+  const supabaseUrl = process.env.SUPABASE_URL?.trim()
+  const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY?.trim()
+  const hasSupabaseConfig = Boolean(supabaseUrl && supabaseSecretKey)
+  const hasPartialSupabaseConfig = Boolean(supabaseUrl || supabaseSecretKey) && !hasSupabaseConfig
 
-  if (!webhookUrl && !hasResendConfig) {
+  if (hasPartialSupabaseConfig) {
+    return NextResponse.json({ error: 'Supabase storage is partially configured. Please contact the site administrator.' }, { status: 503 })
+  }
+  if (!hasSupabaseConfig && !webhookUrl && !hasResendConfig) {
     const error = hasAnyResendConfig
       ? 'Booking email is partially configured. Please contact the site administrator.'
       : 'Online booking is not configured yet. Please use the contact page to request a consultation.'
     return NextResponse.json({ error }, { status: 503 })
   }
-  if (webhookUrl && !safeWebhookUrl(webhookUrl)) {
+  if (hasSupabaseConfig && !safeSupabaseUrl(supabaseUrl!)) {
+    return NextResponse.json({ error: 'Supabase storage URL must be a valid HTTPS project URL.' }, { status: 503 })
+  }
+  if (!hasSupabaseConfig && webhookUrl && !safeWebhookUrl(webhookUrl)) {
     return NextResponse.json({ error: 'The booking delivery URL must use HTTPS.' }, { status: 503 })
   }
   const submittedAt = new Date().toISOString()
   try {
+    if (hasSupabaseConfig) {
+      const saved = await insertBooking(input, submittedAt, supabaseUrl!, supabaseSecretKey!)
+      if (!saved.ok) {
+        return NextResponse.json({ error: 'We could not save your request right now. Please try again shortly.' }, { status: 502 })
+      }
+
+      // A successful database write is the source of truth; notifications are optional.
+      if (webhookUrl && safeWebhookUrl(webhookUrl)) {
+        try {
+          const notification = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...input, submittedAt, source: 'Kavach Consultancy website' }),
+            signal: AbortSignal.timeout(8000),
+          })
+          if (!notification.ok) console.error('Booking was stored in Supabase, but webhook notification failed.')
+        } catch {
+          console.error('Booking was stored in Supabase, but webhook notification failed.')
+        }
+      } else if (hasResendConfig) {
+        const text = [
+          'New Kavach Consultancy booking enquiry',
+          '',
+          `Name: ${input.name}`,
+          `Email: ${input.email}`,
+          `Phone: ${input.phone}`,
+          `Preferred date: ${input.date}`,
+          `Property type: ${input.propertyType}`,
+          '',
+          'How can we help?',
+          input.message,
+          '',
+          `Submitted at: ${submittedAt}`,
+        ].join('\\n')
+        try {
+          const notification = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ from: fromEmail, to: [notificationEmail], reply_to: input.email, subject: `Website booking enquiry — ${input.propertyType}`, text }),
+            signal: AbortSignal.timeout(8000),
+          })
+          if (!notification.ok) console.error('Booking was stored in Supabase, but email notification failed.')
+        } catch {
+          console.error('Booking was stored in Supabase, but email notification failed.')
+        }
+      }
+      return NextResponse.json({ ok: true, stored: true }, { status: 201 })
+    }
+
     let result: Response
     if (webhookUrl) {
       result = await fetch(webhookUrl, {
@@ -87,7 +180,7 @@ export async function POST(request: Request) {
         input.message,
         '',
         `Submitted at: ${submittedAt}`,
-      ].join('\n')
+      ].join('\\n')
       result = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { Authorization: `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
