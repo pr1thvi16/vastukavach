@@ -153,6 +153,12 @@ const arabic: Record<string, string> = {
   'Kavach starts by listening to what matters to you, then considers how light, movement, orientation and daily routines shape a space.': 'تبدأ كافاش بالاستماع إلى ما يهمكم، ثم تدرس أثر الضوء والحركة والاتجاه والروتين اليومي في المساحة.',
   'Kavach was founded by Vedang Joshi to bring a practical, people-first perspective to Vastu and the spaces people live and work in.': 'أسس فيدانغ جوشي كافاش لتقديم منظور عملي يضع الناس أولاً في فاستو والمساحات التي يعيشون ويعملون فيها.',
   'Based in Dubai, Kavach advises on homes, workplaces and developments by considering light, orientation, movement and the way each space is used.': 'تقدم كافاش، ومقرها دبي، استشارات للمنازل وبيئات العمل ومشاريع التطوير مع مراعاة الضوء والاتجاه والحركة وطريقة استخدام المساحة.',
+  'Client reviews': 'آراء العملاء',
+  'What our customers in Dubai have to say about Kavach Consultancy': 'ماذا يقول عملاؤنا في دبي عن كافاش للاستشارات',
+  'Excellent': 'ممتاز', 'Based on': 'بناءً على', 'reviews': 'تقييمات', 'Verified Google reviews': 'تقييمات جوجل الموثقة',
+  'Book Kavach Consultation': 'احجزوا استشارة كافاش',
+  'Why choose Kavach Consultancy?': 'لماذا تختارون كافاش للاستشارات؟',
+  'Founder & Vedic Consultant': 'المؤسس والمستشار الفيدي',
 }
 
 type LanguageContextValue = { language: Language; toggleLanguage: () => void; t: (text: string) => string }

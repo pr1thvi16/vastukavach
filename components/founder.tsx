@@ -9,11 +9,13 @@ import { Eyebrow, btn } from '@/components/site-shell'
 // Edit the founder's details here only. Add verified credentials, profile URL and portrait when supplied.
 export const founder = {
   name: 'Vedang Joshi',
-  role: 'Founder & Principal Vastu Advisor',
+  role: 'Founder & Vedic Consultant',
   photo: '/images/founder.webp',
+  // Bio copied from kavachconsultancy.com ("Behind Kavach").
+  heading: 'Behind Kavach: Vedang Joshi\u2019s Vedic Lineage in the UAE',
   bio: [
-    'Kavach was founded by Vedang Joshi to make Vastu advisory practical, transparent and relevant to the way people live, work and invest today.',
-    'The work connects traditional spatial principles with observable factors such as orientation, daylight, circulation, comfort and how a property will actually be used — without fear, rigid rules or superstition.',
+    'Rooted in over 40 years of familial astrological lineage, Vedang Joshi established Kavach Consultancy to demystify ancient metaphysical sciences for corporate professionals, business owners, and residents across the United Arab Emirates.',
+    'I am Vedang Joshi. To me, Astrology is not just about prediction; it is a profoundly positive experience a tool to illuminate your growth and navigate your destiny with confidence.',
     'Based in Dubai, Vedang advises homeowners, workplace teams and real-estate stakeholders from early planning through review and handover.',
   ],
   credentials: [] as string[],
@@ -28,8 +30,9 @@ export function FounderSection() {
     </div>
     <div className="self-center">
       <Eyebrow>Meet the founder</Eyebrow>
-      <h2 className="mt-6 font-serif text-5xl font-light leading-[1.05]">{founder.name}</h2>
-      <p className="mt-3 text-[11px] uppercase tracking-[.26em] text-[#2a1b1f]/55">{t(founder.role)}</p>
+      <h2 className="mt-6 font-serif text-4xl font-light leading-[1.1] sm:text-5xl">{t(founder.heading)}</h2>
+      <p className="mt-4 font-serif text-2xl">{founder.name}</p>
+      <p className="mt-1 text-[11px] uppercase tracking-[.26em] text-[#2a1b1f]/55">{t(founder.role)}</p>
       <div className="mt-8 max-w-xl space-y-5 leading-8 text-[#2a1b1f]/70">{founder.bio.map((paragraph) => <p key={paragraph}>{t(paragraph)}</p>)}</div>
       {founder.credentials.length > 0 && <ul className="mt-8 max-w-xl divide-y divide-[#2a1b1f]/10 border-y border-[#2a1b1f]/10 text-sm text-[#2a1b1f]/70">{founder.credentials.map((credential) => <li key={credential} className="py-3">{t(credential)}</li>)}</ul>}
       {founder.linkedin && <div className="mt-10 flex flex-wrap gap-3"><a href={founder.linkedin} target="_blank" rel="noopener noreferrer" className={`${btn} border border-[#2a1b1f]/40 hover:bg-[#3b1220] hover:text-[#f6f1ea]`}>LinkedIn</a></div>}
