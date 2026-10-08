@@ -62,7 +62,7 @@ export const Services = () => {
           ['Property Selection Guidance','Vastu-informed guidance to help evaluate a property before purchase, rental, or investment decisions.'],
           ['Kundli & Life Path Astrology','In-depth Vedic Astrology readings to provide perspective on personal growth, timing, and life decisions.'],
           ['Numerology for Name & Business','Numerology guidance for personal names and business naming considerations.'],
-        ].map(([title, description], i) => <article key={title} className="group border-y border-[#2a1b1f]/15 px-2 py-7 transition-colors hover:bg-[#ebe3d8]">
+        ].map(([title, description], i) => <article key={title} className="group border-y border-[#2a1b1f]/15 px-2 py-7 transition-all duration-300 motion-reduce:transition-none hover:-translate-y-1 hover:bg-[#ebe3d8] hover:shadow-sm">
           <span className="font-serif text-lg italic text-[#74512f]">0{i+1}</span>
           <h3 className="mt-3 font-serif text-3xl leading-tight">{t(title)}</h3>
           <p className="mt-3 text-sm leading-7 text-[#2a1b1f]/70">{t(description)}</p>
@@ -81,7 +81,7 @@ export const Services = () => {
             ['Hotel Vastu Consultancy','For hospitality spaces and hotels.'],
             ['Site Vastu Consultancy','For evaluating sites and property plans before major decisions.'],
             ['Property Selection Assistance','For property purchase, rental and investment decisions.'],
-          ].map(([title, description], i) => <article key={title} className="border-y border-[#2a1b1f]/15 px-2 py-6">
+          ].map(([title, description], i) => <article key={title} className="group border-y border-[#2a1b1f]/15 px-2 py-6 transition-all duration-300 motion-reduce:transition-none hover:-translate-y-1 hover:bg-[#fbf8f3]">
             <span className="font-serif text-lg italic text-[#74512f]">0{i+1}</span>
             <h4 className="mt-3 font-serif text-2xl">{t(title)}</h4>
             <p className="mt-2 text-sm leading-7 text-[#2a1b1f]/70">{t(description)}</p>
@@ -103,7 +103,7 @@ export const Services = () => {
       <Eyebrow>Common questions</Eyebrow>
       <h2 id="service-faq-heading" className="mt-5 font-serif text-4xl font-light sm:text-5xl">{t('Before you book')}</h2>
       <div className="mt-8 divide-y divide-[#2a1b1f]/15 border-y border-[#2a1b1f]/15">
-        {serviceQuestions.map(([question, answer]) => <details key={question} className="group py-5">
+        {serviceQuestions.map(([question, answer]) => <details key={question} className="group py-5 transition-colors duration-300 motion-reduce:transition-none hover:bg-[#fbf8f3] px-2">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-serif text-xl marker:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#74512f] sm:text-2xl">
             {t(question)} <span aria-hidden="true" className="shrink-0 text-[#74512f] transition-transform group-open:rotate-45">+</span>
           </summary>

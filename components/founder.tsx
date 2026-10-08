@@ -23,7 +23,7 @@ export function FounderSection() {
   const { t } = useLanguage()
   return <section className="mt-28 grid gap-12 border-t border-[#2a1b1f]/15 pt-20 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
     <div className="relative mx-auto aspect-[4/5] w-full max-w-[420px] overflow-hidden bg-[#ebe3d8]">
-      {founder.photo ? <Image src={founder.photo} alt={t(`Portrait of ${founder.name}, ${founder.role}`)} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover" /> : <span className="grid h-full place-items-center font-serif text-7xl font-light text-[#74512f]" aria-hidden="true">VJ</span>}
+      {founder.photo ? <Image src={founder.photo} alt={t(`Portrait of ${founder.name}, ${founder.role}`)} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover transition-transform duration-700 motion-reduce:transition-none hover:scale-[1.02]" /> : <span className="grid h-full place-items-center font-serif text-7xl font-light text-[#74512f]" aria-hidden="true">VJ</span>}
     </div>
     <div className="self-center">
       <Eyebrow>Meet the founder</Eyebrow>
