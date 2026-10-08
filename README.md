@@ -104,3 +104,8 @@ AI assistance was used to review the assignment, draft and refine site copy, and
 ## Further improvements
 
 Confirm the approved founder profile and image sources, connect booking delivery to the business's CRM or scheduling workflow, publish a CMS-backed journal, and review the deployed pages with mobile accessibility and performance checks.
+
+
+## Google reviews widget
+
+Set `NEXT_PUBLIC_TRUSTINDEX_WIDGET_ID` to the id after `loader.js?` in the Trustindex embed code to render the live Trustindex widget. Without it, a built-in responsive carousel is shown.
