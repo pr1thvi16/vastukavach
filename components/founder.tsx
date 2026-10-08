@@ -26,9 +26,9 @@ export function FounderSection() {
       {founder.photo ? <Image src={founder.photo} alt={t(`Portrait of ${founder.name}, ${founder.role}`)} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover" /> : <span className="grid h-full place-items-center font-serif text-7xl font-light text-[#74512f]" aria-hidden="true">VJ</span>}
     </div>
     <div className="self-center">
-      <Eyebrow>Behind Kavach: Vedang Joshi’s Vedic Lineage in the UAE</Eyebrow>
-      <h2 className="mt-6 font-serif text-5xl font-light leading-[1.05]">{founder.name}</h2>
-      <p className="mt-3 text-[11px] uppercase tracking-[.26em] text-[#2a1b1f]/55">{t(founder.role)}</p>
+      <Eyebrow>Meet the founder</Eyebrow>
+      <h2 className="mt-6 max-w-3xl font-serif text-5xl font-light leading-[1.05] sm:text-6xl">Behind Kavach: Vedang Joshi’s Vedic Lineage in the UAE</h2>
+      <p className="mt-4 text-[11px] uppercase tracking-[.26em] text-[#2a1b1f]/55">{t(founder.name)} · {t(founder.role)}</p>
       <div className="mt-8 max-w-xl space-y-5 leading-8 text-[#2a1b1f]/70">{founder.bio.map((paragraph) => <p key={paragraph}>{t(paragraph)}</p>)}</div>
       {founder.credentials.length > 0 && <ul className="mt-8 max-w-xl divide-y divide-[#2a1b1f]/10 border-y border-[#2a1b1f]/10 text-sm text-[#2a1b1f]/70">{founder.credentials.map((credential) => <li key={credential} className="py-3">{t(credential)}</li>)}</ul>}
       {founder.linkedin && <div className="mt-10 flex flex-wrap gap-3"><a href={founder.linkedin} target="_blank" rel="noopener noreferrer" className={`${btn} border border-[#2a1b1f]/40 hover:bg-[#3b1220] hover:text-[#f6f1ea]`}>LinkedIn</a></div>}
