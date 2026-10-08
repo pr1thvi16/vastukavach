@@ -25,7 +25,7 @@ export function BookingForm() {
     setPending(true)
     setStatus('')
     try {
-  const response = await fetch('/api/bookings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), startedAt: startedAt.current }) })
+  const response = await fetch('/api/bookings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), startedAt: startedAt.current }), signal: AbortSignal.timeout(15000) })
   const result = await response.json().catch(() => ({}))
   if (!response.ok) throw new Error(typeof result.error === 'string' ? result.error : 'We could not send your request right now. Please try again.')
       const formData = new FormData(form)

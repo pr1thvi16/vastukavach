@@ -71,7 +71,6 @@ async function insertBooking(input: BookingInput, projectUrl: string, keys: stri
 // simple floods. Honeypot and timing checks do the heavy lifting against bots.
 const RATE_LIMIT_MAX = 5
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
-const MIN_FILL_TIME_MS = 3000
 const recentSubmissions = new Map<string, number[]>()
 
 function clientIp(request: Request) {
@@ -109,8 +108,7 @@ export async function POST(request: Request) {
   // Bots: a hidden "website" field that humans never fill, and forms submitted faster than a person could.
   // Pretend success so bots get no signal to adapt to, but store and send nothing.
   const honeypot = (body as Record<string, unknown>).website
-  const startedAt = Number((body as Record<string, unknown>).startedAt)
-  if ((typeof honeypot === 'string' && honeypot.trim() !== '') || !Number.isFinite(startedAt) || Date.now() - startedAt < MIN_FILL_TIME_MS) {
+  if (typeof honeypot === 'string' && honeypot.trim() !== '') {
     return NextResponse.json({ ok: true, stored: true }, { status: 201 })
   }
 
