@@ -38,14 +38,23 @@ Other included features:
 
 ## Booking delivery
 
-The browser form and `/api/bookings` both validate required fields, email, phone, date, property type, and field lengths. The form only reports success after its configured delivery target accepts the enquiry.
+The browser form and `/api/bookings` validate required fields, email, phone, date, property type, and field lengths. When Supabase is configured, each accepted enquiry is inserted into `public.booking_enquiries`; the form reports success only after that database write succeeds.
 
-Choose one delivery method in the deployment environment:
+### Enable Supabase storage
 
-- **Webhook:** set `BOOKING_WEBHOOK_URL` to a trusted HTTPS endpoint. The site sends a JSON payload with the submitted fields, timestamp, and source.
-- **Email via Resend:** set `RESEND_API_KEY`, `BOOKING_NOTIFICATION_EMAIL`, and `BOOKING_FROM_EMAIL`. Verify the sender domain in Resend before using it. Booking messages are sent as plain text, and replies go to the visitor's email address.
+1. In the Supabase project, open **SQL Editor** and run the migration in `supabase/schema.sql`.
+2. In **Project Settings → API Keys**, create or copy a server-side **Secret key**. The site keeps it in the Next.js API route and never sends it to the browser.
+3. In Vercel, add `SUPABASE_URL` and `SUPABASE_SECRET_KEY` under **Project → Settings → Environment Variables** for Production (and Preview if needed), then redeploy.
+4. Open **Table Editor → booking_enquiries** in Supabase to view enquiries. Public and signed-in browser roles have no table access; the server key is only used to insert rows.
 
-Keep API keys and webhook URLs in Vercel Environment Variables; never expose them with a `NEXT_PUBLIC_` prefix. If booking delivery is not configured, the API returns an error instead of claiming the request was sent.
+The secret key has elevated database access. Keep it in Vercel Environment Variables only—never commit it, expose it with a `NEXT_PUBLIC_` prefix, or paste it into chat.
+
+Optional notifications can run alongside Supabase storage:
+
+- **Webhook:** set `BOOKING_WEBHOOK_URL` to a trusted HTTPS endpoint. It receives a JSON payload with the submitted fields, timestamp, and source.
+- **Email via Resend:** set `RESEND_API_KEY`, `BOOKING_NOTIFICATION_EMAIL`, and `BOOKING_FROM_EMAIL`. Verify the sender domain in Resend first. Replies go to the visitor's email address.
+
+When Supabase storage is enabled, a successful database insert is the source of truth; a notification issue does not discard the saved enquiry. Without Supabase variables, the existing webhook or Resend-only delivery path remains available.
 
 ## Deployment settings
 
