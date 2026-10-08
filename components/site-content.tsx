@@ -70,7 +70,27 @@ export const Services = () => {
       </div>
       <div className="mt-10 border-t border-[#2a1b1f]/15 pt-7">
         <p className="max-w-4xl leading-8 text-[#2a1b1f]/70">{t('Our approach combines ancient Vastu and astrology wisdom with the realities of modern living in the UAE, offering practical guidance without requiring structural changes.')}</p>
+      </div>      <div className="mt-12 border-t border-[#2a1b1f]/15 pt-12" aria-labelledby="complete-vastu-services-heading">
+        <Eyebrow>Complete Vastu Consultancy Services for Homes & Businesses in the UAE</Eyebrow>
+        <h3 id="complete-vastu-services-heading" className="mt-5 max-w-4xl font-serif text-4xl font-light sm:text-5xl">{t('Vastu & Astrology Services for Modern Living in the UAE')}</h3>
+        <p className="mt-5 max-w-3xl leading-8 text-[#2a1b1f]/70">{t('At Kavach Consultancy, we offer ethical Vastu Shastra and Astrology services designed for today’s homes, workplaces, and lifestyles across the UAE. Our consultations respect modern architecture, apartment living, rental constraints, and multicultural environments, providing practical guidance without superstition or fear. Whether for homes, offices, factories, or personal life decisions, our approach blends ancient wisdom with modern clarity to help you create balance, peace, and sustainable growth.')}</p>
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            ['Residential Vastu Consultancy','For homes and rentals across the UAE.'],
+            ['Warehouse Vastu Consultancy','For warehouses and industrial environments.'],
+            ['Hotel Vastu Consultancy','For hospitality spaces and hotels.'],
+            ['Site Vastu Consultancy','For evaluating sites and property plans before major decisions.'],
+            ['Property Selection Assistance','For property purchase, rental and investment decisions.'],
+          ].map(([title, description], i) => <article key={title} className="border-y border-[#2a1b1f]/15 px-2 py-6">
+            <span className="font-serif text-lg italic text-[#74512f]">0{i+1}</span>
+            <h4 className="mt-3 font-serif text-2xl">{t(title)}</h4>
+            <p className="mt-2 text-sm leading-7 text-[#2a1b1f]/70">{t(description)}</p>
+            <Link href="/bookings" className="mt-5 inline-block text-[11px] uppercase tracking-[.22em] text-[#74512f] underline underline-offset-8">{t('Book Consultation')}</Link>
+          </article>)}
+        </div>
+        <p className="mt-8 max-w-3xl leading-8 text-[#2a1b1f]/70">{t('Privately serving homes and businesses across Dubai, Abu Dhabi, Sharjah, and the UAE through on-site and online consultations.')}</p>
       </div>
+
       <div className="mt-12 grid gap-10 border-t border-[#2a1b1f]/15 pt-10 lg:grid-cols-[1fr_1.3fr] lg:items-start">
         <div>
           <Eyebrow>Property Vastu consultancy</Eyebrow>
