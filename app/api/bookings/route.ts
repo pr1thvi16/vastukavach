@@ -102,8 +102,15 @@ export async function POST(request: Request) {
   // Bots: a hidden "website" field that humans never fill, and forms submitted faster than a person could.
   // Pretend success so bots get no signal to adapt to, but store and send nothing.
   const honeypot = (body as Record<string, unknown>).website
-  const startedAt = Number((body as Record<string, unknown>).startedAt)
-  if ((typeof honeypot === 'string' && honeypot.trim() !== '') || !Number.isFinite(startedAt) || Date.now() - startedAt < MIN_FILL_TIME_MS) {
+  // The client sends how long the form was open (elapsedMs) rather than an absolute timestamp, so a visitor's
+  // device clock being ahead of the server can no longer make a real submission look instant. `startedAt`
+  // is still read so pages cached before this change keep working.
+  const elapsedMs = Number((body as Record<string, unknown>).elapsedMs)
+  const legacyStartedAt = Number((body as Record<string, unknown>).startedAt)
+  const fillTimeMs = Number.isFinite(elapsedMs) ? elapsedMs : Date.now() - legacyStartedAt
+  const botSuspected = (typeof honeypot === 'string' && honeypot.trim() !== '') || !Number.isFinite(fillTimeMs) || fillTimeMs < MIN_FILL_TIME_MS
+  if (botSuspected) {
+    console.warn('Booking dropped by spam check', { honeypotFilled: typeof honeypot === 'string' && honeypot.trim() !== '', fillTimeMs })
     return NextResponse.json({ ok: true, stored: true }, { status: 201 })
   }
 
@@ -155,6 +162,8 @@ export async function POST(request: Request) {
     if (hasSupabaseConfig) {
       const saved = await insertBooking(input, supabaseUrl!, supabasePublishableKey!)
       if (!saved.ok) {
+        // Log the database's reason (status and error code only, no submitted data) so the cause is visible in Vercel logs.
+        console.error('Supabase booking insert failed', saved.status, (await saved.text().catch(() => '')).slice(0, 300))
         return NextResponse.json({ error: 'We could not save your request right now. Please try again shortly.' }, { status: 502 })
       }
 
