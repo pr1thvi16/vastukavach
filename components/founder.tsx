@@ -10,7 +10,7 @@ import { Eyebrow, btn } from '@/components/site-shell'
 export const founder = {
   name: 'Vedang Joshi',
   role: 'Founder & Principal Vastu Advisor',
-  photo: '',
+  photo: '/images/founder.webp',
   bio: [
     'Kavach was founded by Vedang Joshi to make Vastu advisory practical, transparent and relevant to the way people live, work and invest today.',
     'The work connects traditional spatial principles with observable factors such as orientation, daylight, circulation, comfort and how a property will actually be used — without fear, rigid rules or superstition.',
