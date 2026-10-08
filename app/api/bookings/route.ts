@@ -59,10 +59,52 @@ async function insertBooking(input: BookingInput, projectUrl: string, publishabl
   })
 }
 
+// Best-effort spam protection. The rate limiter is in-memory, so it resets when a
+// serverless instance restarts and is not shared across instances; it still blocks
+// simple floods. Honeypot and timing checks do the heavy lifting against bots.
+const RATE_LIMIT_MAX = 5
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
+const MIN_FILL_TIME_MS = 3000
+const recentSubmissions = new Map<string, number[]>()
+
+function clientIp(request: Request) {
+  const forwarded = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+  return forwarded || request.headers.get('x-real-ip')?.trim() || 'unknown'
+}
+
+function isRateLimited(ip: string) {
+  const now = Date.now()
+  const recent = (recentSubmissions.get(ip) ?? []).filter((time) => now - time < RATE_LIMIT_WINDOW_MS)
+  if (recent.length >= RATE_LIMIT_MAX) {
+    recentSubmissions.set(ip, recent)
+    return true
+  }
+  recent.push(now)
+  recentSubmissions.set(ip, recent)
+  if (recentSubmissions.size > 5000) {
+    for (const [key, times] of recentSubmissions) {
+      if (times.every((time) => now - time >= RATE_LIMIT_WINDOW_MS)) recentSubmissions.delete(key)
+    }
+  }
+  return false
+}
+
 export async function POST(request: Request) {
+  if (isRateLimited(clientIp(request))) {
+    return NextResponse.json({ error: 'Too many requests. Please try again in a few minutes.' }, { status: 429 })
+  }
+
   const body: unknown = await request.json().catch(() => null)
   if (!body || typeof body !== 'object' || requiredFields.some((key) => typeof (body as Record<string, unknown>)[key] !== 'string')) {
     return NextResponse.json({ error: 'All fields are required.' }, { status: 400 })
+  }
+
+  // Bots: a hidden "website" field that humans never fill, and forms submitted faster than a person could.
+  // Pretend success so bots get no signal to adapt to, but store and send nothing.
+  const honeypot = (body as Record<string, unknown>).website
+  const startedAt = Number((body as Record<string, unknown>).startedAt)
+  if ((typeof honeypot === 'string' && honeypot.trim() !== '') || !Number.isFinite(startedAt) || Date.now() - startedAt < MIN_FILL_TIME_MS) {
+    return NextResponse.json({ ok: true, stored: true }, { status: 201 })
   }
 
   const input = Object.fromEntries(requiredFields.map((key) => [key, (body as Record<string, string>)[key].trim()])) as BookingInput

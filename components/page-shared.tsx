@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { track } from '@vercel/analytics'
 import { trackGA4Event } from '@/lib/ga4'
@@ -18,19 +18,21 @@ export function BookingForm() {
   const { t } = useLanguage()
   const [status, setStatus] = useState('')
   const [pending, setPending] = useState(false)
+  const startedAt = useRef(Date.now())
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const form = e.currentTarget
     setPending(true)
     setStatus('')
     try {
-      const response = await fetch('/api/bookings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) })
+      const response = await fetch('/api/bookings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), startedAt: startedAt.current }) })
       const result = await response.json()
       if (!response.ok) throw new Error(result.error || 'We could not send your request right now.')
       const formData = new FormData(form)
       track('Booking Submitted', { propertyType: String(formData.get('propertyType') ?? 'unspecified') }); trackGA4Event('generate_lead', { form_type: 'consultation', property_type: String(formData.get('propertyType') ?? 'unspecified') })
       setStatus(t('Thank you. Your booking enquiry has been sent. We will be in touch soon.'))
       form.reset()
+      startedAt.current = Date.now()
     } catch (error) {
       setStatus(t(error instanceof Error ? error.message : 'We could not send your request right now. Please try again.'))
     } finally {
@@ -38,6 +40,7 @@ export function BookingForm() {
     }
   }
   return <form onSubmit={submit} aria-busy={pending} className="grid max-w-3xl gap-x-10 gap-y-8 border border-[#2a1b1f]/10 bg-[#fbf8f3] p-6 sm:grid-cols-2 sm:p-12">
+    <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden"><label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
     <label className={labelCls}>{t('Your name')}<input required maxLength={120} name="name" autoComplete="name" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
     <label className={labelCls}>{t('Email address')}<input required maxLength={254} name="email" type="email" autoComplete="email" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
     <label className={labelCls}>{t('Phone number')}<input required maxLength={40} name="phone" type="tel" autoComplete="tel" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
