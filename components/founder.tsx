@@ -12,11 +12,12 @@ export const founder = {
   role: 'Founder & Principal Vastu Advisor',
   photo: '',
   bio: [
-    'Kavach was founded by Vedang Joshi to bring a practical, people-first perspective to Vastu and the spaces people live and work in.',
-    'Based in Dubai, Kavach advises on homes, workplaces and developments by considering light, orientation, movement and the way each space is used.',
+    'Kavach was founded by Vedang Joshi to make Vastu advisory practical, transparent and relevant to the way people live, work and invest today.',
+    'The work connects traditional spatial principles with observable factors such as orientation, daylight, circulation, comfort and how a property will actually be used — without fear, rigid rules or superstition.',
+    'Based in Dubai, Vedang advises homeowners, workplace teams and real-estate stakeholders from early planning through review and handover.',
   ],
   credentials: [] as string[],
-  linkedin: '',
+  linkedin: 'https://ae.linkedin.com/in/vedang-joshi-624b171b',
 }
 
 export function FounderSection() {
