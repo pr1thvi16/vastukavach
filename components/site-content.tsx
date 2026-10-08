@@ -56,26 +56,13 @@ export const Services = () => {
       <div className="mt-10 border-t border-[#2a1b1f]/15 pt-7">
         <p className="max-w-4xl leading-8 text-[#2a1b1f]/70">{t('Our approach combines ancient Vastu and astrology wisdom with the realities of modern living in the UAE, offering practical guidance without requiring structural changes.')}</p>
       </div>
-    </section>
-    <section className="mt-16 border-t border-[#2a1b1f]/15 pt-12 sm:mt-20 sm:pt-16" aria-labelledby="specialist-services-heading">
-      <Eyebrow>Specialist consultations</Eyebrow>
-      <h2 id="specialist-services-heading" className="mt-5 max-w-4xl font-serif text-4xl font-light sm:text-5xl">{t('Guidance for more than homes and offices.')}</h2>
-      <p className="mt-5 max-w-3xl leading-7 text-[#2a1b1f]/70">{t('Kavach provides ethical Vastu Shastra and astrology guidance for modern homes, workplaces and personal decisions. Consultations respect existing architecture, rental constraints and multicultural environments, with practical recommendations that do not require demolition.')}</p>
-      <div className="mt-8 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          ['Residential Vastu Consultancy','For apartments, villas and rental homes, including entrances, bedroom orientation, kitchen zones and balcony flow.'],
-          ['Business & Office Vastu','For work environments, team harmony, planning and more considered day-to-day use.'],
-          ['Warehouse & Factory Vastu','For industrial spaces, operational flow, safety and productivity considerations.'],
-          ['Hotel Vastu Consultancy','For hospitality environments and the spaces used by guests and staff.'],
-          ['Site & Property Selection','For reviewing a site or property before purchase, rental or development decisions.'],
-          ['Kundli & Life Path Astrology','For reflection on career, marriage, timing and important life decisions.'],
-          ['Numerology for Names & Business','Numerology guidance for personal names and business naming decisions.'],
-        ].map(([title, description]) => <article key={title} className="border-t border-[#2a1b1f]/15 py-6">
-          <h3 className="font-serif text-2xl">{t(title)}</h3>
-          <p className="mt-3 text-sm leading-7 text-[#2a1b1f]/70">{t(description)}</p>
-        </article>)}
+      <div className="mt-12 grid gap-10 border-t border-[#2a1b1f]/15 pt-10 lg:grid-cols-[1fr_1.3fr] lg:items-start">
+        <div>
+          <Eyebrow>Property Vastu consultancy</Eyebrow>
+          <h3 className="mt-4 font-serif text-3xl sm:text-4xl">{t('Comprehensive directional analysis for modern Dubai properties.')}</h3>
+        </div>
+        <p className="leading-8 text-[#2a1b1f]/70">{t('Comprehensive directional analysis for high-rise apartments, penthouses, and private villas. We evaluate main entrances (Pad Vinyasa), master bedroom orientation, kitchen fire zones, and balcony energy flows.')}</p>
       </div>
-      <p className="mt-6 border-l-2 border-[#74512f] pl-4 text-sm leading-7 text-[#2a1b1f]/70">{t('Serving clients across Dubai, Abu Dhabi, Sharjah and the wider UAE, with on-site and online consultations.')}</p>
     </section>
     <section className="mt-16 border-t border-[#2a1b1f]/15 pt-12 sm:mt-20 sm:pt-16" aria-labelledby="service-faq-heading">
       <Eyebrow>Common questions</Eyebrow>
