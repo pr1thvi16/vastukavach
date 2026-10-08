@@ -34,13 +34,11 @@ function safeSupabaseUrl(value: string) {
   }
 }
 
-async function insertBooking(input: BookingInput, submittedAt: string, projectUrl: string, secretKey: string) {
-  const legacyJwtHeader = secretKey.startsWith('eyJ') ? { Authorization: `Bearer ${secretKey}` } : {}
-  return fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
+async function insertBooking(input: BookingInput, projectUrl: string, publishableKey: string) {
+  return fetch(`${projectUrl.replace(/\\/+$/, '')}/rest/v1/booking_enquiries`, {
     method: 'POST',
     headers: {
-      apikey: secretKey,
-      ...legacyJwtHeader,
+      apikey: publishableKey,
       'Content-Type': 'application/json',
       Prefer: 'return=minimal',
     },
@@ -51,8 +49,6 @@ async function insertBooking(input: BookingInput, submittedAt: string, projectUr
       preferred_date: input.date,
       property_type: input.propertyType,
       message: input.message,
-      source: 'Kavach Consultancy website',
-      submitted_at: submittedAt,
     }),
     signal: AbortSignal.timeout(8000),
   })
@@ -87,10 +83,10 @@ export async function POST(request: Request) {
   const fromEmail = process.env.BOOKING_FROM_EMAIL?.trim()
   const hasResendConfig = Boolean(resendApiKey && notificationEmail && fromEmail)
   const hasAnyResendConfig = Boolean(resendApiKey || notificationEmail || fromEmail)
-  const supabaseUrl = process.env.SUPABASE_URL?.trim()
-  const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY?.trim()
-  const hasSupabaseConfig = Boolean(supabaseUrl && supabaseSecretKey)
-  const hasPartialSupabaseConfig = Boolean(supabaseUrl || supabaseSecretKey) && !hasSupabaseConfig
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+  const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim()
+  const hasSupabaseConfig = Boolean(supabaseUrl && supabasePublishableKey)
+  const hasPartialSupabaseConfig = Boolean(supabaseUrl || supabasePublishableKey) && !hasSupabaseConfig
 
   if (hasPartialSupabaseConfig) {
     return NextResponse.json({ error: 'Supabase storage is partially configured. Please contact the site administrator.' }, { status: 503 })
@@ -110,7 +106,7 @@ export async function POST(request: Request) {
   const submittedAt = new Date().toISOString()
   try {
     if (hasSupabaseConfig) {
-      const saved = await insertBooking(input, submittedAt, supabaseUrl!, supabaseSecretKey!)
+      const saved = await insertBooking(input, supabaseUrl!, supabasePublishableKey!)
       if (!saved.ok) {
         return NextResponse.json({ error: 'We could not save your request right now. Please try again shortly.' }, { status: 502 })
       }
