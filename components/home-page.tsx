@@ -30,6 +30,39 @@ export function HomePage() { const { t } = useLanguage(); return <><Header overl
   <section className="px-5 py-16 sm:py-20 lg:px-10 lg:py-24"><div className="mx-auto max-w-7xl"><Eyebrow>How a review works</Eyebrow><h2 className="mt-6 max-w-3xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t('From first look to a clearer next step.')}</h2><div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-10">{[['01','Tell us what matters','Share your plan, priorities and where you are in the process.'],['02','Review how the space works','Consider orientation, daylight, circulation and the way each room will be used.'],['03','Leave with practical next steps','Discuss practical points to explore before you buy, renovate or build.']].map(([number,title,description])=><article key={number} className="border-t border-[#2a1b1f]/15 pt-6"><p className="font-serif text-xl italic text-[#74512f]">{number}</p><h3 className="mt-4 font-serif text-2xl">{t(title)}</h3><p className="mt-3 max-w-sm text-sm leading-7 text-[#2a1b1f]/70">{t(description)}</p></article>)}</div><div className="mt-10 flex flex-col gap-4 border-t border-[#2a1b1f]/15 pt-6 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-md text-sm leading-6 text-[#2a1b1f]/70">{t('Want to review a specific plan?')}</p><Link href="/bookings" onClick={() => { track('Consultation CTA Clicked', { location: 'home_review_process' }); trackGA4Event('consultation_cta_click', { location: 'home_review_process' }) }} className={`${btn} w-fit bg-[#3b1220] text-[#f6f1ea] hover:bg-[#74512f]`}>{t('Book a consultation')} <ArrowUpRight className="size-4" /></Link></div></div></section>
   
   <FounderStrip />
+  <section className="bg-white px-5 py-16 sm:py-20 lg:px-10 lg:py-24" aria-labelledby="customer-reviews-heading">
+    <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-4xl text-center">
+        <Eyebrow>Google customer reviews</Eyebrow>
+        <h2 id="customer-reviews-heading" className="mt-5 font-serif text-4xl font-light leading-tight text-[#0d2344] sm:text-6xl">{t('What Our Customers in Dubai Have To Say About Kavach Consultancy?')}</h2>
+      </div>
+      <div className="mt-12 grid gap-5 lg:grid-cols-[.75fr_2fr]">
+        <div className="flex flex-col items-center justify-center rounded-2xl bg-[#f5f5f5] p-8 text-center">
+          <p className="font-semibold">{t('EXCELLENT')}</p>
+          <p aria-label="5 out of 5 stars" className="mt-2 text-3xl tracking-wide text-[#f6b400]">★★★★★</p>
+          <p className="mt-2 text-sm">{t('Based on 7 reviews')}</p>
+          <p className="mt-2 font-bold text-2xl tracking-tight text-[#4285f4]">Google</p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {[
+            ['Zenab Khand','I had a great experience working with Kavach Consultancy. The 1-on-1 session was incredibly…'],
+            ['Prisha Thakkar','I have had a great experience with Vedang. The consultation was insightful, detailed, and surprisingly…'],
+            ['Deepak','Had a great experience overall. The guidance was clear, thoughtful, and very precise. Everything was…'],
+            ['Janvi Joshi','Very authentic and explained me everything in depth helped me gain clarity towards the way I se…'],
+            ['Vaishnavi','I had a really good experience consulting. The guidance was clear, practical, and easy to…'],
+            ['Webface Design…','Highly recommend Kavach Consultancy in Dubai for Vastu services they gave me proper guidance for my…'],
+            ['KARTHIK T','Love the service, very humble people'],
+          ].map(([name, review]) => <article key={name} className="rounded-2xl bg-[#f5f5f5] p-5">
+            <div className="flex items-center justify-between gap-3"><h3 className="font-semibold">{t(name)}</h3><span className="text-lg font-bold text-[#4285f4]" aria-label="Google review">G</span></div>
+            <p className="mt-2 text-lg tracking-wide text-[#f6b400]" aria-label="5 out of 5 stars">★★★★★</p>
+            <p className="mt-3 text-sm leading-6 text-[#292929]">{t(review)}</p>
+            <p className="mt-3 text-xs text-[#777]">{t('Google review · 7–9 months ago')}</p>
+          </article>)}
+        </div>
+      </div>
+      <p className="mt-6 text-center text-xs text-[#777]">{t('Review excerpts are shown as visible in the supplied screenshots.')}</p>
+    </div>
+  </section>
   <section className="mx-auto max-w-7xl px-5 py-16 sm:py-20 lg:px-10 lg:py-28"><div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end"><div><Eyebrow>Illustrative spaces</Eyebrow><h2 className="mt-6 font-serif text-5xl font-light sm:text-6xl">{t('Calm, considered, lived in.')}</h2></div><Link href="/blogs" className="text-[11px] uppercase tracking-[.22em] text-[#74512f] underline underline-offset-8">{t('Read the journal')}</Link></div><div className="mt-14 grid auto-rows-[260px] gap-x-4 gap-y-12 md:grid-cols-4">{gallery.map(([src, alt, caption, place, span]) => <figure key={src} className={`group flex flex-col ${span}`}><div className="relative min-h-0 flex-1 overflow-hidden"><Image src={src} alt={t(alt)} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-[1.2s] group-hover:scale-[1.04]" /></div><figcaption className="mt-3 flex justify-between gap-4 text-xs"><span className="font-serif text-base italic">{t(caption)}</span><span className="uppercase tracking-[.18em] text-[#2a1b1f]/70">{t(place)}</span></figcaption></figure>)}</div></section>
   <section className="relative h-[68svh] min-h-[420px] overflow-hidden lg:h-[80svh] lg:min-h-[480px]"><Image src="/images/dubai-skyline.jpg" alt={t('Dubai skyline at sunrise')} fill sizes="100vw" className="image-drift object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-[#1e0a11]/90 via-[#1e0a11]/25 to-transparent" /><div className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-5 pb-14 text-white lg:px-10"><Eyebrow light>Based in Dubai</Eyebrow><h2 className="mt-6 max-w-3xl font-serif text-5xl font-light leading-[1.02] sm:text-7xl">{t('Ready when you are. Let’s begin.')}</h2><div className="mt-9 flex flex-wrap gap-3"><Link href="/contact" className={`${btn} border border-white/50 hover:bg-white hover:text-[#2a1b1f]`}>{t('Contact us')}</Link></div></div></section>
 </main><Footer /></> }
