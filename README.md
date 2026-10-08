@@ -24,12 +24,13 @@ Requirements: Node.js 20.9 or newer.
 | `/blogs` | Journal article previews |
 | `/bookings` | Validated consultation enquiry form |
 | `/contact` | Phone, email, WhatsApp and location details when configured |
-| `/vastu-checker` | Short, general-purpose Vastu checklist |
+| `/vastu-checker` | General pointers based on property type, entrance direction, room layout and priorities |
 
 Other included features:
 
 - Responsive navigation and layouts, local `next/image` assets, descriptive alternative text, and keyboard-visible focus states.
 - English and Arabic language toggle, saved preference, and right-to-left Arabic layout.
+- A quick Vastu checker that asks about property type, entrance direction, a room or area from the layout, and the visitor’s priority. Results offer general guidance without scoring or pass/fail claims.
 - A compass rose used with the Vastu checker and a three-step overview of the review process.
 - WhatsApp click-to-chat links with prefilled English and Arabic messages, plus a floating chooser for home, workplace, or development enquiries.
 - Vercel Web Analytics page views plus custom events for booking submission, consultation calls to action, WhatsApp clicks, language changes, and checker completion.
