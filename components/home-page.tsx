@@ -2,7 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Sparkles } from 'lucide-react'
+import { useState } from 'react'
 import { track } from '@vercel/analytics'
 import { trackGA4Event } from '@/lib/ga4'
 import { useLanguage } from '@/components/language'
@@ -22,8 +23,57 @@ function CompassRose() {
   </svg>
 }
 
+
+const focusOptions = [
+  { id: 'home', label: 'Home', title: 'Make everyday living feel clearer.', body: 'Start with light, circulation, orientation and how each room is actually used.', note: 'For a home, villa or rental.' },
+  { id: 'workplace', label: 'Workplace', title: 'Create a calmer rhythm at work.', body: 'Think about movement, room purpose and the way people use the space throughout the day.', note: 'For offices and professional spaces.' },
+  { id: 'property', label: 'Property decision', title: 'Pause before you buy, rent or build.', body: 'Bring the plan, priorities and questions you have to a focused first conversation.', note: 'For property selection and planning.' },
+  { id: 'life-path', label: 'Life path', title: 'Explore the bigger picture.', body: 'Start a conversation around Vedic Astrology and the questions you want more clarity around.', note: 'For personal guidance.' },
+] as const
+
+function InteractiveGuide() {
+  const { t } = useLanguage()
+  const [activeId, setActiveId] = useState<(typeof focusOptions)[number]['id']>('home')
+  const active = focusOptions.find(option => option.id === activeId) ?? focusOptions[0]
+  return <section className="mx-auto max-w-7xl px-5 py-16 sm:py-20 lg:px-10" aria-labelledby="focus-guide-heading">
+    <div className="overflow-hidden rounded-[2rem] border border-[#2a1b1f]/10 bg-[#f1eadf]">
+      <div className="grid lg:grid-cols-[.82fr_1.18fr]">
+        <div className="p-7 sm:p-10 lg:p-12">
+          <div className="flex items-center justify-between gap-4">
+            <Eyebrow>Make it personal</Eyebrow>
+            <Sparkles className="size-5 text-[#74512f]" aria-hidden="true" />
+          </div>
+          <h2 id="focus-guide-heading" className="mt-6 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t('What are you looking to understand better?')}</h2>
+          <p className="mt-5 max-w-lg leading-7 text-[#2a1b1f]/70">{t('Pick the closest fit and we will give you a practical starting point.')}</p>
+          <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label={t('Choose a focus')}>
+            {focusOptions.map((option, index) => <button key={option.id} type="button" aria-pressed={activeId === option.id} onClick={() => setActiveId(option.id)} className={`rounded-full border px-4 py-2.5 text-[11px] uppercase tracking-[.14em] transition-all duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f] ${activeId === option.id ? 'border-[#3b1220] bg-[#3b1220] text-[#f6f1ea] shadow-sm' : 'border-[#2a1b1f]/15 bg-white/40 hover:-translate-y-0.5 hover:bg-white'}`}>
+              <span className="mr-2 font-serif text-base italic">{String(index + 1).padStart(2, '0')}</span>{t(option.label)}
+            </button>)}
+          </div>
+        </div>
+        <div className="relative min-h-[330px] overflow-hidden bg-[#3b1220] p-7 text-[#f6f1ea] sm:p-10 lg:p-12">
+          <div className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full border border-[#d9bf9a]/20" />
+          <div className="pointer-events-none absolute -bottom-24 -left-10 size-56 rounded-full border border-[#d9bf9a]/10" />
+          <div key={active.id} className="relative flex h-full flex-col justify-between">
+            <div>
+              <p className="text-[11px] uppercase tracking-[.24em] text-[#d9bf9a]">{t('Your starting point')}</p>
+              <h3 className="mt-5 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t(active.title)}</h3>
+              <p className="mt-5 max-w-xl text-base leading-7 text-white/75">{t(active.body)}</p>
+            </div>
+            <div className="mt-10 flex flex-col gap-5 border-t border-white/15 pt-6 sm:flex-row sm:items-end sm:justify-between">
+              <p className="text-sm text-white/65">{t(active.note)}</p>
+              <Link href="/bookings" className={`${btn} w-fit border border-[#d9bf9a]/50 text-[#f6f1ea] hover:bg-[#d9bf9a] hover:text-[#3b1220]`}>{t('Take this further')} <ArrowUpRight className="size-4" /></Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+}
+
 export function HomePage() { const { t } = useLanguage(); return <><Header overlay /><main>
   <section className="relative h-[88svh] min-h-[600px] md:min-h-[560px] max-h-[900px] overflow-hidden bg-[#9fb6cf]"><Image src="/images/hero-villa.jpg" alt={t('Light-filled modern villa with a reflecting pool under a clear sky')} fill sizes="100vw" className="image-drift object-cover object-[center_70%]" priority /><div className="absolute inset-0 bg-gradient-to-b from-[#7f9cbb]/50 via-[#1e0a11]/15 to-[#1e0a11]/90" /><p aria-hidden className="pointer-events-none absolute inset-x-0 top-[14vh] hidden select-none text-center font-sans text-[21vw] font-medium leading-none tracking-[.02em] md:block lg:top-[12vh]"><span className="bg-gradient-to-b from-white via-white/85 to-white/0 bg-clip-text text-transparent">KAVACH</span></p><div className="absolute inset-x-0 bottom-0 z-10 mx-auto grid max-w-7xl gap-6 px-5 pb-8 text-white sm:gap-8 sm:pb-12 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:px-10 lg:pb-16"><div><Eyebrow light>Beyond the floor plan</Eyebrow><h1 className="mt-5 max-w-[12ch] font-serif text-[clamp(2.6rem,10vw,3.4rem)] font-light leading-[.98] sm:max-w-3xl sm:text-7xl">{t('Feel the fit')} <em className="text-[#d9bf9a]">{t('before you commit.')}</em></h1></div><div className="hero-copy border-l border-white/25 pl-6"><p className="text-sm leading-6 text-white/90">{t('Kavach Consultancy offers practical, non-demolition Vastu guidance and Vedic Astrology readings for modern homes, villas, offices and businesses across Dubai, Abu Dhabi and Sharjah. Assess a space before you buy, rent or build.')}</p><div className="mt-7 flex flex-wrap gap-3"><Link href="/bookings" onClick={() => { track('Consultation CTA Clicked', { location: 'home_hero' }); trackGA4Event('consultation_cta_click', { location: 'home_hero' }) }} className={`${btn} bg-[#74512f] text-white hover:bg-[#8d6539]`}>{t('Start a conversation')} <ArrowUpRight className="size-4" /></Link><Link href="/services" className={`${btn} border border-white/50 hover:bg-white hover:text-[#2a1b1f]`}>{t('Our services')}</Link></div></div></div></section>
+  <InteractiveGuide />
   <section className="mx-auto max-w-7xl px-5 py-16 sm:py-20 lg:px-10"><div className="border-y border-[#2a1b1f]/15 py-10 sm:py-14"><Eyebrow>Our mission</Eyebrow><h2 className="mt-6 max-w-5xl font-serif text-4xl font-light leading-tight sm:text-6xl">{t('My mission remains the same: To provide you with a Kavach — a shield of positive energy that protects your peace and promotes your prosperity.')}</h2></div></section>
   <section className="mx-auto grid max-w-7xl gap-8 px-5 py-16 md:grid-cols-[1fr_auto_1.45fr] md:items-center lg:px-10"><div><Eyebrow>{t('A quick first look')}</Eyebrow><h2 className="mt-5 font-serif text-4xl font-light sm:text-5xl">{t('A grounded Vastu starting point')}</h2><p className="mt-4 max-w-md leading-7 text-[#2a1b1f]/70">{t('Vastu advisory is a way to read orientation, daylight, movement and purpose together. Choose your space for a few practical starting points — not a superstition-led score.')}</p><p className="mt-5 max-w-md border-l-2 border-[#74512f] pl-4 text-sm leading-6 text-[#2a1b1f]/75"><span className="mb-1 block text-[10px] uppercase tracking-[.18em] text-[#74512f]">{t('Example pointer')}</span>{t('Walk from the entrance to the main rooms. Check that everyday routes stay clear.')}</p></div><CompassRose /><div className="grid gap-3 sm:grid-cols-3">{([{label:'Home',value:'Home'},{label:'Workplace',value:'Workplace'},{label:'Development project',value:'Development'}] as const).map(({label,value},i)=><Link key={value} href={`/vastu-checker?type=${value}`} onClick={() => trackGA4Event('vastu_checker_start', { space_type: value, location: 'home_quick_checker' })} className="group flex min-h-[88px] items-center justify-between border-y border-[#2a1b1f]/20 px-4 py-4 transition-colors hover:bg-[#ebe3d8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f]"><span><span className="block text-[10px] tracking-[.2em] text-[#74512f]">0{i+1}</span><span className="mt-1 block font-serif text-lg">{t(label)}</span></span><ArrowUpRight className="size-4 shrink-0 text-[#74512f] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>)}</div></section>
   <section className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:gap-14 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:gap-24 lg:px-10 lg:py-28"><div className="relative mx-auto w-full max-w-[460px]"><div className="relative aspect-[.8] overflow-hidden rounded-t-full"><Image src="/images/kavach-hero.png" alt={t('Sunlit interior with a rounded doorway and indoor greenery')} fill sizes="(max-width: 1024px) 100vw, 460px" className="object-cover" /></div><p className="mt-4 text-[11px] uppercase tracking-[.22em] text-[#2a1b1f]/70">{t('A considered approach to every space')}</p></div><div><Eyebrow>Our approach</Eyebrow><h2 className="mt-6 font-serif text-5xl font-light leading-[1.05] sm:text-6xl">{t('Light, flow and orientation, read with care.')}</h2><p className="mt-8 max-w-md leading-8 text-[#2a1b1f]/70">{t('Founded by Vedang Joshi and rooted in more than 40 years of familial astrological lineage, Kavach looks at how a space is lived in: where the morning light lands, how people move, and what each room is asked to do. Recommendations are practical, considered, and shaped around your priorities.')}</p><Link href="/about" className="mt-8 inline-block text-[11px] uppercase tracking-[.22em] text-[#74512f] underline underline-offset-8">{t('Meet your advisor')}</Link></div></section>
