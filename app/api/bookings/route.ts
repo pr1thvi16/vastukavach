@@ -36,7 +36,7 @@ function safeSupabaseUrl(value: string) {
 
 async function insertBooking(input: BookingInput, submittedAt: string, projectUrl: string, secretKey: string) {
   const legacyJwtHeader = secretKey.startsWith('eyJ') ? { Authorization: `Bearer ${secretKey}` } : {}
-  return fetch(`${projectUrl.replace(/\\/+$/, '')}/rest/v1/booking_enquiries`, {
+  return fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
     method: 'POST',
     headers: {
       apikey: secretKey,
@@ -142,7 +142,7 @@ export async function POST(request: Request) {
           input.message,
           '',
           `Submitted at: ${submittedAt}`,
-        ].join('\\n')
+        ].join('\n')
         try {
           const notification = await fetch('https://api.resend.com/emails', {
             method: 'POST',
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
         input.message,
         '',
         `Submitted at: ${submittedAt}`,
-      ].join('\\n')
+      ].join('\n')
       result = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { Authorization: `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
