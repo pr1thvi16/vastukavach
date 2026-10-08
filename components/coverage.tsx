@@ -10,6 +10,8 @@ const extraServices = [
   ['Hotel & hospitality', 'Guest arrival, lobby flow, room orientation and back-of-house routes for hotels, serviced apartments and restaurants.'],
   ['Site & plot selection', 'A look at orientation, access, surroundings and sun and wind exposure before you commit to a plot or a development site.'],
   ['Property selection assistance', 'Comparing shortlisted homes or offices on daylight, layout and how they would suit the way you live or work.'],
+  ['Kundli & life-path astrology', 'Vedic birth-chart readings on career, marriage, timing and decisions, offered as guidance for awareness and timing, not a fixed prediction.'],
+  ['Numerology for names & business', 'A structured look at personal and business names and key dates, explained plainly so you can weigh it for yourself.'],
 ] as const
 
 export function ExtraServices() {
