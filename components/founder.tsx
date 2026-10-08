@@ -10,7 +10,7 @@ import { Eyebrow, btn } from '@/components/site-shell'
 export const founder = {
   name: 'Vedang Joshi',
   role: 'Founder & Principal Vastu Advisor',
-  photo: '',
+  photo: '/images/vedang-joshi.jpg',
   bio: [
     'Kavach was founded by Vedang Joshi to make Vastu advisory practical, transparent and relevant to the way people live, work and invest today.',
     'Vedang draws on a family tradition of Vastu and Vedic astrology that spans more than four decades, and brings it to modern apartments, villas, offices and industrial spaces across Dubai, Abu Dhabi, Sharjah and the wider UAE.',
@@ -26,7 +26,7 @@ export function FounderSection() {
   const { t } = useLanguage()
   return <section className="mt-28 grid gap-12 border-t border-[#2a1b1f]/15 pt-20 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
     <div className="relative mx-auto aspect-[4/5] w-full max-w-[420px] overflow-hidden bg-[#ebe3d8]">
-      {founder.photo ? <Image src={founder.photo} alt={t(`Portrait of ${founder.name}, ${founder.role}`)} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover" /> : <span className="grid h-full place-items-center font-serif text-7xl font-light text-[#74512f]" aria-hidden="true">VJ</span>}
+      {founder.photo ? <Image src={founder.photo} alt={t(`Portrait of ${founder.name}, ${founder.role}`)} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover object-top" /> : <span className="grid h-full place-items-center font-serif text-7xl font-light text-[#74512f]" aria-hidden="true">VJ</span>}
     </div>
     <div className="self-center">
       <Eyebrow>Meet the founder</Eyebrow>
