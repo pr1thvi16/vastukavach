@@ -4,8 +4,12 @@ import { VastuChecker } from '@/components/vastu-checker'
 
 export const metadata: Metadata = {
   title: 'Quick Vastu Checker | Kavach Consultancy',
-  description: 'Get a few general pointers for the layout, entrance direction and priorities of your space.',
+  description: 'Get general starting points for your space type, entrance direction, room layout and priorities.',
   alternates: { canonical: '/vastu-checker' },
+  openGraph: {
+    title: 'Quick Vastu Checker | Kavach Consultancy',
+    description: 'Get general starting points for your space type, entrance direction, room layout and priorities.',
+  },
 }
 
 export default function VastuCheckerPage() {
