@@ -9,6 +9,11 @@ type BookingInput = {
   message: string
 }
 
+// Public defaults (the publishable key is designed to be public; access is limited by RLS).
+// Environment variables override these when set.
+const DEFAULT_SUPABASE_URL = 'https://qidfdtanwbvlporikhjj.supabase.co'
+const DEFAULT_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_5hsYAgReOSB7SnK_-b5X0A_krtkqOp6'
+
 const requiredFields = ['name', 'email', 'phone', 'date', 'propertyType', 'message'] as const
 
 function isEmail(value: string) {
@@ -83,8 +88,8 @@ export async function POST(request: Request) {
   const fromEmail = process.env.BOOKING_FROM_EMAIL?.trim()
   const hasResendConfig = Boolean(resendApiKey && notificationEmail && fromEmail)
   const hasAnyResendConfig = Boolean(resendApiKey || notificationEmail || fromEmail)
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
-  const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim()
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || DEFAULT_SUPABASE_URL
+  const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() || DEFAULT_SUPABASE_PUBLISHABLE_KEY
   const hasSupabaseConfig = Boolean(supabaseUrl && supabasePublishableKey)
   const hasPartialSupabaseConfig = Boolean(supabaseUrl || supabasePublishableKey) && !hasSupabaseConfig
 
