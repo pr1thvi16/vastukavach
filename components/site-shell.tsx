@@ -10,9 +10,9 @@ import { LanguageToggle, useLanguage } from '@/components/language'
 // Contact sits last so every navigation path ends with a way to reach us. Booking stays a header action.
 const nav = [['Home','/'],['About','/about'],['Services','/services'],['Vastu checker','/vastu-checker'],['Journal','/blogs'],['Contact','/contact']] as const
 
-const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim()
-const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim()
-const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || '971501234567').replace(/\D/g, '')
+const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || '+971 56 452 7299'
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || 'info@kavachconsultancy.com'
+const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || '971564527299').replace(/\D/g, '')
 type WhatsAppTopic = 'general' | 'home' | 'workplace' | 'development'
 const whatsappMessages: Record<'en' | 'ar', Record<WhatsAppTopic, string>> = {
   en: {
@@ -36,7 +36,8 @@ export const contact = {
   tel: contactPhone ? `tel:${contactPhone.replace(/[^+\d]/g, '')}` : undefined,
   email: contactEmail,
   whatsapp: whatsappHref(),
-  location: 'Dubai, United Arab Emirates',
+  location: 'Bur Dubai, Dubai, United Arab Emirates',
+  mapHref: 'https://www.google.com/maps/search/?api=1&query=Bur+Dubai+behind+ADCB+Bank+Dubai',
 }
 
 // Architectural compass mark: a cut-corner frame, pitched roof, doorway and north tick.
