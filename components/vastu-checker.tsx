@@ -11,33 +11,51 @@ const field = 'min-w-0 w-full border-0 border-b border-[#2a1b1f]/25 bg-transpare
 const label = 'min-w-0 flex flex-col gap-2 text-[11px] uppercase tracking-[.18em] text-[#2a1b1f]/65'
 const priorityAdvice: Record<string, string> = {
   'Entry and circulation': 'Walk from the entrance to the main rooms. Check that everyday routes stay clear.',
+  'Daily routines': 'Trace the routines of everyone at home and notice where movement or shared use feels difficult.',
   Daylight: 'Notice where daylight falls at different times, including heat and glare.',
   'Quiet and rest': 'Consider how quieter rooms relate to doors, shared spaces and outdoor noise.',
-  'Work and focus': 'Check whether the work area has useful light and enough separation from interruptions.',
+  'Storage and ease': 'Look for practical storage and everyday routes that keep the home easy to use.',
+  'Focus and productivity': 'Check whether work areas have useful light and enough separation from interruptions.',
+  'Visitor experience': 'Follow the visitor journey from arrival to meeting spaces and note where it feels unclear.',
+  'Team connection': 'Consider whether shared areas support collaboration without disrupting focused work.',
+  'Daylight and comfort': 'Notice daylight, glare, acoustics and comfort across the workday.',
+  'Plot orientation': 'Review how the site orientation affects access, daylight, heat and outdoor use.',
+  'Buyer experience': 'Walk through the intended buyer journey and consider what feels clear, welcoming and usable.',
+  'Efficient planning': 'Check whether circulation, services and shared spaces work together without wasted movement.',
+  'Daylight and livability': 'Consider daylight, ventilation and outlook as part of long-term everyday comfort.',
 }
 const layoutAdvice: Record<string, string> = {
   'Entrance and circulation': 'Check whether the route from the entrance to main rooms stays clear.',
   'Living or shared room': 'Notice daylight and circulation in the room where people gather most.',
   'Bedroom or quiet room': 'Consider its distance from busy routes, doors and outdoor noise.',
   'Kitchen or service area': 'Look at practical routes between the kitchen, storage and the rooms used every day.',
+  'Balcony or outdoor edge': 'Notice how the home connects to light, air, outlook and outdoor routines.',
   'Work or focus area': 'Check for useful light and enough separation from interruptions.',
   'Meeting or client area': 'Notice how visitors arrive, wait and move through the space without disrupting focused work.',
   'Team or collaboration area': 'Check whether shared work areas support conversation while preserving clear circulation.',
   'Private or focus area': 'Look for useful light, acoustic separation and enough distance from busy routes.',
+  'Arrival and reception': 'Follow the arrival sequence from the entrance to reception and identify points of friction.',
+  'Private or leadership area': 'Look for useful light, acoustic separation and a clear relationship to shared spaces.',
+  'Staff or service route': 'Check whether staff, deliveries and service movement can happen without crossing visitor routes.',
+  'Site arrival and access': 'Review how people, vehicles and services arrive and move through the development.',
+  'Residential unit mix': 'Consider how unit types, privacy and shared circulation support the intended residents.',
+  'Shared amenities': 'Look at how amenities connect to homes, access routes and everyday community use.',
+  'Core and circulation': 'Check whether lifts, stairs and corridors make movement intuitive and efficient.',
+  'Landscape and open space': 'Notice how landscape, shade, outlook and gathering areas support the wider plan.',
   'Not sure yet': 'Walk from the entrance through the main rooms and note where movement or room use feels unclear.',
 }
 const curatedQuestions = {
   Home: {
-    layouts: ['Entrance and circulation', 'Living or shared room', 'Bedroom or quiet room', 'Kitchen or service area', 'Not sure yet'],
-    priorities: ['Entry and circulation', 'Daylight', 'Quiet and rest', 'Not sure yet'],
+    layouts: ['Entrance and circulation', 'Living or shared room', 'Bedroom or quiet room', 'Kitchen or service area', 'Balcony or outdoor edge', 'Not sure yet'],
+    priorities: ['Daily routines', 'Daylight', 'Quiet and rest', 'Storage and ease', 'Not sure yet'],
   },
   Workplace: {
-    layouts: ['Entrance and circulation', 'Work or focus area', 'Meeting or client area', 'Team or collaboration area', 'Private or focus area', 'Not sure yet'],
-    priorities: ['Entry and circulation', 'Daylight', 'Work and focus', 'Quiet and rest'],
+    layouts: ['Arrival and reception', 'Work or focus area', 'Meeting or client area', 'Team or collaboration area', 'Private or leadership area', 'Staff or service route', 'Not sure yet'],
+    priorities: ['Focus and productivity', 'Visitor experience', 'Team connection', 'Daylight and comfort', 'Not sure yet'],
   },
   Development: {
-    layouts: ['Entrance and circulation', 'Living or shared room', 'Bedroom or quiet room', 'Kitchen or service area', 'Work or focus area', 'Not sure yet'],
-    priorities: ['Entry and circulation', 'Daylight', 'Quiet and rest', 'Work and focus'],
+    layouts: ['Site arrival and access', 'Residential unit mix', 'Shared amenities', 'Core and circulation', 'Landscape and open space', 'Not sure yet'],
+    priorities: ['Plot orientation', 'Buyer experience', 'Efficient planning', 'Daylight and livability', 'Not sure yet'],
   },
 } as const
 
