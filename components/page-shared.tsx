@@ -41,7 +41,7 @@ export function BookingForm() {
   }
   return <form onSubmit={submit} aria-busy={pending} className="grid max-w-3xl gap-x-10 gap-y-8 border border-[#2a1b1f]/10 bg-[#fbf8f3] p-6 sm:grid-cols-2 sm:p-12">
     <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden"><label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
-    <label className={labelCls}>{t('Your name')}<input required maxLength={120} name="name" autoComplete="name" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
+    <label className={labelCls}>{t('Full name — person to contact')}<input required maxLength={120} name="name" autoComplete="name" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
     <label className={labelCls}>{t('Email address')}<input required maxLength={254} name="email" type="email" autoComplete="email" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
     <label className={labelCls}>{t('Phone / WhatsApp number')}<input required maxLength={40} name="phone" type="tel" autoComplete="tel" placeholder="+971 50 123 4567" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
     <label className={labelCls}>{t('Preferred date')}<input required name="date" type="date" min={new Date().toISOString().slice(0, 10)} autoComplete="off" aria-describedby="preferred-date-help" className={`${field} min-h-12 normal-case tracking-normal text-[#2a1b1f]`} /><span id="preferred-date-help" className="text-[10px] normal-case tracking-normal text-[#2a1b1f]/55">{t('Choose a date from today onward')}</span></label>
