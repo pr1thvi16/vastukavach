@@ -7,7 +7,7 @@ import { getSiteUrl } from '@/lib/site-url'
 import './globals.css'
 
 const dmSans = Jost({ subsets: ['latin'], variable: '--font-dm-sans' })
-const playfairDisplay = Cormorant_Garamond({ subsets: ['latin'], weight: ['300','400','500','600'], style: ['normal','italic'], variable: '--font-playfair' })
+const playfairDisplay = Cormorant_Garamond({ subsets: ['latin'], weight: ['300','400','600'], style: ['normal','italic'], variable: '--font-playfair' })
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID?.trim() || 'G-B2ZGT4M6HT'
 
 export const metadata: Metadata = {
