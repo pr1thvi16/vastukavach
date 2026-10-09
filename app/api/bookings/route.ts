@@ -41,7 +41,11 @@ function safeSupabaseUrl(value: string) {
   }
 }
 
-async function insertBooking(input: BookingInput, projectUrl: string, keys: string[]) {
+type InsertBookingResult =
+  | { ok: true }
+  | { ok: false; status: number; code: string; message: string }
+
+async function insertBooking(input: BookingInput, projectUrl: string, keys: string[]): Promise<InsertBookingResult> {
   const payload = JSON.stringify({
     name: input.name,
     email: input.email,
@@ -50,7 +54,13 @@ async function insertBooking(input: BookingInput, projectUrl: string, keys: stri
     property_type: input.propertyType,
     message: [input.message, '', `Preferred contact method: ${input.contactMethod}`, `Best time to contact: ${input.bestTime}`].join('\n'),
   })
-  let lastResponse: Response | undefined
+  let lastFailure: Extract<InsertBookingResult, { ok: false }> = {
+    ok: false,
+    status: 502,
+    code: 'SUPABASE_UNREACHABLE',
+    message: 'No response was received from booking storage.',
+  }
+
   for (const key of keys) {
     try {
       const headers: Record<string, string> = {
@@ -58,27 +68,111 @@ async function insertBooking(input: BookingInput, projectUrl: string, keys: stri
         'Content-Type': 'application/json',
         Prefer: 'return=minimal',
       }
-      // New Supabase API keys (sb_publishable_ / sb_secret_) are not JWTs.
-      // Send them via apikey only; legacy anon/service_role JWT keys need Bearer too.
+      // New Supabase publishable/secret keys are not JWTs; legacy anon/service_role keys are.
       if (!key.startsWith('sb_')) headers.Authorization = `Bearer ${key}`
+
       const response = await fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
         method: 'POST',
         headers,
         body: payload,
         signal: AbortSignal.timeout(8000),
+        cache: 'no-store',
       })
-      if (response.ok) return response
-      const diagnostic = await response.clone().text().catch(() => '')
-      console.error('Supabase booking insert failed', {
-        status: response.status,
-        error: diagnostic.slice(0, 400),
-      })
-      lastResponse = response
-    } catch {
-      // Try the next configured server-side credential before reporting failure.
+      if (response.ok) return { ok: true }
+
+      const body = await response.json().catch(() => ({})) as { code?: unknown; message?: unknown }
+      const code = typeof body.code === 'string' ? body.code : `HTTP_${response.status}`
+      const message = typeof body.message === 'string' ? body.message : 'Supabase rejected the booking insert.'
+      // Do not log names, emails, phone numbers, or the submitted message.
+      console.error('Supabase booking insert failed', { status: response.status, code, message: message.slice(0, 220) })
+      lastFailure = { ok: false, status: response.status, code, message }
+    } catch (error) {
+      lastFailure = {
+        ok: false,
+        status: 502,
+        code: 'SUPABASE_UNREACHABLE',
+        message: error instanceof Error ? error.name : 'Network error',
+      }
     }
   }
-  return lastResponse ?? new Response(null, { status: 502 })
+  return lastFailure
+}
+
+function bookingStorageError(failure: Extract<InsertBookingResult, { ok: false }>) {
+  const message = failure.message.toLowerCase()
+  if (failure.code === 'PGRST205' || failure.code === '42P01' || /could not find the table|relation .* does not exist|schema cache/.test(message)) {
+    return 'Online booking storage needs a one-time database setup. Please contact us using the Contact page while we restore it.'
+  }
+  if (failure.code === '42501' || /permission denied|row-level security|row level security/.test(message)) {
+    return 'Online booking permissions need an update. Please contact us using the Contact page while we restore them.'
+  }
+  if (failure.status === 401 || /invalid api key|invalid jwt|api key is invalid/.test(message)) {
+    return 'The booking service credentials need an update. Please contact us using the Contact page.'
+  }
+  return 'We could not save your request right now. Please contact us using the Contact page so your enquiry is not delayed.'
+}
+
+async function sendFallbackEnquiry(
+  input: BookingInput,
+  submittedAt: string,
+  webhookUrl: string | undefined,
+  resendApiKey: string | undefined,
+  notificationEmail: string | undefined,
+  fromEmail: string | undefined,
+): Promise<'webhook' | 'email' | null> {
+  const payload = {
+    ...input,
+    submittedAt,
+    source: 'Kavach Consultancy website',
+  }
+
+  if (webhookUrl && safeWebhookUrl(webhookUrl)) {
+    try {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(8000),
+      })
+      if (response.ok) return 'webhook'
+      console.error('Booking fallback webhook failed', { status: response.status })
+    } catch {
+      console.error('Booking fallback webhook could not be reached')
+    }
+  }
+
+  if (resendApiKey && notificationEmail && fromEmail) {
+    const text = [
+      'New Kavach Consultancy booking enquiry (database fallback)',
+      '',
+      `Name: ${input.name}`,
+      `Email: ${input.email}`,
+      `Phone / WhatsApp: ${input.phone}`,
+      `Preferred contact method: ${input.contactMethod}`,
+      `Best time to contact: ${input.bestTime}`,
+      `Preferred date: ${input.date}`,
+      `Property type: ${input.propertyType}`,
+      '',
+      'How can we help?',
+      input.message,
+      '',
+      `Submitted at: ${submittedAt}`,
+    ].join('\n')
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: fromEmail, to: [notificationEmail], reply_to: input.email, subject: `Website booking enquiry — ${input.propertyType}`, text }),
+        signal: AbortSignal.timeout(8000),
+      })
+      if (response.ok) return 'email'
+      console.error('Booking fallback email failed', { status: response.status })
+    } catch {
+      console.error('Booking fallback email could not be reached')
+    }
+  }
+
+  return null
 }
 
 // Best-effort spam protection. The rate limiter is in-memory, so it resets when a
@@ -179,7 +273,16 @@ export async function POST(request: Request) {
     if (hasSupabaseConfig) {
       const saved = await insertBooking(input, supabaseUrl!, supabaseKeys)
       if (!saved.ok) {
-        return NextResponse.json({ error: 'We could not save your request right now. Please try again shortly.' }, { status: 502 })
+        const fallbackDelivery = await sendFallbackEnquiry(input, submittedAt, webhookUrl, resendApiKey, notificationEmail, fromEmail)
+        if (fallbackDelivery) {
+          return NextResponse.json({
+            ok: true,
+            stored: false,
+            delivered: fallbackDelivery,
+            message: 'Your enquiry reached our team, but booking records are temporarily unavailable.',
+          }, { status: 201 })
+        }
+        return NextResponse.json({ error: bookingStorageError(saved), code: saved.code }, { status: 502 })
       }
 
       // A successful database write is the source of truth; notifications are optional.
