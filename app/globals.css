@@ -25,7 +25,9 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
-.image-drift { transform: scale(1.035); animation: image-drift 40s ease-in-out infinite alternate; will-change: transform; }
+.image-drift { transform: scale(1.035); animation: image-drift 40s ease-in-out infinite alternate; }
+/* Keep decorative motion off small screens to reduce mobile compositing and main-thread work. */
+@media (max-width: 767px) { .image-drift { animation: none; transform: none; } }
 @keyframes image-drift {
   from { transform: scale(1.035) translate3d(0, 0, 0); }
   to { transform: scale(1.08) translate3d(-0.7%, -0.45%, 0); }
