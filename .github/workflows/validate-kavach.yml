@@ -30,12 +30,69 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Dependency security audit
-        run: |
-          npm audit --json > audit-report.json || true
-          node -e "const r=require('./audit-report.json'); for (const [name,v] of Object.entries(r.vulnerabilities || {})) console.log([v.severity, name, v.range, (v.fixAvailable && typeof v.fixAvailable === 'object' ? v.fixAvailable.name + '@' + v.fixAvailable.version : v.fixAvailable)].join(' | ')); console.log('Totals:', JSON.stringify(r.metadata?.vulnerabilities || {}))"
+        run: npm audit --audit-level=critical
       - name: Confirm patched Next.js version
         run: node -e "const expected='16.4.0'; const actual=require('next/package.json').version; console.log('Next.js:', actual); if(actual!==expected) process.exit(1)"
       - name: TypeScript check
         run: npx tsc --noEmit
       - name: Production build
         run: npm run build
+      - name: Production route and API smoke tests
+        shell: bash
+        run: |
+          npm start > /tmp/kavach-next.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+
+          ready=0
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:3000/ >/dev/null; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then
+            cat /tmp/kavach-next.log
+            echo "Next.js production server did not become ready."
+            exit 1
+          fi
+
+          routes=(
+            /
+            /about
+            /services
+            /services/residential
+            /services/workplace
+            /services/development
+            /blogs
+            /blogs/what-vastu-is-and-is-not
+            /blogs/choosing-a-home-that-feels-right
+            /blogs/well-oriented-workplace
+            /contact
+            /bookings
+            /vastu-checker
+            /sitemap.xml
+            /robots.txt
+          )
+          for route in "${routes[@]}"; do
+            status=$(curl --silent --output /dev/null --write-out '%{http_code}' "http://127.0.0.1:3000$route")
+            echo "$status $route"
+            if [ "$status" != "200" ]; then
+              cat /tmp/kavach-next.log
+              echo "Smoke test failed for $route (HTTP $status)."
+              exit 1
+            fi
+          done
+
+          api_status=$(curl --silent --output /tmp/kavach-api.json --write-out '%{http_code}' \
+            -X POST http://127.0.0.1:3000/api/bookings \
+            -H 'Content-Type: application/json' \
+            --data '{}')
+          echo "$api_status /api/bookings invalid-payload"
+          if [ "$api_status" != "400" ]; then
+            cat /tmp/kavach-api.json
+            cat /tmp/kavach-next.log
+            echo "Expected API to reject a missing-fields test payload with HTTP 400."
+            exit 1
+          fi
