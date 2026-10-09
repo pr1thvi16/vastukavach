@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { useLanguage } from '@/components/language'
-import { StandardPage, btn } from '@/components/page-shared'
+import { StandardPage } from '@/components/page-shared'
+import { btn } from '@/components/site-shell'
 import { getBlogPost } from '@/lib/blog-posts'
 
 export function BlogPostPage({ slug }: { slug: string }) {
