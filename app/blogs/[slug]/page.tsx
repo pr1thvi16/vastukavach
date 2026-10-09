@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { BlogPostPage } from '@/components/blog-post-page'
 import { blogSlugs, getBlogPost } from '@/lib/blog-posts'
-import { getSiteUrl } from '@/lib/site-url'
 
 type PageProps = { params: Promise<{ slug: string }> }
 
