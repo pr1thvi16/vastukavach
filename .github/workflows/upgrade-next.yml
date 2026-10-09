@@ -1,0 +1,40 @@
+name: Upgrade Next.js to patched release
+
+on:
+  push:
+    branches:
+      - booking-permanent-fix
+    paths:
+      - ".next-upgrade-trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out working branch
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Upgrade Next.js and lockfile
+        run: npm install next@16.4.0
+      - name: Commit dependency and lockfile changes
+        run: |
+          rm -f .next-upgrade-trigger
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git add -u .next-upgrade-trigger || true
+          if git diff --cached --quiet; then
+            echo "No dependency changes detected."
+          else
+            git commit -m "fix: upgrade Next.js to patched 16.4.0"
+            git push
+          fi
