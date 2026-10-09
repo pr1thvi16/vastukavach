@@ -14,7 +14,7 @@ export function StandardPage({title, eyebrow, image, imageAlt, children}: {title
 
 const field = 'border-0 border-b border-[#2a1b1f]/25 bg-transparent px-0 py-3 text-base focus:border-[#a57a4a] focus:outline-none focus:ring-0'
 const labelCls = 'flex flex-col gap-1 text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70'
-export function BookingForm() {
+export function BookingForm({ compact = false }: { compact?: boolean } = {}) {
   const { t } = useLanguage()
   const [status, setStatus] = useState('')
   const [pending, setPending] = useState(false)
@@ -39,7 +39,7 @@ export function BookingForm() {
       setPending(false)
     }
   }
-  return <form onSubmit={submit} aria-busy={pending} className="grid max-w-3xl gap-x-10 gap-y-8 border border-[#2a1b1f]/10 bg-[#fbf8f3] p-6 sm:grid-cols-2 sm:p-12">
+  return <form onSubmit={submit} aria-busy={pending} className={`grid max-w-3xl gap-x-10 border border-[#2a1b1f]/10 bg-[#fbf8f3] sm:grid-cols-2 ${compact ? 'gap-y-6 p-5 sm:gap-y-8 sm:p-10' : 'gap-y-8 p-6 sm:p-12'}`}>
     <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden"><label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
     <label className={labelCls}>{t('Full name — person to contact')}<input required maxLength={120} name="name" autoComplete="name" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
     <label className={labelCls}>{t('Email address')}<input required maxLength={254} name="email" type="email" autoComplete="email" className={`${field} normal-case tracking-normal text-[#2a1b1f]`} /></label>
