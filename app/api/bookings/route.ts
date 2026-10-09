@@ -52,7 +52,7 @@ async function insertBooking(input: BookingInput, projectUrl: string, keys: stri
     phone: input.phone,
     preferred_date: input.date,
     property_type: input.propertyType,
-    message: [input.message, '', `Preferred contact method: ${input.contactMethod}`, `Best time to contact: ${input.bestTime}`].join('\\n'),
+    message: [input.message, '', `Preferred contact method: ${input.contactMethod}`, `Best time to contact: ${input.bestTime}`].join('\n'),
   })
   let lastFailure: Extract<InsertBookingResult, { ok: false }> = {
     ok: false,
@@ -157,7 +157,7 @@ async function sendFallbackEnquiry(
       input.message,
       '',
       `Submitted at: ${submittedAt}`,
-    ].join('\\n')
+    ].join('\n')
     try {
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
