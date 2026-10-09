@@ -94,3 +94,6 @@ html[dir='rtl'] [dir='ltr'] { direction: ltr; text-align: left; unicode-bidi: pl
 html[dir='rtl'] .mr-2 { margin-right: 0; margin-left: .5rem; }
 html[dir='rtl'] .mr-3 { margin-right: 0; margin-left: .75rem; }
 html[dir='rtl'] .mr-4 { margin-right: 0; margin-left: 1rem; }
+
+html[dir='rtl'] a[href^='tel:'],
+html[dir='rtl'] a[href^='mailto:'] { direction: ltr; text-align: left; unicode-bidi: plaintext; }
