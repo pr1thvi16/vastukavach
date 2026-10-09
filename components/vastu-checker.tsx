@@ -162,7 +162,7 @@ export function VastuChecker() {
 
         {wantsVastu && <>
           <label className={label}>{t('What kind of space is it?')}
-            <select required value={spaceType} onChange={(event) => { setSpaceType(event.target.value); setPriority([]); setSelectionError('') }} className={field}>
+            <select required value={spaceType} onChange={(event) => { setSpaceType(event.target.value); setLayoutArea(''); setDirection(''); setPriority([]); setSelectionError('') }} className={field}>
               <option value="">{t('Select one')}</option>
               <option value="Home">{t('Home')}</option>
               <option value="Workplace">{t('Workplace')}</option>
