@@ -98,7 +98,7 @@ function InteractiveGuide() {
             <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={t('Choose where you are in the journey')}>
               {journeyStages.map(option => <button key={option.id} type="button" aria-pressed={journeyStage === option.id} onClick={() => setJourneyStage(option.id)} className={`rounded-full border px-4 py-2.5 text-[11px] uppercase tracking-[.12em] transition-all duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f] ${journeyStage === option.id ? 'border-[#74512f] bg-[#74512f] text-white' : 'border-[#2a1b1f]/15 bg-transparent hover:bg-white'}`}>{t(option.label)}</button>)}
             </div>
-            <p className="mt-4 max-w-lg text-sm leading-6 text-[#2a1b1f]/60">{t('No pressure. Start with one question — we’ll help you work out the next step.')}</p>
+            <p className="mt-4 max-w-lg text-sm leading-6 text-[#2a1b1f]/75">{t('No pressure. Start with one question — we’ll help you work out the next step.')}</p>
           </div>
         </div>
 
@@ -165,11 +165,11 @@ export function HomePage() { const { t } = useLanguage(); return <><Header overl
             <div className="flex items-center justify-between gap-3"><h3 className="font-semibold">{t(name)}</h3><span className="text-lg font-bold text-[#4285f4]" aria-label="Google review">G</span></div>
             <p className="mt-2 text-lg tracking-wide text-[#f6b400]" aria-label="5 out of 5 stars">★★★★★</p>
             <p className="mt-3 text-sm leading-6 text-[#292929]">{t(review)}</p>
-            <p className="mt-3 text-xs text-[#777]">{t('Google review · 7–9 months ago')}</p>
+            <p className="mt-3 text-xs text-[#666]">{t('Google review · 7–9 months ago')}</p>
           </article>)}
         </div>
       </div>
-      <p className="mt-6 text-center text-xs text-[#777]">{t('Review excerpts are shown as visible in the supplied screenshots.')}</p>
+      <p className="mt-6 text-center text-xs text-[#666]">{t('Review excerpts are shown as visible in the supplied screenshots.')}</p>
     </div>
   </section>
   <section className="bg-[#ebe3d8] px-5 py-16 sm:py-20 lg:px-10 lg:py-24"><div className="mx-auto max-w-7xl"><Eyebrow>Why Choose Kavach Consultancy?</Eyebrow><h2 className="mt-6 max-w-4xl font-serif text-4xl font-light sm:text-5xl">{t('Why Choose Kavach Consultancy?')}</h2><div className="mt-10 grid gap-8 md:grid-cols-3"><article className="group border-t border-[#2a1b1f]/15 pt-6 transition-transform duration-300 motion-reduce:transition-none hover:-translate-y-1"><p className="font-serif text-2xl transition-colors duration-300 group-hover:text-[#74512f]">{t('40+ Years of Inherited Vastu & Astrology Knowledge')}</p></article><article className="border-t border-[#2a1b1f]/15 pt-6"><p className="font-serif text-2xl">{t('Vedic Principle-Driven and Philosophical Vastu Consultancy')}</p></article><article className="border-t border-[#2a1b1f]/15 pt-6"><p className="font-serif text-2xl">{t('Sacred Space Consultations Aligned with UAE Homes & Lifestyles')}</p></article></div></div></section>
