@@ -53,7 +53,7 @@ export const Contact = () => {
       <Eyebrow>Enquiry form</Eyebrow>
       <h2 id="contact-enquiry-heading" className="mt-4 max-w-3xl font-serif text-3xl font-light leading-tight sm:mt-5 sm:text-5xl">{t('Tell us who you are and how we should contact you.')}</h2>
       <p className="mt-4 max-w-2xl text-sm leading-7 text-[#2a1b1f]/70 sm:mt-5 sm:text-base">{t('Your full name, phone or WhatsApp number, email, preferred contact method, best time, preferred date, property type and enquiry details will be included with your submission.')}</p>
-      <div className="mt-7 sm:mt-9"><BookingForm /></div>
+      <div className="mt-7 sm:mt-9"><BookingForm compact /></div>
     </section>
   </StandardPage>
 }
