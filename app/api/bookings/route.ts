@@ -71,7 +71,7 @@ async function insertBooking(input: BookingInput, projectUrl: string, keys: stri
       // New Supabase publishable/secret keys are not JWTs; legacy anon/service_role keys are.
       if (!key.startsWith('sb_')) headers.Authorization = `Bearer ${key}`
 
-      const response = await fetch(`${projectUrl.replace(/\\/+$/, '')}/rest/v1/booking_enquiries`, {
+      const response = await fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
         method: 'POST',
         headers,
         body: payload,
