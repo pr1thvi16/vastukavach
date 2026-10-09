@@ -54,6 +54,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
+      </head>
       <body className={`${dmSans.variable} ${playfairDisplay.variable} antialiased`}>
         <script
           type="application/ld+json"
