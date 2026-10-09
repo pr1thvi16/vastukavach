@@ -48,18 +48,33 @@ async function insertBooking(input: BookingInput, projectUrl: string, keys: stri
     phone: input.phone,
     preferred_date: input.date,
     property_type: input.propertyType,
-    message: [input.message, '', `Preferred contact method: \${input.contactMethod}`, `Best time to contact: \${input.bestTime}`].join('\n'),
+    message: [input.message, '', `Preferred contact method: ${input.contactMethod}`, `Best time to contact: ${input.bestTime}`].join('\n'),
   })
   let lastResponse: Response | undefined
   for (const key of keys) {
     try {
       const response = await fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
         method: 'POST',
-        headers: { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+        headers: (() => {
+          const headers: Record<string, string> = {
+            apikey: key,
+            'Content-Type': 'application/json',
+            Prefer: 'return=minimal',
+          }
+          // New Supabase API keys (sb_publishable_ / sb_secret_) are not JWTs.
+          // Send them via apikey only; legacy anon/service_role JWT keys need Bearer too.
+          if (!key.startsWith('sb_')) headers.Authorization = `Bearer ${key}`
+          return headers
+        })(),
         body: payload,
         signal: AbortSignal.timeout(8000),
       })
       if (response.ok) return response
+      const diagnostic = await response.clone().text().catch(() => '')
+      console.error('Supabase booking insert failed', {
+        status: response.status,
+        error: diagnostic.slice(0, 400),
+      })
       lastResponse = response
     } catch {
       // Try the next configured server-side credential before reporting failure.
