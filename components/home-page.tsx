@@ -26,16 +26,16 @@ function CompassRose() {
 
 
 const focusOptions = [
-  { id: 'home', label: 'My home', title: 'Make home feel more like yours.', body: 'Start with the rooms and routines that matter most. Look at light, movement, orientation and everyday comfort together.', note: 'For a home, villa or rental.', href: '/vastu-checker?type=Home', cta: 'Explore my home' },
-  { id: 'workplace', label: 'My workplace', title: 'Create a better rhythm at work.', body: 'Look at arrival, focus, collaboration and circulation. Small spatial choices can make the day feel clearer and calmer.', note: 'For offices and professional spaces.', href: '/vastu-checker?type=Workplace', cta: 'Explore my workplace' },
-  { id: 'property', label: 'A property decision', title: 'Pause before you commit.', body: 'Bring the property, plan or shortlist you are considering. A focused review helps you ask better questions before you buy, rent or build.', note: 'For purchase, rental and development decisions.', href: '/services', cta: 'See property guidance' },
-  { id: 'life-path', label: 'My life path', title: 'Make space for the bigger picture.', body: 'Start with the questions you are carrying. A Vedic Astrology conversation can help you explore timing, direction and personal priorities.', note: 'For personal Vedic Astrology guidance.', href: '/bookings', cta: 'Start my conversation' },
+  { id: 'home', label: 'My home', title: 'Let’s make your space work for you.', body: 'Something feel off, or planning a change? We’ll start with the rooms and routines that matter most.', note: 'For your home, villa or rental.', href: '/vastu-checker?type=Home', cta: 'Get guidance for my home' },
+  { id: 'workplace', label: 'My workplace', title: 'Let’s make work feel easier.', body: 'Tell us what’s getting in the way — focus, flow, or how your team uses the space. We’ll help you think through practical next steps.', note: 'For offices and professional spaces.', href: '/vastu-checker?type=Workplace', cta: 'Help with my workplace' },
+  { id: 'property', label: 'Buying or renting', title: 'Not sure about a property? Let’s look closer.', body: 'Before you commit, let’s look at the plan and the questions you have — so you know what to consider next.', note: 'Before buying, renting or building.', href: '/services', cta: 'Help me assess a property' },
+  { id: 'life-path', label: 'Something personal', title: 'Let’s talk through what’s on your mind.', body: 'Start with the question you’re carrying. We can explore Vedic Astrology as one way to reflect on timing, direction and personal priorities.', note: 'For personal Vedic Astrology guidance.', href: '/bookings', cta: 'Start a conversation' },
 ] as const
 
 const journeyStages = [
-  { id: 'exploring', label: 'Just exploring', prefix: 'A gentle first step.' },
-  { id: 'planning', label: 'I have a plan', prefix: 'You already have something to work with.' },
-  { id: 'ready', label: 'I am ready to talk', prefix: 'You are closer to your next decision.' },
+  { id: 'exploring', label: 'Just looking', prefix: 'No rush. Let’s start with the basics.' },
+  { id: 'planning', label: 'I have a plan', prefix: 'Great — let’s work with what you have.' },
+  { id: 'ready', label: 'Ready to talk', prefix: 'Let’s focus on your next decision.' },
 ] as const
 
 function InteractiveGuide() {
@@ -76,16 +76,16 @@ function InteractiveGuide() {
             <Eyebrow>Make it personal</Eyebrow>
             <Sparkles className="size-5 text-[#74512f]" aria-hidden="true" />
           </div>
-          <h2 id="focus-guide-heading" className="mt-6 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t('Let’s make this about you.')}</h2>
-          <p className="mt-5 max-w-lg leading-7 text-[#2a1b1f]/70">{t('Tell us just enough to get a useful starting point. Nothing here is a test — it simply helps the experience meet you where you are.')}</p>
+          <h2 id="focus-guide-heading" className="mt-6 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t('Tell us what’s on your mind.')}</h2>
+          <p className="mt-5 max-w-lg leading-7 text-[#2a1b1f]/70">{t('You don’t need all the answers. Pick what feels closest, and we’ll help you find a useful next step. No pressure.')}</p>
 
           <label className="mt-7 flex max-w-md flex-col gap-2 text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70">
-            {t('What should we call you?')}
-            <input value={visitorName} onChange={event => setVisitorName(event.target.value.slice(0, 40))} placeholder={t('Your first name')} autoComplete="given-name" className="border-0 border-b border-[#2a1b1f]/20 bg-transparent px-0 py-3 text-base normal-case tracking-normal placeholder:text-[#2a1b1f]/35 focus:border-[#a57a4a] focus:outline-none" />
+            {t('What can we call you? (optional)')}
+            <input value={visitorName} onChange={event => setVisitorName(event.target.value.slice(0, 40))} placeholder={t('First name (optional)')} autoComplete="given-name" className="border-0 border-b border-[#2a1b1f]/20 bg-transparent px-0 py-3 text-base normal-case tracking-normal placeholder:text-[#2a1b1f]/35 focus:border-[#a57a4a] focus:outline-none" />
           </label>
 
           <div className="mt-8">
-            <p className="text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70">{t('What brings you here?')}</p>
+            <p className="text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70">{t('What would you like help with today?')}</p>
             <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={t('Choose a focus')}>
               {focusOptions.map((option, index) => <button key={option.id} type="button" aria-pressed={activeId === option.id} onClick={() => chooseFocus(option.id)} className={`rounded-full border px-4 py-2.5 text-left text-[11px] uppercase tracking-[.12em] transition-all duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f] ${activeId === option.id ? 'border-[#3b1220] bg-[#3b1220] text-[#f6f1ea] shadow-sm' : 'border-[#2a1b1f]/15 bg-white/40 hover:-translate-y-0.5 hover:bg-white'}`}>
                 <span className="mr-2 font-serif text-base italic">{String(index + 1).padStart(2, '0')}</span>{t(option.label)}
@@ -94,10 +94,11 @@ function InteractiveGuide() {
           </div>
 
           <div className="mt-7">
-            <p className="text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70">{t('Where are you right now?')}</p>
+            <p className="text-[11px] uppercase tracking-[.2em] text-[#2a1b1f]/70">{t('How far along are you?')}</p>
             <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={t('Choose where you are in the journey')}>
               {journeyStages.map(option => <button key={option.id} type="button" aria-pressed={journeyStage === option.id} onClick={() => setJourneyStage(option.id)} className={`rounded-full border px-4 py-2.5 text-[11px] uppercase tracking-[.12em] transition-all duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#74512f] ${journeyStage === option.id ? 'border-[#74512f] bg-[#74512f] text-white' : 'border-[#2a1b1f]/15 bg-transparent hover:bg-white'}`}>{t(option.label)}</button>)}
             </div>
+            <p className="mt-4 max-w-lg text-sm leading-6 text-[#2a1b1f]/60">{t('No pressure. Start with one question — we’ll help you work out the next step.')}</p>
           </div>
         </div>
 
@@ -106,10 +107,11 @@ function InteractiveGuide() {
           <div className="pointer-events-none absolute -bottom-24 -left-10 size-56 rounded-full border border-[#d9bf9a]/10" />
           <div className="relative flex h-full flex-col justify-between" aria-live="polite">
             <div>
-              <p className="text-[11px] uppercase tracking-[.24em] text-[#d9bf9a]">{t('Your personal starting point')}</p>
+              <p className="text-[11px] uppercase tracking-[.24em] text-[#d9bf9a]">{t('A helpful place to start')}</p>
               <p className="mt-5 text-sm text-white/65">{visitorName.trim() && <><bdi dir="auto">{visitorName.trim()}</bdi>، </>}{t(stage.prefix)}</p>
               <h3 className="mt-3 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t(active.title)}</h3>
               <p className="mt-5 max-w-xl text-base leading-7 text-white/75">{t(active.body)}</p>
+              <p className="mt-4 max-w-xl text-sm leading-6 text-white/60">{t('You don’t have to solve everything today. We’ll take it one step at a time.')}</p>
             </div>
 
             <div className="mt-10 border-t border-white/15 pt-6">
