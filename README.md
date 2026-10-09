@@ -1,6 +1,6 @@
 # Kavach Consultancy
 
-A responsive, bilingual marketing site for Kavach Consultancy & Marketing LLC, a Dubai-based spatial advisory firm. The site helps visitors review a property's practical fit before buying, renting, redesigning, or planning a development.
+A responsive English/Arabic website for Kavach Consultancy & Marketing LLC, a Dubai-based advisory practice covering practical Vastu, Vedic Astrology/Kundli, numerology and property-selection guidance.
 
 ## Local setup
 
@@ -9,98 +9,125 @@ Requirements: Node.js 20.9 or newer.
 1. Copy `.env.example` to `.env.local`.
 2. Install dependencies with `npm install`.
 3. Start the development server with `npm run dev` and open `http://localhost:3000`.
-4. Create a production build with `npm run build`, then run it with `npm start`.
+4. Run a production build with `npm run build`, then serve it with `npm start`.
 
-## Pages and features
+## Routes
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home, services overview, property imagery, and consultation calls to action |
-| `/about` | Kavach's approach and founder profile |
+| `/` | Home, personalised journey guide, services and customer reviews |
+| `/about` | Approach and founder profile |
 | `/services` | Services index |
-| `/services/residential` | Home and residential advice |
+| `/services/residential` | Residential advice |
 | `/services/workplace` | Workplace advice |
-| `/services/development` | Developer and project advice |
-| `/blogs` | Journal article previews |
-| `/bookings` | Validated consultation enquiry form |
-| `/contact` | Phone, email, WhatsApp and location details when configured |
-| `/vastu-checker` | General pointers based on property type, entrance direction, room layout and priorities |
+| `/services/development` | Development and project advice |
+| `/blogs` | Journal index with accessible article links |
+| `/blogs/what-vastu-is-and-is-not` | A grounded introduction to Vastu |
+| `/blogs/choosing-a-home-that-feels-right` | A practical home-viewing checklist |
+| `/blogs/well-oriented-workplace` | Workplace layout, focus and circulation |
+| `/bookings` | Consultation enquiry form |
+| `/contact` | Phone, email, WhatsApp, address and enquiry form |
+| `/vastu-checker` | Multi-select checker for Vastu, numerology, Vedic Astrology/Kundli and property-selection interests |
 
-Other included features:
+## Features and design decisions
 
-- Responsive navigation and layouts, local `next/image` assets, descriptive alternative text, and keyboard-visible focus states.
-- English and Arabic language toggle, saved preference, and right-to-left Arabic layout.
-- A quick Vastu checker that asks about property type, entrance direction, a room or area from the layout, and the visitor’s priority. Results offer general guidance without scoring or pass/fail claims.
-- A compass rose used with the Vastu checker and a three-step overview of the review process.
-- WhatsApp click-to-chat links with prefilled English and Arabic messages, plus a floating chooser for home, workplace, or development enquiries.
-- Vercel Web Analytics page views plus custom events for booking submission, consultation calls to action, WhatsApp clicks, language changes, and checker completion.
-- Page metadata, Open Graph cards, canonical URLs, a sitemap, robots rules, and LocalBusiness structured data.
+- Next.js App Router, React and TypeScript; Tailwind CSS for responsive layout, spacing and states.
+- Warm ivory, deep burgundy and muted-gold palette; Cormorant Garamond display type and Jost body text.
+- Responsive navigation, keyboard focus states, local image assets, and `next/image` for optimized image delivery.
+- English/Arabic toggle with right-to-left layout and translated checker, contact, booking recovery and journal content.
+- Interactive homepage journey that changes its guidance and next-step link based on the visitor's choices.
+- Vastu checker with multi-select improvement priorities and service interests: Vastu, numerology, Vedic Astrology/Kundli, and property selection.
+- Three full journal articles with their own URLs, metadata and sitemap entries; cards link directly to each article and do not rely on hover for access.
+- WhatsApp click-to-chat links with English/Arabic messages and a floating topic chooser.
+- LocalBusiness structured data, route metadata, canonical URLs, Open Graph, sitemap and robots rules.
+- Vercel Web Analytics plus GA4 events for booking, consultation, WhatsApp, language and checker interactions.
 
-## Booking delivery
+## Contact details
 
-The browser form and `/api/bookings` validate required fields, email, phone, date, property type, and field lengths. When Supabase is configured, each accepted enquiry is inserted into `public.booking_enquiries`; the form reports success only after the database confirms the insert.
+The current defaults use the contact details listed in the supplied audit brief:
 
-### Enable Supabase storage
+- Main phone / WhatsApp: **+971 56 452 7299**
+- Alternate phone: **+971 52 922 8629**
+- General email: **info@kavachconsultancy.com**
+- Founder email: **vedang@kavachconsultancy.com**
+- Address: Bur Dubai, behind ADCB Bank, Dubai, United Arab Emirates
 
-1. In the Supabase project, open **SQL Editor** and run `supabase/schema.sql`.
-2. For local development, copy `.env.example` to `.env.local`. It includes the project URL and publishable key supplied for this project.
-3. In Vercel, add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` under **Project → Settings → Environment Variables** for Production (and Preview if needed), then redeploy.
-4. Open **Table Editor → booking_enquiries** in Supabase to review saved enquiries.
+Confirm all contact details with the business owner before final public handoff. Override these defaults using the `NEXT_PUBLIC_CONTACT_*` and `NEXT_PUBLIC_WHATSAPP_NUMBER` variables if the client supplies approved alternatives. Placeholder values from the previous build are ignored by the default contact helper.
 
-The publishable key is intended for public applications. The SQL migration enables RLS, grants the anonymous role insert access only to the six booking fields, and applies checks for allowed values and lengths. It grants no public read, update, or delete access. The submission timestamp and source are generated by the database.
+## Booking delivery and recovery
 
-This booking flow uses the built-in server-side `fetch` API to call Supabase's Data API, so it does not need the Supabase JavaScript or SSR packages. The SSR cookie helper and middleware are intended for Supabase Auth sessions; this site has no Supabase sign-in.
+The browser form and `/api/bookings` validate name, email, phone, date, contact method, best contact time, property type and message length. The API inserts accepted requests into `public.booking_enquiries` through the Supabase Data API and logs a status/error code (without logging the visitor's personal submission) when Supabase rejects an insert.
 
-Optional notifications can run alongside Supabase storage:
+**One-time database setup is required:** open the correct Supabase project, go to **SQL Editor**, run `supabase/schema.sql`, then confirm that `booking_enquiries` appears in **Table Editor**. The migration enables row-level security, gives anonymous visitors insert-only access to the allowed fields and does not grant public read/update/delete access. If a table or policy already exists, re-run the idempotent schema script to align the policy and grants.
 
-- **Webhook:** set `BOOKING_WEBHOOK_URL` to a trusted HTTPS endpoint. It receives a JSON payload with the submitted fields, timestamp, and source.
-- **Email via Resend:** set `RESEND_API_KEY`, `BOOKING_NOTIFICATION_EMAIL`, and `BOOKING_FROM_EMAIL`. Verify the sender domain in Resend first. Replies go to the visitor's email address.
+Configure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in Vercel Production (and Preview as appropriate). The publishable key is public by design; it is not a replacement for the database's row-level security policy. A successful insert is the primary source of truth.
 
-When Supabase storage is enabled, a successful database insert is the source of truth; a notification issue does not discard the saved enquiry. Without Supabase variables, the existing webhook or Resend-only delivery path remains available.
+Optional server-side fallbacks:
 
-## Deployment settings
+- **Webhook:** `BOOKING_WEBHOOK_URL` sends the enquiry to a trusted HTTPS endpoint.
+- **Resend:** `RESEND_API_KEY`, `BOOKING_NOTIFICATION_EMAIL` and `BOOKING_FROM_EMAIL` send an email. Verify the sender domain in Resend first.
 
-- Set `NEXT_PUBLIC_SITE_URL` to the public site origin when using a custom domain. Otherwise the app uses Vercel's production project domain, Netlify's `URL`, or the canonical `https://vastukavach.vercel.app` fallback.
-- The footer's **Message us** link opens WhatsApp chat with the configured number `+971 50 123 4567` and a prefilled English or Arabic message. Override `NEXT_PUBLIC_WHATSAPP_NUMBER` in Vercel with international digits only (no `+`, spaces, or punctuation) if the business number changes. Set `NEXT_PUBLIC_CONTACT_PHONE` and `NEXT_PUBLIC_CONTACT_EMAIL` only to verified business contact details.
-- A `wa.me` link opens a chat; automated bot replies require the business's WhatsApp Business automation or a WhatsApp Business Platform provider. This repository does not contain a bot service or provider credentials.
-- Enable Web Analytics in Vercel project settings to view analytics. `@vercel/analytics` loads in production.
-- Google Analytics 4 is configured with the provided web stream Measurement ID (`G-B2ZGT4M6HT`) and loads only in production. Override it with `NEXT_PUBLIC_GA_ID` in Vercel if the stream changes. In Google Analytics, enable Enhanced Measurement's browser-history page changes to record Next.js route navigation. Google Analytics and Vercel Analytics collect data into separate dashboards.
-- Netlify uses the root `netlify.toml` and Next.js adapter; deploy from the repository root, not a nested duplicate project.
+If the database insert fails, the API attempts a configured webhook or Resend delivery before returning an error. If the API still cannot accept the form, the browser preserves the entered values and offers prefilled direct email and WhatsApp alternatives. These alternatives require the visitor to press Send in their mail or messaging app; they do not claim the database saved the request.
 
-## Technology and design decisions
+**Live verification still required:** submit a test enquiry on the public site and confirm that a row appears in Supabase. If it fails, check the Vercel Function logs for the Supabase error code; the code distinguishes a missing table, row-level-security/permission problem, invalid key or unavailable endpoint. The connected Vercel account did not provide the permission needed to inspect production runtime logs during this update, so no successful live insert is claimed here.
 
-- **Next.js App Router, React, TypeScript:** one application provides shareable route pages, route-specific metadata, server-rendered content, image optimization, and the booking API.
-- **Tailwind CSS:** responsive spacing, type scale, colors, and interaction states are composed directly in the page components.
-- **Vercel Web Analytics:** lightweight page views and first-party custom events without another analytics SDK.
-- **Resend API or a business webhook:** delivery happens on the server, so provider credentials are not sent to the browser.
-- **Local image assets:** avoid third-party image requests at page load and keep the visual presentation consistent.
+## Analytics and deployment
 
-## Style guide
+- Production host: `https://vastukavach.vercel.app`.
+- Vercel Web Analytics loads in production.
+- GA4 uses measurement ID `G-B2ZGT4M6HT` by default; override with `NEXT_PUBLIC_GA_ID` if needed.
+- `NEXT_PUBLIC_SITE_URL` may be set when the site uses a different public domain.
+- A WhatsApp link opens chat; automated replies require separate WhatsApp Business automation/provider configuration.
 
-- Background: warm ivory `#F6F1EA`
-- Primary ink: deep burgundy `#3B1220`
-- Accent: muted brass `#A57A4A`; pale gold `#D9BF9A`. Use deep bronze `#74512F` for small text and filled buttons on light surfaces to keep contrast readable.
-- Display type: Cormorant Garamond (serif)
-- Body type: Jost (sans-serif)
-- Buttons: compact uppercase labels with generous padding; primary actions use burgundy or brass, secondary actions use a fine outline.
-- Logo: a cut-corner architectural compass mark with a roof and doorway, paired with a bold, widely tracked KAVACH wordmark and VASTU CONSULTANCY descriptor.
-- Home hero copy sits over a dark image gradient with open editorial spacing.
-- Layout: wide margins, restrained borders, editorial serif headings, architectural imagery, and compass details near directional guidance.
+## Lighthouse results
 
-The design frames Vastu as a practical spatial lens, with attention to light, orientation, movement, and use. The checker offers general prompts, not a pass/fail judgement or a substitute for reviewing a complete plan with an advisor.
+The submitted local production-build audit reported the following scores. These are **local results, not a fresh measurement of the live URL**; run Lighthouse against the deployed site and save screenshots before submission.
 
-## Images and attribution
+| Page | Mobile Performance | Accessibility |
+| --- | ---: | ---: |
+| Home | 93 | 96 |
+| About | 94 | 96 |
+| Contact | 95 | 96 |
+| Services | 99 | 100 |
 
-The image files were supplied as local project assets without source URLs, photographer names, or license details. Their origins cannot be verified from the repository, so no Unsplash or Pexels attribution is claimed here. Confirm the source and usage rights for every file in `public/images/`, then add the provider, creator, and source link before public submission. Replace any image whose source or license cannot be confirmed.
+The audit reported SEO 100 across routes. Re-run all scores after deployment, especially after the contact, blog and booking changes.
+
+## LocalBusiness structured data
+
+The root layout includes the business name, founder, service area, street address, telephone, email and contact points. The founder's LinkedIn profile is used as a verifiable `sameAs` link. An official Instagram profile was not independently verified during this update, so an Instagram URL has not been guessed; add the confirmed company profile to `sameAs` before handoff.
+
+## Image credits and licensing
+
+The following are existing local assets. Their original source/photographer/license is not present in the repository, so they are deliberately marked **Unverified** rather than attributing them to Unsplash or Pexels without evidence. Verify the licence and add each real source link before handing the site to the client; replace assets whose rights cannot be confirmed.
+
+| File | Photographer / provider | Source link | Licence status |
+| --- | --- | --- | --- |
+| `bright-living.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `calm-corner.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `dubai-skyline.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `founder.webp` | Founder portrait supplied in project | Original source not recorded | Confirm publication approval |
+| `garden-house.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `hero-villa.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `kavach-hero.png` | Unverified | Not recorded | **Unverified — needs review** |
+| `kavach-logo.png` | Brand logo supplied in project | Brand asset | Confirm publication approval |
+| `living-greenery.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `timber-house.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `villa-pool.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `warm-lounge.jpg` | Unverified | Not recorded | **Unverified — needs review** |
+| `workplace.jpg` | Unverified | Not recorded | **Unverified — needs review** |
 
 ## Founder profile
 
-The founder section currently uses initials because no portrait was included with the project. The repository also does not include verified qualifications, years of experience, languages, or a LinkedIn profile URL. Add confirmed details in the `founder` object in `components/founder.tsx`; do not publish placeholder credentials.
+The About page uses the founder portrait in `public/images/founder.webp`. The repository contains a LinkedIn profile URL for Vedang Joshi, but no verified credentials have been added beyond the published founder copy. Confirm the portrait rights, biography and any additional qualifications with the business owner.
 
 ## AI use
 
-AI assistance was used to review the assignment, draft and refine site copy, and implement and document the website features. Review all copy, image rights, business details, and booking delivery settings with the business owner before launch.
+ChatGPT was used to help review the assignment requirements, draft and refine website copy and documentation, implement/refactor components, and diagnose the booking API. The code and copy were reviewed against the repository and deployment evidence. Contact details, image rights, the database setup and final live form behaviour still require owner verification.
 
-## Further improvements
+## Remaining handoff checks
 
-Confirm the approved founder profile and image sources, connect booking delivery to the business's CRM or scheduling workflow, publish a CMS-backed journal, and review the deployed pages with mobile accessibility and performance checks.
+1. Confirm the phone numbers/emails and founder portrait/logo publication rights with the business owner.
+2. Run `supabase/schema.sql` in the correct Supabase project, submit a real test enquiry, and verify the row is stored.
+3. Re-run Lighthouse against the live site and save fresh screenshots.
+4. Verify image usage rights and add the actual photographer/source/licence or replace any image that cannot be cleared.
+5. Add the official Instagram URL only after the business owner confirms it.
