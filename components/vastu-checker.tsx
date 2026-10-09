@@ -144,13 +144,13 @@ export function VastuChecker() {
       {!complete ? <form onSubmit={submit} className="grid gap-8">
         <fieldset className="min-w-0">
           <legend className="text-[11px] uppercase tracking-[.18em] text-[#2a1b1f]/65">{t('What would you like help with?')}</legend>
-          <p className="mt-2 text-sm leading-6 text-[#2a1b1f]/60">{t('Select all that fit. You can choose more than one.')}</p>
+          <p className="mt-2 text-sm leading-6 text-[#2a1b1f]/75">{t('Select all that fit. You can choose more than one.')}</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {serviceOptions.map(option => <label key={option.value} className={`flex min-w-0 cursor-pointer gap-3 rounded-xl border p-4 transition-colors ${serviceInterests.includes(option.value) ? 'border-[#74512f] bg-[#ebe3d8]' : 'border-[#2a1b1f]/12 bg-white hover:bg-[#f6f1ea]'}`}>
               <input type="checkbox" checked={serviceInterests.includes(option.value)} onChange={() => toggleService(option.value)} className="mt-1 size-4 shrink-0 accent-[#3b1220]" />
               <span className="min-w-0">
                 <span className="block font-medium leading-5 text-[#3b1220]">{t(option.label)}</span>
-                <span className="mt-1 block text-sm leading-5 text-[#2a1b1f]/60">{t(option.description)}</span>
+                <span className="mt-1 block text-sm leading-5 text-[#2a1b1f]/75">{t(option.description)}</span>
               </span>
             </label>)}
           </div>
@@ -181,7 +181,7 @@ export function VastuChecker() {
           </label>
           <fieldset className="min-w-0">
             <legend className="text-[11px] uppercase tracking-[.18em] text-[#2a1b1f]/65">{t('What would you most like to improve?')}</legend>
-            <p className="mt-2 text-sm leading-6 text-[#2a1b1f]/60">{t('Choose all that apply.')}</p>
+            <p className="mt-2 text-sm leading-6 text-[#2a1b1f]/75">{t('Choose all that apply.')}</p>
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
               {questionSet.priorities.map(value => <label key={value} className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 transition-colors ${priority.includes(value) ? 'border-[#74512f] bg-[#ebe3d8]' : 'border-[#2a1b1f]/10 bg-white hover:bg-[#f6f1ea]'}`}>
                 <input type="checkbox" checked={priority.includes(value)} onChange={() => togglePriority(value)} className="mt-1 size-4 shrink-0 accent-[#3b1220]" />
