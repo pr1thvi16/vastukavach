@@ -12,8 +12,8 @@ export const founder = {
   role: 'Founder & Principal Vastu Advisor',
   photo: '/images/founder.webp',
   bio: [
-    'Rooted in over 40 years of familial astrological lineage, Vedang Joshi established Kavach Consultancy to demystify ancient metaphysical sciences for corporate professionals, business owners, and residents across the United Arab Emirates.',
-    'I am Vedang Joshi. To me, Astrology is not just about prediction; it is a profoundly positive experience a tool to illuminate your growth and navigate your destiny with confidence.',
+    'Drawing on more than 40 years of family Vastu knowledge, Vedang Joshi established Kavach Consultancy to offer practical spatial guidance to residents, business owners and professionals across the United Arab Emirates.',
+    'I am Vedang Joshi. I believe thoughtful Vastu guidance should be practical, positive and adapted to the way people live and work today.',
   ],
   credentials: [] as string[],
   linkedin: 'https://ae.linkedin.com/in/vedang-joshi-624b171b',
@@ -27,7 +27,7 @@ export function FounderSection() {
     </div>
     <div className="self-center">
       <Eyebrow>Meet the founder</Eyebrow>
-      <h2 className="mt-6 max-w-3xl font-serif text-5xl font-light leading-[1.05] sm:text-6xl">Behind Kavach: Vedang Joshi’s Vedic Lineage in the UAE</h2>
+      <h2 className="mt-6 max-w-3xl font-serif text-5xl font-light leading-[1.05] sm:text-6xl">Behind Kavach: Vedang Joshi’s Vastu Experience in the UAE</h2>
       <p className="mt-4 text-[11px] uppercase tracking-[.26em] text-[#2a1b1f]/55">{t(founder.name)} · {t(founder.role)}</p>
       <div className="mt-8 max-w-xl space-y-5 leading-8 text-[#2a1b1f]/70">{founder.bio.map((paragraph) => <p key={paragraph}>{t(paragraph)}</p>)}</div>
       {founder.credentials.length > 0 && <ul className="mt-8 max-w-xl divide-y divide-[#2a1b1f]/10 border-y border-[#2a1b1f]/10 text-sm text-[#2a1b1f]/70">{founder.credentials.map((credential) => <li key={credential} className="py-3">{t(credential)}</li>)}</ul>}
