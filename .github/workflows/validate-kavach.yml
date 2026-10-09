@@ -33,6 +33,8 @@ jobs:
         run: |
           npm audit --json > audit-report.json || true
           node -e "const r=require('./audit-report.json'); for (const [name,v] of Object.entries(r.vulnerabilities || {})) console.log([v.severity, name, v.range, (v.fixAvailable && typeof v.fixAvailable === 'object' ? v.fixAvailable.name + '@' + v.fixAvailable.version : v.fixAvailable)].join(' | ')); console.log('Totals:', JSON.stringify(r.metadata?.vulnerabilities || {}))"
+      - name: Confirm patched Next.js version
+        run: node -e "const expected='16.4.0'; const actual=require('next/package.json').version; console.log('Next.js:', actual); if(actual!==expected) process.exit(1)"
       - name: TypeScript check
         run: npx tsc --noEmit
       - name: Production build
