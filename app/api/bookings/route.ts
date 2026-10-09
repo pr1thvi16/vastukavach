@@ -53,19 +53,17 @@ async function insertBooking(input: BookingInput, projectUrl: string, keys: stri
   let lastResponse: Response | undefined
   for (const key of keys) {
     try {
+      const headers: Record<string, string> = {
+        apikey: key,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      }
+      // New Supabase API keys (sb_publishable_ / sb_secret_) are not JWTs.
+      // Send them via apikey only; legacy anon/service_role JWT keys need Bearer too.
+      if (!key.startsWith('sb_')) headers.Authorization = `Bearer ${key}`
       const response = await fetch(`${projectUrl.replace(/\/+$/, '')}/rest/v1/booking_enquiries`, {
         method: 'POST',
-        headers: (() => {
-          const headers: Record<string, string> = {
-            apikey: key,
-            'Content-Type': 'application/json',
-            Prefer: 'return=minimal',
-          }
-          // New Supabase API keys (sb_publishable_ / sb_secret_) are not JWTs.
-          // Send them via apikey only; legacy anon/service_role JWT keys need Bearer too.
-          if (!key.startsWith('sb_')) headers.Authorization = `Bearer ${key}`
-          return headers
-        })(),
+        headers,
         body: payload,
         signal: AbortSignal.timeout(8000),
       })
