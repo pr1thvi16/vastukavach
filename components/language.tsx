@@ -290,6 +290,23 @@ const arabic: Record<string, string> = {
   'Personal questions about timing and life direction.': 'أسئلة شخصية حول التوقيت والاتجاه في الحياة.',
   'Choosing a property': 'اختيار عقار',
   'Guidance before buying, renting or building.': 'إرشادات قبل الشراء أو الاستئجار أو البناء.',
+  'Alternate phone': 'رقم هاتف بديل',
+  'Founder email': 'البريد الإلكتروني للمؤسس',
+  'Read article': 'اقرأ المقال',
+  'min read': 'دقائق للقراءة',
+  'Practical perspective': 'نظرة عملية',
+  'Back to journal': 'العودة إلى المجلة',
+  'A helpful next step': 'خطوة تالية مفيدة',
+  'Have a space or question you would like to talk through?': 'هل لديك مساحة أو سؤال ترغب في مناقشته؟',
+  'Share what you are considering and we will help you find a practical place to start. No pressure to have every answer ready.': 'أخبرنا بما تفكر فيه وسنساعدك في إيجاد بداية عملية. لا داعي لأن تكون لديك كل الإجابات الآن.',
+  'Your enquiry was delivered to our team through the backup channel. The online booking record is temporarily unavailable.': 'تم إرسال استفسارك إلى فريقنا عبر وسيلة بديلة، لكن نظام تسجيل الحجوزات غير متاح مؤقتاً.',
+  'Your details are still in the form. To avoid losing your enquiry, send it directly using one of these options:': 'ما زالت بياناتك محفوظة في النموذج. لتجنب فقدان استفسارك، أرسله مباشرةً باستخدام أحد الخيارين التاليين:',
+  'Send by email': 'الإرسال عبر البريد الإلكتروني',
+  'Send by WhatsApp': 'الإرسال عبر واتساب',
+  'Online booking storage needs a one-time database setup. Please contact us using the Contact page while we restore it.': 'يحتاج نظام الحجوزات إلى إعداد قاعدة البيانات مرة واحدة. يرجى التواصل معنا عبر صفحة الاتصال حتى نعيد تفعيله.',
+  'Online booking permissions need an update. Please contact us using the Contact page while we restore them.': 'تحتاج صلاحيات الحجز عبر الإنترنت إلى تحديث. يرجى التواصل معنا عبر صفحة الاتصال حتى نحدّثها.',
+  'The booking service credentials need an update. Please contact us using the Contact page.': 'تحتاج بيانات اعتماد خدمة الحجز إلى تحديث. يرجى التواصل معنا عبر صفحة الاتصال.',
+  'We could not save your request right now. Please contact us using the Contact page so your enquiry is not delayed.': 'تعذر حفظ طلبك حالياً. يرجى التواصل معنا عبر صفحة الاتصال حتى لا يتأخر استفسارك.',
 }
 
 type LanguageContextValue = { language: Language; toggleLanguage: () => void; t: (text: string) => string }
