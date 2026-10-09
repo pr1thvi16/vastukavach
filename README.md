@@ -81,16 +81,18 @@ If online submission fails, the form can offer prefilled email and WhatsApp alte
 
 ## Lighthouse results
 
-The previous local production-build audit reported these scores. They are **local results, not a fresh measurement of the live URL**. Run Lighthouse against the deployed website and save current mobile screenshots for submission.
+Latest mobile Lighthouse run shared for the Home page (Moto G Power emulation, slow 4G; captured 9 October 2026):
 
-| Page | Mobile Performance | Accessibility |
-| --- | ---: | ---: |
-| Home | 93 | 96 |
-| About | 94 | 96 |
-| Contact | 95 | 96 |
-| Services | 99 | 100 |
+| Metric | Result |
+| --- | ---: |
+| Performance | 52/100 |
+| First Contentful Paint (FCP) | 3.4 s |
+| Largest Contentful Paint (LCP) | 5.2 s |
+| Total Blocking Time (TBT) | 800 ms |
+| Cumulative Layout Shift (CLS) | 0 |
+| Speed Index | 4.8 s |
 
-The earlier audit reported SEO 100 across routes. Re-run the live audit after the latest deployment.
+These are the latest reported mobile results, not a claim that the page has passed performance targets. Re-run Lighthouse against the deployed Home page after the latest changes, and include screenshots of the complete **Mobile** report (Performance score and metrics) in the assignment email. The report should show the tested URL and test conditions. Keep the new screenshots with the submission rather than relying on older local-build scores.
 
 ## LocalBusiness structured data
 
