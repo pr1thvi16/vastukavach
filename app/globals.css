@@ -65,9 +65,9 @@ html, body { max-width: 100%; overflow-x: clip; }
 html[dir='rtl'] body {
   direction: rtl;
   text-align: right;
-  font-family: var(--font-arabic), var(--font-dm-sans), sans-serif;
+  font-family: "Geeza Pro", "Noto Naskh Arabic", Tahoma, Arial, var(--font-dm-sans), sans-serif;
 }
-html[dir='rtl'] .font-serif { font-family: var(--font-arabic), sans-serif; }
+html[dir='rtl'] .font-serif { font-family: "Geeza Pro", "Noto Naskh Arabic", Tahoma, Arial, sans-serif; }
 html[dir='rtl'] * { letter-spacing: normal !important; }
 html[dir='rtl'] h1,
 html[dir='rtl'] h2,
