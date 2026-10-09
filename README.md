@@ -1,6 +1,6 @@
 # Kavach Consultancy
 
-A responsive English/Arabic website for Kavach Consultancy & Marketing LLC, a Dubai-based advisory practice covering practical Vastu, Vedic Astrology/Kundli, numerology and property-selection guidance.
+A responsive English/Arabic website for Kavach Consultancy & Marketing LLC, a Dubai-based advisory practice focused on practical Vastu guidance and property selection.
 
 ## Local setup
 
@@ -21,30 +21,30 @@ Requirements: Node.js 20.9 or newer.
 | `/services/residential` | Residential advice |
 | `/services/workplace` | Workplace advice |
 | `/services/development` | Development and project advice |
-| `/blogs` | Journal index with accessible article links |
+| `/blogs` | Journal index |
 | `/blogs/what-vastu-is-and-is-not` | A grounded introduction to Vastu |
 | `/blogs/choosing-a-home-that-feels-right` | A practical home-viewing checklist |
 | `/blogs/well-oriented-workplace` | Workplace layout, focus and circulation |
 | `/bookings` | Consultation enquiry form |
 | `/contact` | Phone, email, WhatsApp, address and enquiry form |
-| `/vastu-checker` | Multi-select checker for Vastu, numerology, Vedic Astrology/Kundli and property-selection interests |
+| `/vastu-checker` | Interactive Vastu and property guidance checker |
 
 ## Features and design decisions
 
-- Next.js App Router, React and TypeScript; Tailwind CSS for responsive layout, spacing and states.
-- Warm ivory, deep burgundy and muted-gold palette; Cormorant Garamond display type and Jost body text.
-- Responsive navigation, keyboard focus states, local image assets, and `next/image` for optimized image delivery.
-- English/Arabic toggle with right-to-left layout and translated checker, contact, booking recovery and journal content.
-- Interactive homepage journey that changes its guidance and next-step link based on the visitor's choices.
-- Vastu checker with multi-select improvement priorities and service interests: Vastu, numerology, Vedic Astrology/Kundli, and property selection.
-- Three full journal articles with their own URLs, metadata and sitemap entries; cards link directly to each article and do not rely on hover for access.
-- WhatsApp click-to-chat links with English/Arabic messages and a floating topic chooser.
-- LocalBusiness structured data, route metadata, canonical URLs, Open Graph, sitemap and robots rules.
-- Vercel Web Analytics plus GA4 events for booking, consultation, WhatsApp, language and checker interactions.
+- **Framework:** Next.js App Router, React and TypeScript, with Tailwind CSS for responsive styling.
+- **Visual identity:** Warm ivory, deep burgundy and muted gold, with Cormorant Garamond headings and Jost body text.
+- **Responsive UX:** Mobile-first navigation, consistent spacing, keyboard focus states and optimised local images.
+- **Bilingual experience:** English/Arabic toggle with right-to-left layout support.
+- **Interactive journey:** Homepage guidance changes based on visitor choices and provides a relevant next step.
+- **Vastu checker:** Interactive questions and multi-select priorities that guide visitors towards relevant services.
+- **Journal:** Three articles with their own URLs and metadata.
+- **Contact options:** Booking and contact forms, phone/email links, and WhatsApp click-to-chat with topic selection.
+- **SEO:** Route-specific metadata, canonical URLs, Open Graph tags, sitemap, robots rules and LocalBusiness structured data.
+- **Analytics:** Vercel Web Analytics and GA4 events for key interactions.
 
 ## Contact details
 
-The current defaults use the contact details listed in the supplied audit brief:
+The current defaults use the contact details recorded in the project audit:
 
 - Main phone / WhatsApp: **+971 56 452 7299**
 - Alternate phone: **+971 52 922 8629**
@@ -52,36 +52,36 @@ The current defaults use the contact details listed in the supplied audit brief:
 - Founder email: **vedang@kavachconsultancy.com**
 - Address: Bur Dubai, behind ADCB Bank, Dubai, United Arab Emirates
 
-Confirm all contact details with the business owner before final public handoff. Override these defaults using the `NEXT_PUBLIC_CONTACT_*` and `NEXT_PUBLIC_WHATSAPP_NUMBER` variables if the client supplies approved alternatives. Placeholder values from the previous build are ignored by the default contact helper.
+Confirm all details with the business owner before final public handoff. Use the `NEXT_PUBLIC_CONTACT_*` and `NEXT_PUBLIC_WHATSAPP_NUMBER` environment variables if the client provides approved alternatives.
 
 ## Booking delivery and recovery
 
-The browser form and `/api/bookings` validate name, email, phone, date, contact method, best contact time, property type and message length. The API inserts accepted requests into `public.booking_enquiries` through the Supabase Data API and logs a status/error code (without logging the visitor's personal submission) when Supabase rejects an insert.
+The browser form and `/api/bookings` validate the enquiry fields. The API is configured to insert accepted requests into `public.booking_enquiries` through the Supabase Data API and can use optional webhook or email fallbacks.
 
-**One-time database setup is required:** open the correct Supabase project, go to **SQL Editor**, run `supabase/schema.sql`, then confirm that `booking_enquiries` appears in **Table Editor**. The migration enables row-level security, gives anonymous visitors insert-only access to the allowed fields and does not grant public read/update/delete access. If a table or policy already exists, re-run the idempotent schema script to align the policy and grants.
+**Database setup:** Open the correct Supabase project, go to **SQL Editor**, run `supabase/schema.sql`, and confirm that `booking_enquiries` appears in **Table Editor**. The schema uses row-level security and is designed to allow anonymous visitors to insert permitted fields without public read/update/delete access.
 
-Configure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in Vercel Production (and Preview as appropriate). The publishable key is public by design; it is not a replacement for the database's row-level security policy. A successful insert is the primary source of truth.
+Configure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in the deployment environment. The publishable key is public by design; it does not replace the database's row-level security policy.
 
-Optional server-side fallbacks:
+Optional fallbacks:
 
 - **Webhook:** `BOOKING_WEBHOOK_URL` sends the enquiry to a trusted HTTPS endpoint.
-- **Resend:** `RESEND_API_KEY`, `BOOKING_NOTIFICATION_EMAIL` and `BOOKING_FROM_EMAIL` send an email. Verify the sender domain in Resend first.
+- **Resend:** `RESEND_API_KEY`, `BOOKING_NOTIFICATION_EMAIL` and `BOOKING_FROM_EMAIL` enable email notifications after sender-domain verification.
 
-If the database insert fails, the API attempts a configured webhook or Resend delivery before returning an error. If the API still cannot accept the form, the browser preserves the entered values and offers prefilled direct email and WhatsApp alternatives. These alternatives require the visitor to press Send in their mail or messaging app; they do not claim the database saved the request.
+If online submission fails, the form can offer prefilled email and WhatsApp alternatives. These alternatives require the visitor to press Send in their own app and do not mean that the database saved the enquiry.
 
-**Live verification still required:** submit a test enquiry on the public site and confirm that a row appears in Supabase. If it fails, check the Vercel Function logs for the Supabase error code; the code distinguishes a missing table, row-level-security/permission problem, invalid key or unavailable endpoint. The connected Vercel account did not provide the permission needed to inspect production runtime logs during this update, so no successful live insert is claimed here.
+**Live verification required:** Submit a test enquiry on the public site and confirm that a row appears in Supabase before claiming the live booking flow is fully verified.
 
 ## Analytics and deployment
 
-- Production host: `https://vastukavach.vercel.app`.
-- Vercel Web Analytics loads in production.
-- GA4 uses measurement ID `G-B2ZGT4M6HT` by default; override with `NEXT_PUBLIC_GA_ID` if needed.
-- `NEXT_PUBLIC_SITE_URL` may be set when the site uses a different public domain.
-- A WhatsApp link opens chat; automated replies require separate WhatsApp Business automation/provider configuration.
+- Production URL: [https://vastukavach.vercel.app](https://vastukavach.vercel.app)
+- Vercel Web Analytics is configured for production.
+- GA4 measurement ID defaults to `G-B2ZGT4M6HT`; override it with `NEXT_PUBLIC_GA_ID` if required.
+- Set `NEXT_PUBLIC_SITE_URL` if the public domain changes.
+- WhatsApp click-to-chat opens a conversation; automated replies require separate WhatsApp Business automation/provider configuration.
 
 ## Lighthouse results
 
-The submitted local production-build audit reported the following scores. These are **local results, not a fresh measurement of the live URL**; run Lighthouse against the deployed site and save screenshots before submission.
+The previous local production-build audit reported these scores. They are **local results, not a fresh measurement of the live URL**. Run Lighthouse against the deployed website and save current mobile screenshots for submission.
 
 | Page | Mobile Performance | Accessibility |
 | --- | ---: | ---: |
@@ -90,15 +90,15 @@ The submitted local production-build audit reported the following scores. These 
 | Contact | 95 | 96 |
 | Services | 99 | 100 |
 
-The audit reported SEO 100 across routes. Re-run all scores after deployment, especially after the contact, blog and booking changes.
+The earlier audit reported SEO 100 across routes. Re-run the live audit after the latest deployment.
 
 ## LocalBusiness structured data
 
-The root layout includes the business name, founder, service area, street address, telephone, email and contact points. The founder's LinkedIn profile is used as a verifiable `sameAs` link. An official Instagram profile was not independently verified during this update, so an Instagram URL has not been guessed; add the confirmed company profile to `sameAs` before handoff.
+The root layout includes business details and contact information in structured data. Confirm the address, phone, email, founder details and any social profile with the business owner. Only add official social URLs that have been verified.
 
 ## Image credits and licensing
 
-The following are existing local assets. Their original source/photographer/license is not present in the repository, so they are deliberately marked **Unverified** rather than attributing them to Unsplash or Pexels without evidence. Verify the licence and add each real source link before handing the site to the client; replace assets whose rights cannot be confirmed.
+The original source, photographer and licence for some existing local images are not recorded in the repository. They are marked **Unverified** below rather than being attributed to Unsplash or Pexels without evidence. Verify each asset's licence and record the actual source before final handoff; replace images whose usage rights cannot be confirmed.
 
 | File | Photographer / provider | Source link | Licence status |
 | --- | --- | --- | --- |
@@ -118,16 +118,20 @@ The following are existing local assets. Their original source/photographer/lice
 
 ## Founder profile
 
-The About page uses the founder portrait in `public/images/founder.webp`. The repository contains a LinkedIn profile URL for Vedang Joshi, but no verified credentials have been added beyond the published founder copy. Confirm the portrait rights, biography and any additional qualifications with the business owner.
+The About page uses the founder portrait at `public/images/founder.webp`. Confirm the portrait rights, biography and any additional qualifications with the business owner before final handoff.
+
+## Future improvements
+
+With one additional week of development, I would strengthen the site by verifying and documenting the usage rights for every image, expanding the journal with more practical Vastu articles and improving the content-management workflow so the business can update articles, testimonials and FAQs without changing code. I would also connect booking enquiries to the client's preferred CRM or email workflow with reliable confirmation messages, add automated tests for the booking API and form, and run Lighthouse checks as part of the deployment process. These improvements would make the website easier to maintain, more trustworthy for visitors and more reliable for turning enquiries into consultations.
 
 ## AI use
 
-ChatGPT was used to help review the assignment requirements, draft and refine website copy and documentation, implement/refactor components, and diagnose the booking API. The code and copy were reviewed against the repository and deployment evidence. Contact details, image rights, the database setup and final live form behaviour still require owner verification.
+ChatGPT was used to help review the assignment requirements, draft and refine website copy and documentation, implement/refactor components, and diagnose the booking API. Changes were reviewed against the project requirements and available test/deployment evidence. Contact details, image rights, database setup and final live form behaviour still require owner verification.
 
 ## Remaining handoff checks
 
-1. Confirm the phone numbers/emails and founder portrait/logo publication rights with the business owner.
-2. Run `supabase/schema.sql` in the correct Supabase project, submit a real test enquiry, and verify the row is stored.
-3. Re-run Lighthouse against the live site and save fresh screenshots.
-4. Verify image usage rights and add the actual photographer/source/licence or replace any image that cannot be cleared.
-5. Add the official Instagram URL only after the business owner confirms it.
+1. Confirm the phone numbers, emails, address and founder portrait/logo publication rights with the business owner.
+2. Submit a test enquiry and verify that it is saved in Supabase.
+3. Run Lighthouse against the live site and save fresh mobile screenshots.
+4. Verify image usage rights and record the real photographer/source/licence, or replace uncleared images.
+5. Confirm official social profile URLs before adding them to structured data.
