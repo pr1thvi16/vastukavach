@@ -228,6 +228,13 @@ const arabic: Record<string, string> = {
   'Privately serving homes and businesses across Dubai, Abu Dhabi, Sharjah, and the UAE through on-site and online consultations.': 'نقدم استشارات حضورية وعن بُعد للمنازل والأعمال في دبي وأبوظبي والشارقة ومختلف أنحاء الإمارات.',
   'Comprehensive directional analysis for modern Dubai properties.': 'تحليل شامل للاتجاهات في العقارات الحديثة بدبي.',
   'Comprehensive directional analysis for high-rise apartments, penthouses, and private villas. We evaluate main entrances (Pad Vinyasa), master bedroom orientation, kitchen fire zones, and balcony energy flows.': 'تحليل شامل للاتجاهات في الشقق المرتفعة والبنتهاوس والفلل الخاصة. نراجع المداخل الرئيسية واتجاه غرفة النوم الرئيسية ومناطق المطبخ وتدفق الحركة في الشرفات.',
+  'Make it personal': 'اجعل التجربة شخصية',
+  'Google customer reviews': 'آراء العملاء على Google',
+  'Begin Your Journey of Balance At Kavach': 'ابدأ رحلتك نحو التوازن مع كافاش',
+  'Enquiry form': 'نموذج الاستفسار',
+  'Specialized Vastu & Astrology Solutions Across the UAE': 'حلول متخصصة في فاستو والتنجيم في أنحاء الإمارات',
+  'Complete Vastu Consultancy Services for Homes & Businesses in the UAE': 'خدمات فاستو متكاملة للمنازل والأعمال في الإمارات',
+  'Property Vastu consultancy': 'استشارات فاستو للعقارات',
 }
 
 type LanguageContextValue = { language: Language; toggleLanguage: () => void; t: (text: string) => string }
@@ -237,14 +244,22 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('en')
 
   useEffect(() => {
-    const saved = window.localStorage.getItem('kavach-language')
-    if (saved === 'ar' || saved === 'en') setLanguage(saved)
+    try {
+      const saved = window.localStorage.getItem('kavach-language')
+      if (saved === 'ar' || saved === 'en') setLanguage(saved)
+    } catch {
+      // The language toggle still works when browser storage is restricted.
+    }
   }, [])
 
   useEffect(() => {
     document.documentElement.lang = language
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
-    window.localStorage.setItem('kavach-language', language)
+    try {
+      window.localStorage.setItem('kavach-language', language)
+    } catch {
+      // Do not break the page when private browsing blocks storage.
+    }
   }, [language])
 
   const value = useMemo<LanguageContextValue>(() => ({
