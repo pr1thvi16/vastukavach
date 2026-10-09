@@ -61,7 +61,6 @@ function InteractiveGuide() {
 
   const active = focusOptions.find(option => option.id === activeId) ?? focusOptions[0]
   const stage = journeyStages.find(option => option.id === journeyStage) ?? journeyStages[0]
-  const greeting = visitorName.trim() ? `${visitorName.trim()}, ${stage.prefix.toLowerCase()}` : stage.prefix
 
   function chooseFocus(id: typeof activeId) {
     setActiveId(id)
@@ -108,7 +107,7 @@ function InteractiveGuide() {
           <div className="relative flex h-full flex-col justify-between" aria-live="polite">
             <div>
               <p className="text-[11px] uppercase tracking-[.24em] text-[#d9bf9a]">{t('Your personal starting point')}</p>
-              <p className="mt-5 text-sm text-white/65">{t(greeting)}</p>
+              <p className="mt-5 text-sm text-white/65">{visitorName.trim() && <><bdi dir="auto">{visitorName.trim()}</bdi>، </>}{t(stage.prefix)}</p>
               <h3 className="mt-3 max-w-xl font-serif text-4xl font-light leading-tight sm:text-5xl">{t(active.title)}</h3>
               <p className="mt-5 max-w-xl text-base leading-7 text-white/75">{t(active.body)}</p>
             </div>

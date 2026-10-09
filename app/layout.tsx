@@ -2,12 +2,13 @@ import { Analytics } from '@vercel/analytics/next'
 import { GoogleAnalytics } from '@/components/google-analytics'
 import { LanguageProvider } from '@/components/language'
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Jost } from 'next/font/google'
+import { Cormorant_Garamond, Jost, Noto_Sans_Arabic } from 'next/font/google'
 import { getSiteUrl } from '@/lib/site-url'
 import './globals.css'
 
 const dmSans = Jost({ subsets: ['latin'], variable: '--font-dm-sans' })
 const playfairDisplay = Cormorant_Garamond({ subsets: ['latin'], weight: ['300','400','500','600'], style: ['normal','italic'], variable: '--font-playfair' })
+const arabicFont = Noto_Sans_Arabic({ subsets: ['arabic', 'latin'], weight: ['400', '500', '600', '700'], variable: '--font-arabic' })
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_ID?.trim() || 'G-B2ZGT4M6HT'
 
 export const metadata: Metadata = {
@@ -54,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dmSans.variable} ${playfairDisplay.variable} antialiased`}>
+      <body className={`${dmSans.variable} ${playfairDisplay.variable} ${arabicFont.variable} antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
