@@ -169,6 +169,7 @@ export function VastuChecker() {
               <option value="Development">{t('Development project')}</option>
             </select>
           </label>
+          {spaceType && <>
           <label className={label}>{t('Which room or area would you like us to look at first?')}
             <select required value={layoutArea} onChange={(event) => setLayoutArea(event.target.value)} className={field}>
               <option value="">{t('Select one')}</option>
@@ -192,6 +193,7 @@ export function VastuChecker() {
               </label>)}
             </div>
           </fieldset>
+          </>}
         </>}
 
         {selectionError && <p role="alert" className="text-sm leading-6 text-[#8a233b]">{t(selectionError)}</p>}
