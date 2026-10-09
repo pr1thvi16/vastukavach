@@ -61,8 +61,6 @@ const curatedQuestions = {
 
 const serviceOptions = [
   { value: 'Vastu', label: 'Vastu for my home or workplace', description: 'Room layout, directions and how the space feels to use.' },
-  { value: 'Numerology', label: 'Numerology for a name or business', description: 'Name and business-name guidance.' },
-  { value: 'Astrology', label: 'Vedic Astrology / Kundli', description: 'Personal questions about timing and life direction.' },
   { value: 'Property', label: 'Choosing a property', description: 'Guidance before buying, renting or building.' },
 ] as const
 
@@ -134,14 +132,12 @@ export function VastuChecker() {
     if (priority.includes('Not sure yet')) guidance.push('It is completely fine not to know where to begin. Start by noticing one room or routine that does not feel quite right.')
     else priority.forEach(item => { if (priorityAdvice[item]) guidance.push(priorityAdvice[item]) })
   }
-  if (serviceInterests.includes('Numerology')) guidance.push('For numerology, we can discuss name or business-name considerations in a consultation. You do not need to decide everything before speaking with us.')
-  if (serviceInterests.includes('Astrology')) guidance.push('For Vedic Astrology / Kundli, bring the personal questions you would like to explore. You can share birth details privately during your consultation rather than on this quick checker.')
   if (serviceInterests.includes('Property')) guidance.push('Before buying, renting or building, bring the property plan or listing so we can discuss orientation, room layout and practical questions to consider.')
 
   return <section className="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-start">
     <div>
       <p className="max-w-xl leading-8 text-[#2a1b1f]/70">{t('Tell us what you would like help with. Choose as many as you need — we will suggest a practical place to start.')}</p>
-      <p className="mt-5 font-serif text-2xl font-light leading-snug text-[#3b1220]">{t('Vastu, numerology and Vedic Astrology — explained in a way that connects to your everyday decisions.')}</p>
+      <p className="mt-5 font-serif text-2xl font-light leading-snug text-[#3b1220]">{t('Vastu guidance for your home, workplace or property — connected to everyday decisions.')}</p>
       <p className="mt-6 border-l-2 border-[#a57a4a] pl-5 text-sm leading-7 text-[#2a1b1f]/65">{t('General guidance only. No scores, no pressure, and no need to know all the answers yet.')}</p>
     </div>
     <div className="border border-[#2a1b1f]/10 bg-[#fbf8f3] p-6 sm:p-10">
