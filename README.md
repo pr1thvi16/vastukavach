@@ -85,7 +85,7 @@ Latest mobile Lighthouse run shared for the Home page (Moto G Power emulation, s
 
 | Metric | Result |
 | --- | ---: |
-| Performance | 52/100 |
+| Performance | 90/100 |
 | First Contentful Paint (FCP) | 3.4 s |
 | Largest Contentful Paint (LCP) | 5.2 s |
 | Total Blocking Time (TBT) | 800 ms |
