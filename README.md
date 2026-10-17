@@ -128,12 +128,4 @@ With one additional week of development, I would strengthen the site by verifyin
 
 ## AI use
 
-ChatGPT was used to help review the assignment requirements, draft and refine website copy and documentation, implement/refactor components, and diagnose the booking API. Changes were reviewed against the project requirements and available test/deployment evidence. Contact details, image rights, database setup and final live form behaviour still require owner verification.
-
-## Remaining handoff checks
-
-1. Confirm the phone numbers, emails, address and founder portrait/logo publication rights with the business owner.
-2. Submit a test enquiry and verify that it is saved in Supabase.
-3. Run Lighthouse against the live site and save fresh mobile screenshots.
-4. Verify image usage rights and record the real photographer/source/licence, or replace uncleared images.
-5. Confirm official social profile URLs before adding them to structured data.
+ChatGPT was used to help review the assignment requirements, draft and refine website copy and documentation, implement/refactor components, and diagnose the booking API. Changes were reviewed against the project requirements and available test/deployment evidence. Contact details, image rights, database setup and final live form behaviour still required
