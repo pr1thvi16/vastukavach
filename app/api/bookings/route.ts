@@ -177,7 +177,7 @@ async function sendFallbackEnquiry(
 
 // Best-effort spam protection. The rate limiter is in-memory, so it resets when a
 // serverless instance restarts and is not shared across instances; it still blocks
-// simple floods. Honeypot and timing checks do the heavy lifting against bots.
+// simple floods. The hidden honeypot field handles simple form-filling bots.
 const RATE_LIMIT_MAX = 5
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
 const recentSubmissions = new Map<string, number[]>()
@@ -214,7 +214,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'All fields are required.' }, { status: 400 })
   }
 
-  // Bots: a hidden "website" field that humans never fill, and forms submitted faster than a person could.
+  // Bots: a hidden "website" field that humans never fill.
   // Pretend success so bots get no signal to adapt to, but store and send nothing.
   const honeypot = (body as Record<string, unknown>).website
   if (typeof honeypot === 'string' && honeypot.trim() !== '') {
